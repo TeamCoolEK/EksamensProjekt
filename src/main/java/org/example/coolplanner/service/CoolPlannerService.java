@@ -38,4 +38,7 @@ public class CoolPlannerService {
     public void createEmployee(Employee employee){
         repository.createEmployee(employee);
     }
+
+    public void createUserStory(UserStory userStory) {
+    }
 }
