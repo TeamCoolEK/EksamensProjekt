@@ -10,8 +10,9 @@ public class Project {
     private Date projectDeadLine;
     private int projectTimeEstimate;
     private int projectActualTime;
+    private Status status;
 
-    public Project (int projectId, String projectName, String projectDetails, Date projectStartDate, Date projectDeadLine, int projectTimeEstimate, int projectActualTime) {
+    public Project (int projectId, String projectName, String projectDetails, Date projectStartDate, Date projectDeadLine, int projectTimeEstimate, int projectActualTime, Status status) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDetails = projectDetails;
@@ -19,6 +20,7 @@ public class Project {
         this.projectDeadLine = projectDeadLine;
         this.projectTimeEstimate = projectTimeEstimate;
         this.projectActualTime = projectActualTime;
+        this.status = status;
     }
 
     public Project () {} //tom konstruktør
@@ -77,5 +79,13 @@ public class Project {
 
     public void setProjectActualTime(int projectActualTime) {
         this.projectActualTime = projectActualTime;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

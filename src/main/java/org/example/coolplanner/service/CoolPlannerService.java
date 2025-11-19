@@ -30,6 +30,9 @@ public class CoolPlannerService {
 //    public List<Task> getActiveTasks() {
 //        return repository.findActiveTasks();
 //    }
+
+    public Project createProject (Project project) {
+        return repository.createProject(project);
 //
     public void createEmployee(Employee employee){
         repository.createEmployee(employee);
