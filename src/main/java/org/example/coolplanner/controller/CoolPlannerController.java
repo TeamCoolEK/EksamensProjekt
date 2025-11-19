@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("")
+@RequestMapping()
 public class CoolPlannerController {
     @GetMapping("/createProject")
     public String createProject (Model model) {
