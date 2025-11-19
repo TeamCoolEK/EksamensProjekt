@@ -16,8 +16,8 @@ public class CoolPlannerRepository {
     }
 
     public void createEmployee(Employee employee){
-        String sql = "INSERT INTO employee (EmployeeId, EmployeeFirtsName, EmployeeLastName, EmployeeEmail, EmployeePassword, EmployeeRole) VALUES (?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, employee.getEmployeeId(), employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getPassword(), employee.getRole());
+        String sql = "INSERT INTO employee (firstName, lastName, email, EmployeePassword, EmployeeRole) VALUES (?,?,?,?,?)";
+        jdbcTemplate.update(sql, employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getPassword(), employee.getRole().name());
     }
 
 }
