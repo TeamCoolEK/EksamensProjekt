@@ -23,25 +23,24 @@ public class CoolPlannerService {
         return repository.createProject(project);
     }
 
-        public void createEmployee (Employee employee){
-        if (repository.emailExists(employee.getEmail())){
+    public void createEmployee(Employee employee) {
+        if (repository.emailExists(employee.getEmail())) {
             throw new IllegalArgumentException("Der findes allerede en bruger med den email");
         }
-    public List<SubProject> getActiveSubProjects(int employeeId) {
-        return repository.findActiveSubProjects(employeeId);
     }
 
-    public void createEmployee(Employee employee) {
-        repository.createEmployee(employee);
+        public List<SubProject> getActiveSubProjects ( int employeeId){
+            return repository.findActiveSubProjects(employeeId);
         }
-    }
 
-    public List<UserStory> getActiveUserStories(int employeeId) {
-        return repository.findActiveUserStories(employeeId);
-    }
 
-    public List<Task> getActiveTasks(int employeeId) {
-        return repository.findActiveTasks(employeeId);
-    public void createUserStory(UserStory userStory) {
-    }
-}
+        public List<UserStory> getActiveUserStories ( int employeeId){
+            return repository.findActiveUserStories(employeeId);
+        }
+
+        public List<Task> getActiveTasks ( int employeeId) {
+            return repository.findActiveTasks(employeeId);
+        }
+            public void createUserStory (UserStory userStory){
+            }
+        }
