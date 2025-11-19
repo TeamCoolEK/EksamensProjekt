@@ -3,6 +3,7 @@ package org.example.coolplanner.repository;
 
 import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.model.Project;
+import org.example.coolplanner.model.SubProject;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +33,18 @@ public class CoolPlannerRepository {
                 project.getProjectActualTime(),
                 project.getStatus());
         return project;
+    }
+
+    public SubProject createSubProject(SubProject subProject){
+        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus) VALUES (?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, subProject.getSubProjectId(),
+                subProject.getSubProjectName(),
+                subProject.getSubProjectDetails(),
+                subProject.getSubProjectStartDate(),
+                subProject.getSubProjectDeadLine(),
+                subProject.getSubProjectTimeEstimate(),
+                subProject.getSubProjectActualTime(),
+                subProject.getStatus());
+        return subProject;
     }
 }

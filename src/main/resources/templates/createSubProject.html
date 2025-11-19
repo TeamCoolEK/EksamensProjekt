@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Opret del-projekt</h1>
+
+<form th:action="@{/saveSubProject}" th:object="${subProject}" method="post">
+
+  <label>Del-projektets navn:</label>
+  <input type="text" th:field="*{subProjectName}" required>
+
+  <label>Del-projekts beskrivelse:</label>
+  <input type="text" th:field="*{subProjectDetails}" required>
+
+  <label>Start dato for del-projekt:</label>
+  <input type ="text" th:field="*{subProjectStartDate}" required>
+
+  <label>Deadline for del-projekt:</label>
+  <input type="text" th:field="*{subProjectDeadLine}" required>
+
+  <button type="submit">Opret del-project</button>
+</form>
+</body>
+</html>

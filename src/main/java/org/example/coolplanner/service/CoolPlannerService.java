@@ -35,6 +35,10 @@ public class CoolPlannerService {
         return repository.createProject(project);
     }
 
+    public SubProject createSubProject (SubProject subProject) {
+        return repository.createSubProject(subProject);
+    }
+
     public void createEmployee(Employee employee){
         repository.createEmployee(employee);
     }
