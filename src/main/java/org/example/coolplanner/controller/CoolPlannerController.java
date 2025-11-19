@@ -35,7 +35,7 @@ public class CoolPlannerController {
     @GetMapping("/createUserStory")
     public String createUserStory(Model model) {
         model.addAttribute("userStory", new UserStory());
-        return "createUserrStory";
+        return "createUserStory";
     }
 
     @PostMapping("/saveUserStory")
