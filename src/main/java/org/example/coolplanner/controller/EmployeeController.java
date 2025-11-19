@@ -30,8 +30,14 @@ public class EmployeeController {
 
     @PostMapping("/saveEmployee")
     public String saveEmployee(@ModelAttribute Employee employee, Model model) {
-        service.createEmployee(employee);
-        return "redirect:/index";
+        try{
+            service.createEmployee(employee);
+            return "redirect:/";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("employee", employee);
+            return "createEmployee";
+        }
     }
 
 }
