@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!-- Genbrugelige fragments til navbar, header, footer -->
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <body>
 
+
+<!-- Footer med kontaktinfo -->
+<footer th:fragment="footer">
+    <div class="siteFooter">
+        <div class="footerInner">
+            <p class="footerTitle">Kontakt os</p>
+            <p>E-mail: <a href="mailto:TeamCool@stud.ek.dk">TeamCool@stud.ek.dk</a></p>
+            <p>Telefon: <a href="tel:12345678">12345678</a></p>
+            <p>Adresse: Guldbergsgade 29N, 2200 København</p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
