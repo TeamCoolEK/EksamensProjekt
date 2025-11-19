@@ -18,19 +18,19 @@ public class CoolPlannerService {
         this.repository = repository;
     }
 
-    public List<Project> getActiveProjects() {
-        return repository.findActiveProjects();
+    public List<Project> getActiveProjects(int employeeId) {
+        return repository.findActiveProjects(employeeId);
     }
 
-    public List<SubProject> getActiveSubProjects() {
-        return repository.findActiveSubProjects();
+    public List<SubProject> getActiveSubProjects(int employeeId) {
+        return repository.findActiveSubProjects(employeeId);
     }
 
-    public List<UserStory> getActiveUserStories() {
-        return repository.findActiveUserStories();
+    public List<UserStory> getActiveUserStories(int employeeId) {
+        return repository.findActiveUserStories(employeeId);
     }
 
-    public List<Task> getActiveTasks() {
-        return repository.findActiveTasks();
+    public List<Task> getActiveTasks(int employeeId) {
+        return repository.findActiveTasks(employeeId);
     }
 }
