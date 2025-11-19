@@ -1,6 +1,8 @@
 package org.example.coolplanner.repository;
 
 
+import org.example.coolplanner.model.Employee;
+import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.*;
 import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,15 +16,30 @@ public class CoolPlannerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public CoolPlannerRepository(JdbcTemplate jdbcTemplate) {
+    public CoolPlannerRepository(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void createEmployee(Employee employee){
+        String sql = "INSERT INTO employee (firstName, lastName, email, EmployeePassword, EmployeeRole) VALUES (?,?,?,?,?)";
+        jdbcTemplate.update(sql, employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getPassword(), employee.getRole().name());
     public void createEmployee(Employee employee) {
         String sql = "INSERT INTO employee (EmployeeId, EmployeeFirtsName, EmployeeLastName, EmployeeEmail, EmployeePassword, EmployeeRole) VALUES (?,?,?,?,?,?)";
         jdbcTemplate.update(sql, employee.getEmployeeId(), employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getPassword(), employee.getRole());
     }
 
+    public Project createProject(Project project){
+        String sql = "INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus) VALUES (?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, project.getProjectId(),
+                project.getProjectName(),
+                project.getProjectDetails(),
+                project.getProjectStartDate(),
+                project.getProjectDeadLine(),
+                project.getProjectTimeEstimate(),
+                project.getProjectActualTime(),
+                project.getStatus());
+        return project;
+    }
     public List<Project> findActiveProjects(int employeeId) {
         String sql = "SELECT * FROM project WHERE employeeId = ?";
         List<Project> projects = jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
