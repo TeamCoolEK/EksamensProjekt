@@ -12,7 +12,7 @@
   <p class="subtitle">Udfyld informationerne for at oprette en ny employee</p>
 
   <form th:action="@{/employee/saveEmployee}" th:object="${employee}" method="post">
-    
+
     <input type="hidden" th:field="*{employeeId}"/>
 
     <label for="firstName">Fornavn:</label>
@@ -34,6 +34,8 @@
       <option th:value="Manager">Manager</option>
       <option th:value="Team_Member">Team member</option>
     </select>
+
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
     <button type="submit">Opret bruger</button>
   </form>

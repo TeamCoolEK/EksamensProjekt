@@ -2,6 +2,7 @@ package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
+import org.example.coolplanner.model.UserStory;
 import org.example.coolplanner.service.CoolPlannerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +22,13 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/createProject")
-    public String createProject (Model model) {
+    public String createProject(Model model) {
         model.addAttribute("project", new Project());
         return "createProject";
     }
 
     @PostMapping("/saveProject")
-    public String saveProject (@ModelAttribute Project project, Model model) {
+    public String saveProject(@ModelAttribute Project project, Model model) {
         coolPlannerService.createProject(project);
         return "redirect:/XYZ";
     }
@@ -41,6 +42,15 @@ public class CoolPlannerController {
     @PostMapping("/saveSubProject")
     public String saveSubProject (@ModelAttribute SubProject subProject, Model model) {
         coolPlannerService.createSubProject(subProject);
+    @GetMapping("/createUserStory")
+    public String createUserStory(Model model) {
+        model.addAttribute("userStory", new UserStory());
+        return "createUserStory";
+    }
+
+    @PostMapping("/saveUserStory")
+    public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
+        coolPlannerService.createUserStory(userStory);
         return "redirect:/XYZ";
     }
 }
