@@ -22,4 +22,60 @@ public class Project {
     }
 
     public Project () {} //tom konstruktør
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getProjectDetails() {
+        return projectDetails;
+    }
+
+    public void setProjectDetails(String projectDetails) {
+        this.projectDetails = projectDetails;
+    }
+
+    public Date getProjectStartDate() {
+        return projectStartDate;
+    }
+
+    public void setProjectStartDate(Date projectStartDate) {
+        this.projectStartDate = projectStartDate;
+    }
+
+    public Date getProjectDeadLine() {
+        return projectDeadLine;
+    }
+
+    public void setProjectDeadLine(Date projectDeadLine) {
+        this.projectDeadLine = projectDeadLine;
+    }
+
+    public int getProjectTimeEstimate() {
+        return projectTimeEstimate;
+    }
+
+    public void setProjectTimeEstimate(int projectTimeEstimate) {
+        this.projectTimeEstimate = projectTimeEstimate;
+    }
+
+    public int getProjectActualTime() {
+        return projectActualTime;
+    }
+
+    public void setProjectActualTime(int projectActualTime) {
+        this.projectActualTime = projectActualTime;
+    }
 }
