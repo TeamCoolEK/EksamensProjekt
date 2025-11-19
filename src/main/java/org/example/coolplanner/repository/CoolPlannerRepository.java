@@ -3,6 +3,7 @@ package org.example.coolplanner.repository;
 
 import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.model.Project;
+import org.example.coolplanner.model.SubProject;
 import org.example.coolplanner.model.*;
 import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.example.coolplanner.repository.Rowmapper.SubProjectRowMapper;
@@ -38,6 +39,19 @@ public class CoolPlannerRepository {
         return count != null && count > 0;
     }
 
+    public SubProject createSubProject(SubProject subProject){
+        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus) VALUES (?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, subProject.getSubProjectId(),
+                subProject.getSubProjectName(),
+                subProject.getSubProjectDetails(),
+                subProject.getSubProjectStartDate(),
+                subProject.getSubProjectDeadLine(),
+                subProject.getSubProjectTimeEstimate(),
+                subProject.getSubProjectActualTime(),
+                subProject.getStatus());
+        return subProject;
+    }
+}
         public Project createProject (Project project){
             String sql = "INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus) VALUES (?,?,?,?,?,?,?,?)";
             jdbcTemplate.update(sql, project.getProjectId(),
