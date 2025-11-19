@@ -31,10 +31,14 @@ public class CoolPlannerService {
 //        return repository.findActiveTasks();
 //    }
 
-    public Project createProject (Project project) {
+    public Project createProject(Project project) {
         return repository.createProject(project);
-//
-    public void createEmployee(Employee employee){
-        repository.createEmployee(employee);
     }
-}
+
+        public void createEmployee (Employee employee){
+        if (repository.emailExists(employee.getEmail())){
+            throw new IllegalArgumentException("Der findes allerede en bruger med den email");
+        }
+        repository.createEmployee(employee);
+        }
+    }

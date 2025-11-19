@@ -18,7 +18,17 @@ public class CoolPlannerRepository {
 
     public void createEmployee(Employee employee){
         String sql = "INSERT INTO employee (firstName, lastName, email, EmployeePassword, EmployeeRole) VALUES (?,?,?,?,?)";
-        jdbcTemplate.update(sql, employee.getFirstName(), employee.getLastName(), employee.getEmail(), employee.getPassword(), employee.getRole().name());
+        jdbcTemplate.update(sql, employee.getFirstName(),
+                employee.getLastName(),
+                employee.getEmail(),
+                employee.getPassword(),
+                employee.getRole().name());
+    }
+
+    public boolean emailExists(String email){
+        String sql = "SELECT COUNT(*) FROM employee WHERE email =?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
     }
 
     public Project createProject(Project project){
