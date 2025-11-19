@@ -33,7 +33,8 @@ public class CoolPlannerService {
 
     public Project createProject (Project project) {
         return repository.createProject(project);
-//
+    }
+
     public void createEmployee(Employee employee){
         repository.createEmployee(employee);
     }
