@@ -16,15 +16,15 @@
     <input type="text" placeholder="Beskrivelse" th:field="*{taskDetails}" required>
 
     <label>Start dato for del-projekt:</label>
-    <input type="date" placeholder="1-1-1000" th:field="*{taskStartDate}" required>
+    <input type="date" th:field="*{taskStartDate}" required>
 
     <label>Deadline for del-projekt:</label>
-    <input type="date" placeholder="1-1-1000" th:field="*{taskDeadLine}" required>
+    <input type="date" th:field="*{taskDeadLine}" required>
 
     <label>Tidsestimat:</label>
     <input type="number" placeholder="Timer" th:field="*{taskTimeEstimate}" required>
 
-    <button type="submit">Opret del-project</button>
+    <button type="submit">Opret task</button>
 </form>
 </body>
 </html>
