@@ -9,10 +9,7 @@ import org.example.coolplanner.service.CoolPlannerService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping()
@@ -69,6 +66,19 @@ public class CoolPlannerController {
     @PostMapping("/saveUserStory")
     public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
         coolPlannerService.createUserStory(userStory);
+        return "redirect:/XYZ";
+    }
+
+    @GetMapping("/editUserStory/{id}")
+    public String editUserStory(@PathVariable int id, Model model) {
+        UserStory userStory = coolPlannerService.getUserStoryById(id);
+        model.addAttribute("userStory", userStory);
+        return "editUserStory";
+    }
+
+    @PostMapping("/updateUserStory")
+    public String updateUserStory(@ModelAttribute UserStory userStory) {
+        coolPlannerService.updateUserStory(userStory);
         return "redirect:/XYZ";
     }
 

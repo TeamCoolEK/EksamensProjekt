@@ -30,7 +30,7 @@ public class CoolPlannerRepository {
                 employee.getRole().name());
     }
 
-    public void updateEmployee(Employee employee){
+    public void updateEmployee(Employee employee) {
         String sql = "UPDATE employee SET firstName = ?, lastName = ?, email = ?, EmployeePassword = ?, EmployeeRole = ? WHERE employeeId = ?";
         jdbcTemplate.update(sql,
                 employee.getFirstName(),
@@ -119,13 +119,17 @@ public class CoolPlannerRepository {
         return UserStory;
     }
 
+    public UserStory findUserStoryById(int userStoryID) {
+        String sql = "SELECT * FROM UserStory WHERE UserStoryID = ?";
+        return jdbcTemplate.queryForObject(sql, new UserStoryRowMapper), userStoryID);
+    }
+
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
         return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
     }
 
-
-    public void updateProject(Project project){
+    public void updateProject(Project project) {
         String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDato = ?, " +
                 "projectDeadline = ?, projectTimeEstimate = ?, projectActualTime = ?, projectStatus = ?, " +
                 "WHERE projectId = ?";
@@ -140,6 +144,7 @@ public class CoolPlannerRepository {
                 project.getStatus(),
                 project.getProjectId());
     }
+}
 
 //        public List<Task> findActiveTasks ( int employeeId){
 //            String sql = "SELECT * FROM project WHERE employeeId = ?";
@@ -147,7 +152,7 @@ public class CoolPlannerRepository {
 //            return Task;
 //        }
 
-}
+
 
 
 
