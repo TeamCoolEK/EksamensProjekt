@@ -101,21 +101,21 @@ public class DashboardController {
     }
 
     // 4) Side med tasks
-    @GetMapping("/dashboard/tasks")
-    public String showTasks(HttpSession session, Model model) {
-        Employee employee = (Employee) session.getAttribute("employee");
-        if (employee == null) {
-            return "redirect:/login";
-        }
-
-        int employeeId = employee.getEmployeeId();
-        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
-
-        model.addAttribute("employee", employee);
-        model.addAttribute("tasks", tasks);
-
-        return "DashboardTasks";
-    }
+//    @GetMapping("/dashboard/tasks")
+//    public String showTasks(HttpSession session, Model model) {
+//        Employee employee = (Employee) session.getAttribute("employee");
+//        if (employee == null) {
+//            return "redirect:/login";
+//        }
+//
+//        int employeeId = employee.getEmployeeId();
+//        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
+//
+//        model.addAttribute("employee", employee);
+//        model.addAttribute("tasks", tasks);
+//
+//        return "DashboardTasks";
+//    }
     }
 
 

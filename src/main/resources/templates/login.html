@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
+<div class="formPage">
+    <h1>Login</h1>
+    <p class="subtitle">Log ind for at se dine projekter</p>
+
+    <form th:action="@{/employee/login}" method="post">
+        <label for="email">Email:</label>
+        <input id="email" type="email" name="email" required>
+
+        <label for="password">Adgangskode:</label>
+        <input id="password" type="password" name="password" required>
+
+        <button type="submit">Log ind</button>
+
+        <p th:if="${wrongCredentials}" class="error">
+            Forkert email eller adgangskode. Prøv igen.
+        </p>
+    </form>
+</div>
 
 </body>
 </html>

@@ -14,14 +14,14 @@ public class EmployeeRowMapper implements RowMapper<Employee> {
 
         Employee employee = new Employee();
 
-        employee.setEmployeeId(rs.getInt("employee_id"));
-        employee.setFirstName(rs.getString("first_name"));
-        employee.setLastName(rs.getString("last_name"));
+        employee.setEmployeeId(rs.getInt("employeeId"));
+        employee.setFirstName(rs.getString("firstName"));
+        employee.setLastName(rs.getString("lastName"));
         employee.setEmail(rs.getString("email"));
-        employee.setPassword(rs.getString("password"));
+        employee.setPassword(rs.getString("employeePassword"));
 
         // Enum henter String fra Database og konverterer til EmployeeRole
-        employee.setRole(EmployeeRole.valueOf(rs.getString("role")));
+        employee.setRole(EmployeeRole.valueOf(rs.getString("employeeRole")));
 
         return employee;
     }
