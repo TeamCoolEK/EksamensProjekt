@@ -10,10 +10,10 @@
 <form th:action="@{/saveSubProject}" th:object="${subProject}" method="post">
 
   <label>Del-projektets navn:</label>
-  <input type="text" th:field="*{subProjectName}" required>
+  <input type="text" placeholder="Navn" th:field="*{subProjectName}" required>
 
-  <label>Del-projekts beskrivelse:</label>
-  <input type="text" th:field="*{subProjectDetails}" required>
+  <label>Del-projektets beskrivelse:</label>
+  <input type="text" placeholder="Beskrivelse" th:field="*{subProjectDetails}" required>
 
   <label>Start dato for del-projekt:</label>
   <input type ="date" th:field="*{subProjectStartDate}" required>
@@ -21,7 +21,7 @@
   <label>Deadline for del-projekt:</label>
   <input type="date" th:field="*{subProjectDeadLine}" required>
 
-  <button type="submit">Opret del-project</button>
+  <button type="submit">Opret del-projekt</button>
 </form>
 </body>
 </html>
