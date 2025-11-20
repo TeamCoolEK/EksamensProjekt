@@ -27,6 +27,9 @@ public class CoolPlannerService {
         return repository.createSubProject(subProject);
     }
 
+    public Task createTask (Task task) {
+        return repository.createTask(task);
+    }
 
     public void createEmployee(Employee employee) {
         if (repository.emailExists(employee.getEmail())) {
