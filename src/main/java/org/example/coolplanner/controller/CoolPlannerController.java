@@ -34,23 +34,26 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/createSubProject")
-    public String createSubProject (Model model) {
+    public String createSubProject(Model model) {
         model.addAttribute("subProject", new SubProject());
         return "createSubProject";
     }
 
-    @PostMapping("/saveSubProject")
-    public String saveSubProject (@ModelAttribute SubProject subProject, Model model) {
-        coolPlannerService.createSubProject(subProject);
-    @GetMapping("/createUserStory")
-    public String createUserStory(Model model) {
-        model.addAttribute("userStory", new UserStory());
-        return "createUserStory";
-    }
+//    @PostMapping("/saveSubProject")
+//    public String saveSubProject(@ModelAttribute SubProject subProject, Model model) {
+//        coolPlannerService.createSubProject(subProject);
+//    }
 
-    @PostMapping("/saveUserStory")
-    public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
-        coolPlannerService.createUserStory(userStory);
-        return "redirect:/XYZ";
-    }
+//    @GetMapping("/createUserStory")
+//    public String createUserStory(Model model) {
+//        model.addAttribute("userStory", new UserStory());
+//        return "createUserStory";
+//    }
+
+//    @PostMapping("/saveUserStory")
+//    public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
+//        coolPlannerService.createUserStory(userStory);
+//        return "redirect:/XYZ";
+//    }
+
 }
