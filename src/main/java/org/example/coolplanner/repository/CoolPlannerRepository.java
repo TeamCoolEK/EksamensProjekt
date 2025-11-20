@@ -124,15 +124,9 @@ public class CoolPlannerRepository {
 
     public UserStory findUserStoryById(int userStoryID) {
         String sql = "SELECT * FROM UserStory WHERE UserStoryID = ?";
-        return jdbcTemplate.queryForObject(sql, new UserStoryRowMapper), userStoryID);
+        return jdbcTemplate.queryForObject(sql, new UserStoryRowMapper(), userStoryID);
     }
 
-    public List<Task> findActiveTasks(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ?";
-        List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
-        return Task;
-    }
-}
 
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
@@ -154,7 +148,7 @@ public class CoolPlannerRepository {
                 project.getStatus(),
                 project.getProjectId());
     }
-}
+
 
     public SubProject findSubProjectById(int subProjectId) {
         String sql = "SELECT * FROM project WHERE subProjectId = ?";
@@ -176,6 +170,7 @@ public class CoolPlannerRepository {
                 subProject.getStatus(),
                 subProject.getSubProjectId());
     }
+}
 
 //        public List<Task> findActiveTasks ( int employeeId){
 //            String sql = "SELECT * FROM project WHERE employeeId = ?";
