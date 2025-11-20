@@ -82,9 +82,9 @@ public class DashboardController {
         return "DashboardSubProjects";
     }
 
-    // 3) Side med user stories
-    @GetMapping("/dashboard/userstories")
-    public String showUserStories(HttpSession session, Model model) {
+    // 3) Side med task
+    @GetMapping("/dashboard/task")
+    public String showTask(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
             return "redirect:/login";
@@ -97,12 +97,12 @@ public class DashboardController {
         model.addAttribute("userStories", userStories);
 
         // viser filen: src/main/resources/template/dashboardUserStories.html
-        return "DashboardUserStories";
+        return "DashboardTask";
     }
 
-    // 4) Side med tasks
-//    @GetMapping("/dashboard/tasks")
-//    public String showTasks(HttpSession session, Model model) {
+    // 4) Side med subTasks
+//    @GetMapping("/dashboard/subTasks")
+//    public String showSubTasks(HttpSession session, Model model) {
 //        Employee employee = (Employee) session.getAttribute("employee");
 //        if (employee == null) {
 //            return "redirect:/login";
@@ -114,7 +114,7 @@ public class DashboardController {
 //        model.addAttribute("employee", employee);
 //        model.addAttribute("tasks", tasks);
 //
-//        return "DashboardTasks";
+//        return "DashboardSubTasks";
 //    }
     }
 
