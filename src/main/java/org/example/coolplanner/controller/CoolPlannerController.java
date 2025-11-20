@@ -66,4 +66,11 @@ public class CoolPlannerController {
         return "createUserStory";
     }
 
+    @PostMapping("/saveUserStory")
+    public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
+        coolPlannerService.createUserStory(userStory);
+        return "redirect:/XYZ";
+    }
+
 }
+
