@@ -2,7 +2,7 @@ package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
-import org.example.coolplanner.model.Task;
+import org.example.coolplanner.model.SubTask;
 import org.example.coolplanner.model.UserStory;
 import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.example.coolplanner.service.CoolPlannerService;
@@ -46,15 +46,15 @@ public class CoolPlannerController {
         return "redirect:/XYZ";
     }
 
-    @GetMapping("/createTask")
+    @GetMapping("/createSubTask")
     public String createTask (Model model) {
-        model.addAttribute("task", new Task());
+        model.addAttribute("task", new SubTask());
         return "createTask";
     }
 
-    @PostMapping("/saveTask")
-    public String saveTask (@ModelAttribute Task task, Model model) {
-        coolPlannerService.createTask(task);
+    @PostMapping("/saveSubTask")
+    public String saveTask (@ModelAttribute SubTask subTask, Model model) {
+        coolPlannerService.createSubTask(subTask);
         return "redirect:/XYZ";
     }
 
@@ -105,7 +105,6 @@ public class CoolPlannerController {
             return "editSubProject";
         }
     }
-
 
     @PostMapping("/saveUserStory")
     public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {

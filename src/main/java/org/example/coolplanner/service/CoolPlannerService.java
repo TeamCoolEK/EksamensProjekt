@@ -27,8 +27,8 @@ public class CoolPlannerService {
         return repository.createSubProject(subProject);
     }
 
-    public Task createTask(Task task) {
-        return repository.createTask(task);
+    public SubTask createSubTask(SubTask subTask) {
+        return repository.createSubTask(subTask);
     }
 
     public void createEmployee(Employee employee) {
@@ -49,7 +49,6 @@ public class CoolPlannerService {
     public List<SubProject> getActiveSubProjects(int employeeId) {
         return repository.findActiveSubProjects(employeeId);
     }
-
 
     public List<UserStory> getActiveUserStories(int employeeId) {
         return repository.findActiveUserStories(employeeId);
