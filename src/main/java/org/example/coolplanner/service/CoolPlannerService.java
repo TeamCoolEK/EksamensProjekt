@@ -23,7 +23,7 @@ public class CoolPlannerService {
         return repository.createProject(project);
     }
 
-    public SubProject createSubProject (SubProject subProject) {
+    public SubProject createSubProject(SubProject subProject) {
         return repository.createSubProject(subProject);
     }
 
@@ -35,20 +35,38 @@ public class CoolPlannerService {
         if (repository.emailExists(employee.getEmail())) {
             throw new IllegalArgumentException("Der findes allerede en bruger med den email");
         }
+        repository.createEmployee(employee);
     }
 
-        public List<SubProject> getActiveSubProjects ( int employeeId){
-            return repository.findActiveSubProjects(employeeId);
-        }
+    public Employee findEmployeeById(int id) {
+        return repository.findEmployeeById(id);
+    }
+
+    public void updateEmployee(Employee employee) {
+        repository.updateEmployee(employee);
+    }
+
+    public List<SubProject> getActiveSubProjects(int employeeId) {
+        return repository.findActiveSubProjects(employeeId);
+    }
 
 
-        public List<UserStory> getActiveUserStories ( int employeeId){
-            return repository.findActiveUserStories(employeeId);
-        }
+    public List<UserStory> getActiveUserStories(int employeeId) {
+        return repository.findActiveUserStories(employeeId);
+    }
 
-        public List<Task> getActiveTasks ( int employeeId) {
-            return repository.findActiveTasks(employeeId);
+//    public List<Task> getActiveTasks(int employeeId) {
+//        return repository.findActiveTasks(employeeId);
+//    }
+
+    public void createUserStory(UserStory userStory) {
+    }
+
+    public Employee login(String email, String password) {
+        Employee employee = repository.findEmployeeByEmail(email);
+        if (employee != null && employee.getPassword().equals(password)) {
+            return employee;
         }
-            public void createUserStory (UserStory userStory){
-            }
-        }
+        return null;
+    }
+}

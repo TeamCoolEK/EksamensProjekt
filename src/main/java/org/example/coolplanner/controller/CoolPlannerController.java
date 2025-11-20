@@ -35,7 +35,7 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/createSubProject")
-    public String createSubProject (Model model) {
+    public String createSubProject(Model model) {
         model.addAttribute("subProject", new SubProject());
         return "createSubProject";
     }
@@ -64,9 +64,4 @@ public class CoolPlannerController {
         return "createUserStory";
     }
 
-    @PostMapping("/saveUserStory")
-    public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
-        coolPlannerService.createUserStory(userStory);
-        return "redirect:/XYZ";
-    }
 }

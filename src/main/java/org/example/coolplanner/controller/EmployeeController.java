@@ -1,14 +1,12 @@
 package org.example.coolplanner.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.repository.CoolPlannerRepository;
 import org.example.coolplanner.service.CoolPlannerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/employee")
@@ -30,7 +28,7 @@ public class EmployeeController {
 
     @PostMapping("/saveEmployee")
     public String saveEmployee(@ModelAttribute Employee employee, Model model) {
-        try{
+        try {
             service.createEmployee(employee);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
@@ -40,4 +38,35 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/edit/{id}")
+    public String editEmployee(@PathVariable int id, Model model) {
+        Employee employee = service.findEmployeeById(id);
+        model.addAttribute("employee", employee);
+        return "editEmployee";
+    }
+
+    @PostMapping("/update")
+    public String updateEmployee(@ModelAttribute Employee employee) {
+        service.updateEmployee(employee);
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model){
+        Employee employee = service.login(email, password);
+
+        if (employee != null){
+            session.setAttribute("employee", employee);
+            session.setMaxInactiveInterval(900);
+            return "redirect:/dashboard";
+        }
+
+        model.addAttribute("wrongCredentials", true);
+        return "login";
+    }
 }
