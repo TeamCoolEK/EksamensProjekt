@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title> CoolPlanner | Din profil</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<h1> Dashboard til overblik over projekter </h1>
+<h1> Velkommen, <span th:text="${employee.firstName}">Bruger</span> </h1>
+<h2> På denne side har du dit Dashboard med overblik over alle aktive projekter <br>
+        Du kan også tilgå delprojekter, user stories samt task. God arbejdslyst.
+</h2>
 
 <ul>
     <li><a th:href="@{/dashboard/projects}">Se projekter</a></li>
