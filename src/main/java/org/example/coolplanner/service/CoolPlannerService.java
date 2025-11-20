@@ -86,7 +86,7 @@ public class CoolPlannerService {
     public void updateUserStory(UserStory userStory) {
 
     }
-}
+
 
     public SubProject findSubProjectById(int id) {
         return repository.findSubProjectById(id);
