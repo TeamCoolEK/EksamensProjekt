@@ -119,6 +119,27 @@ public class CoolPlannerRepository {
         return UserStory;
     }
 
+    public Project findProjectById(int projectId) {
+        String sql = "SELECT * FROM project WHERE projectId = ?";
+        return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
+    }
+
+
+    public void updateProject(Project project){
+        String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDato = ?, " +
+                "projectDeadline = ?, projectTimeEstimate = ?, projectActualTime = ?, projectStatus = ?, " +
+                "WHERE projectId = ?";
+
+        jdbcTemplate.update(sql,
+                project.getProjectName(),
+                project.getProjectDetails(),
+                project.getProjectStartDate(),
+                project.getProjectDeadLine(),
+                project.getProjectTimeEstimate(),
+                project.getProjectActualTime(),
+                project.getStatus(),
+                project.getProjectId());
+    }
 
 //        public List<Task> findActiveTasks ( int employeeId){
 //            String sql = "SELECT * FROM project WHERE employeeId = ?";
