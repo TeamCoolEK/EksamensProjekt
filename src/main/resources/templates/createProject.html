@@ -10,18 +10,18 @@
 <form th:action="@{/saveProject}" th:object="${project}" method="post">
 
     <label>Projekt navn:</label>
-    <input type="text" th:field="*{projectName}" required>
+    <input type="text" placeholder="Navn" th:field="*{projectName}" required>
 
     <label>Projekt beskrivelse:</label>
-    <input type="text" th:field="*{projectDetails}" required>
+    <input type="text" placeholder="Beskrivelse" th:field="*{projectDetails}" required>
 
     <label>Start dato for projekt:</label>
-    <input type ="text" th:field="*{projectStartDate}" required>
+    <input type ="date" th:field="*{projectStartDate}" required>
 
     <label>Deadline for projekt:</label>
-    <input type="text" th:field="*{projectDeadLine}" required>
+    <input type="date" th:field="*{projectDeadLine}" required>
 
-    <button type="submit">Opret project</button>
+    <button type="submit">Opret projekt</button>
 </form>
 
 </body>
