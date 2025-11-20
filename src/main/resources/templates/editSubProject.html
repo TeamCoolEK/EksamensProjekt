@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Rediger delprojekt</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="formPage">
+  <h1>Rediger delprojekt</h1>
+  <p class="subtitle">Opdater oplysninger for delprojektet</p>
+
+  <form th:action="@{/subproject/update/{id}(id=${subProject.subProjectId})}"
+        th:object="${subProject}"
+        method="post">
+
+    <input type="hidden" th:field="*{subProjectId}"/>
+
+    <label for="subProjectName">Navn:</label>
+    <input id="subProjectName" type="text" th:field="*{subProjectName}" required/>
+
+    <label for="subProjectDetails">Beskrivelse:</label>
+    <textarea id="subProjectDetails" th:field="*{subProjectDetails}"></textarea>
+
+    <label for="subProjectStartDate">Startdato:</label>
+    <input id="subProjectStartDate" type="date" th:field="*{subProjectStartDate}"/>
+
+    <label for="subProjectDeadline">Deadline:</label>
+    <input id="subProjectDeadline" type="date" th:field="*{subProjectDeadLine}"/>
+
+    <label for="subProjectTimeEstimate">Tidsestimat (timer):</label>
+    <input id="subProjectTimeEstimate" type="number" step="0.5" th:field="*{subProjectTimeEstimate}"/>
+
+    <label for="subProjectActualTime">Faktisk tid (timer):</label>
+    <input id="subProjectActualTime" type="number" step="0.5" th:field="*{subProjectActualTime}"/>
+
+    <label for="subProjectStatus">Status:</label>
+    <select id="subProjectStatus" th:field="*{status}">
+      <option th:value="Ikke_startet">Ikke startet</option>
+      <option th:value="I_gang">I gang</option>
+      <option th:value="Lukket">Lukket</option>
+    </select>
+
+    <div class="buttonGroup">
+      <button type="submit">Gem ændringer</button>
+      <a th:href="@{/dashboard}" class="btn-secondary">Annuller</a>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>

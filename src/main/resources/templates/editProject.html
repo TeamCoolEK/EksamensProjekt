@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Rediger projekt</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="formPage">
+  <h1>Rediger projekt</h1>
+  <p class="subtitle">Opdater oplysninger for projektet</p>
+
+  <form th:action="@{/project/update/{id}(id=${project.projectId})}"
+        th:object="${project}"
+        method="post">
+
+    <!-- Skjult id så vi ved hvilket projekt der skal opdateres -->
+    <input type="hidden" th:field="*{projectId}"/>
+
+    <label for="projectName">Projektnavn:</label>
+    <input id="projectName" type="text" th:field="*{projectName}" required/>
+
+    <label for="projectDetails">Beskrivelse:</label>
+    <textarea id="projectDetails" th:field="*{projectDetails}"></textarea>
+
+    <label for="projectStartDate">Startdato:</label>
+    <input id="projectStartDate" type="date" th:field="*{projectStartDate}"/>
+
+    <label for="projectDeadline">Deadline:</label>
+    <input id="projectDeadline" type="date" th:field="*{projectDeadLine}"/>
+
+    <label for="projectTimeEstimate">Tidsestimat (timer):</label>
+    <input id="projectTimeEstimate" type="number" step="0.5" th:field="*{projectTimeEstimate}"/>
+
+    <label for="projectActualTime">Faktisk tid (timer):</label>
+    <input id="projectActualTime" type="number" step="0.5" th:field="*{projectActualTime}"/>
+
+    <label for="status">Status:</label>
+    <select id="status" th:field="*{status}">
+      <option th:value="Ikke_startet">Ikke startet</option>
+      <option th:value="I_gang">I gang</option>
+      <option th:value="Lukket">Lukket</option>
+    </select>
+
+    <div class="buttonGroup">
+      <button type="submit">Gem ændringer</button>
+      <a th:href="@{/}" class="btn-secondary">Annuller</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
