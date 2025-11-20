@@ -69,4 +69,12 @@ public class CoolPlannerService {
         }
         return null;
     }
+
+    public Project findProjectById(int id){
+        return repository.findProjectById(id);
+    }
+
+public void updateProject(Project project){
+        repository.updateProject(project);
+}
 }
