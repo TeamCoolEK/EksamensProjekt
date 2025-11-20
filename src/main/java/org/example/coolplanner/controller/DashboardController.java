@@ -28,7 +28,22 @@ public class DashboardController {
             return "redirect:/login"; // Sender bruger videre til login-side, hvis bruger ikke er logget ind
         }
         //Tjekker om der rent faktisk ligger en bruger i sessionen (altså at brugeren er logget ind).
-        int employeeId = employee.getEmployeeId(); //Henter brugerens ID fra employee-objektet.
+        int employeeId = employee.getEmployeeId(); // Henter brugerens ID fra employee-objektet.
+
+        // Henter alle aktive objekter for den medarbejder, der er logget ind
+        List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
+        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
+        List<UserStory> userStories = coolPlannerService.getActiveUserStories(employeeId);
+        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
+
+        /* Lægger employee og alle lister på modellen, så vi i HTML kan
+         sige "Velkommen 'firstname'" ved at skrive ${employee.firstname}
+         samt vise et overblik af projekter, delprojekter, user stories og tasks */
+        model.addAttribute("employee", employee);
+        model.addAttribute("projects", projects);
+        model.addAttribute("subProjects", subProjects);
+        model.addAttribute("userStories", userStories);
+        model.addAttribute("tasks", tasks);
         return "Dashboard";
     }
 
