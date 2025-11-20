@@ -115,5 +115,18 @@ public class CoolPlannerController {
         return "redirect:/XYZ";
     }
 
+    @GetMapping("/editUserStory/{id}")
+    public String editUserStory(@PathVariable int id, Model model) {
+        UserStory userStory = coolPlannerService.getUserStoryById(id);
+        model.addAttribute("userStory", userStory);
+        return "editUserStory";
+    }
+
+    @PostMapping("/updateUserStory")
+    public String updateUserStory(@ModelAttribute UserStory userStory) {
+        coolPlannerService.updateUserStory(userStory);
+        return "redirect:/XYZ";
+    }
+
 }
 
