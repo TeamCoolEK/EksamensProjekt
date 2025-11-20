@@ -122,6 +122,14 @@ public class CoolPlannerRepository {
         return UserStory;
     }
 
+
+    public List<Task> findActiveTasks(int employeeId) {
+        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
+        return Task;
+    }
+}
+
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
         return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
@@ -142,6 +150,27 @@ public class CoolPlannerRepository {
                 project.getProjectActualTime(),
                 project.getStatus(),
                 project.getProjectId());
+    }
+
+    public SubProject findSubProjectById(int subProjectId) {
+        String sql = "SELECT * FROM project WHERE subProjectId = ?";
+        return jdbcTemplate.queryForObject(sql, new SubProjectRowMapper(), subProjectId);
+    }
+
+    public void updateSubProject(SubProject subProject){
+        String sql = "UPDATE subProject SET subProjectName = ?, subProjectDetails = ?, subProjectStartDato = ?, " +
+                "subProjectDeadline = ?, subProjectTimeEstimate = ?, subProjectActualTime = ?, subProjectStatus = ?, " +
+                "WHERE subProjectId = ?";
+
+        jdbcTemplate.update(sql,
+                subProject.getSubProjectName(),
+                subProject.getSubProjectDetails(),
+                subProject.getSubProjectStartDate(),
+                subProject.getSubProjectDeadLine(),
+                subProject.getSubProjectTimeEstimate(),
+                subProject.getSubProjectActualTime(),
+                subProject.getStatus(),
+                subProject.getSubProjectId());
     }
 
 //        public List<Task> findActiveTasks ( int employeeId){
