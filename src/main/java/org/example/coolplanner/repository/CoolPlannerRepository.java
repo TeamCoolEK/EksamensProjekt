@@ -83,15 +83,18 @@ public class CoolPlannerRepository {
         return project;
     }
 
-    public SubTask createTask(SubTask subTask) {
-        String sql = "INSERT INTO subTask (subTaskId, subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus) VALUES (?,?,?,?,?,?,?,?)";
+    public SubTask createSubTask(SubTask subTask, UserStory userStory) {
+        String sql = "INSERT INTO subTask (subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, userStoryId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
+        subTask.setSubTaskActualTime(0);
+        subTask.setStatus(Status.Ikke_startet);
         jdbcTemplate.update(sql, subTask.getSubTaskName(),
                 subTask.getSubTaskDetails(),
                 subTask.getSubTaskStartDate(),
                 subTask.getSubTaskDeadLine(),
                 subTask.getSubTaskTimeEstimate(),
                 subTask.getSubTaskActualTime(),
-                subTask.getStatus());
+                subTask.getStatus().name(),
+                userStory.getUserStoryID());
         return subTask;
     }
 
@@ -119,10 +122,17 @@ public class CoolPlannerRepository {
         return UserStory;
     }
 
+    public UserStory findUserStoryById(int userStoryID) {
+        String sql = "SELECT * FROM UserStory WHERE UserStoryID = ?";
+        return jdbcTemplate.queryForObject(sql, new UserStoryRowMapper(), userStoryID);
+    }
+
+
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
         return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
     }
+
 
     public void updateProject(Project project){
         String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDato = ?, " +
@@ -161,7 +171,13 @@ public class CoolPlannerRepository {
                 subProject.getSubProjectId());
     }
 
-}
+//        public List<Task> findActiveTasks ( int employeeId){
+//            String sql = "SELECT * FROM project WHERE employeeId = ?";
+//            List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
+//            return Task;
+//        }
+
+
 
 
 

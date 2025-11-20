@@ -1,0 +1,26 @@
+package org.example.coolplanner.repository.Rowmapper;
+
+import org.example.coolplanner.model.Status;
+import org.example.coolplanner.model.Task;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class SubTaskRowMapper implements RowMapper<SubTask> {
+    @Override
+    public SubTask mapRow(ResultSet rs, int rowNum) throws SQLException {
+        SubTask SubTask = new SubTask();
+
+        subTask.setSubTaskId(rs.getInt("subTaskId"));
+        subTask.setSubTaskName(rs.getString("subTaskName"));
+        subTask.setSubTaskDetails(rs.getString("subTaskDetails"));
+        subTask.setSubTaskStartDate(rs.getDate("subTaskStartDate"));
+        subTask.setSubTaskDeadLine(rs.getDate("subTaskDeadline"));
+        subTask.setSubTaskTimeEstimate(rs.getInt("subTaskTimeEstimate"));
+        subTask.setSubTaskActualTime(rs.getInt("subTaskActualTime"));
+        subTask.setStatus(Status.valueOf(rs.getString("subTaskStatus")));
+
+        return subTask;
+    }
+}

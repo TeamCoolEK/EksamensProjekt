@@ -50,6 +50,7 @@ public class CoolPlannerService {
         return repository.findActiveSubProjects(employeeId);
     }
 
+
     public List<UserStory> getActiveUserStories(int employeeId) {
         return repository.findActiveUserStories(employeeId);
     }
@@ -76,6 +77,16 @@ public class CoolPlannerService {
     public void updateProject(Project project) {
         repository.updateProject(project);
     }
+
+
+    public UserStory getUserStoryById(int userStoryID) {
+        return repository.findUserStoryById(userStoryID);
+    }
+
+    public void updateUserStory(UserStory userStory) {
+
+    }
+
 
     public SubProject findSubProjectById(int id) {
         return repository.findSubProjectById(id);

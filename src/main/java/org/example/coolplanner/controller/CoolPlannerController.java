@@ -2,7 +2,7 @@ package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
-import org.example.coolplanner.model.SubTask;
+import org.example.coolplanner.model.Task;
 import org.example.coolplanner.model.UserStory;
 import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.example.coolplanner.service.CoolPlannerService;
@@ -47,14 +47,16 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/createSubTask")
-    public String createTask (Model model) {
-        model.addAttribute("task", new SubTask());
-        return "createTask";
+    public String createSubTask (Model model) {
+        model.addAttribute("subTask", new SubTask());
+        return "createSubTask";
     }
 
     @PostMapping("/saveSubTask")
-    public String saveTask (@ModelAttribute SubTask subTask, Model model) {
-        coolPlannerService.createSubTask(subTask);
+    public String saveSubTask (@RequestParam int userStoryId, @ModelAttribute SubTask SubTask, Model model) {
+        //Find userStory metode istedet for ny userStory her!!!!!!
+        UserStory userStory = new UserStory(); //
+        coolPlannerService.createSubTask(SubTask, userStory);
         return "redirect:/XYZ";
     }
 
@@ -106,9 +108,23 @@ public class CoolPlannerController {
         }
     }
 
+
     @PostMapping("/saveUserStory")
     public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
         coolPlannerService.createUserStory(userStory);
+        return "redirect:/XYZ";
+    }
+
+    @GetMapping("/editUserStory/{id}")
+    public String editUserStory(@PathVariable int id, Model model) {
+        UserStory userStory = coolPlannerService.getUserStoryById(id);
+        model.addAttribute("userStory", userStory);
+        return "editUserStory";
+    }
+
+    @PostMapping("/updateUserStory")
+    public String updateUserStory(@ModelAttribute UserStory userStory) {
+        coolPlannerService.updateUserStory(userStory);
         return "redirect:/XYZ";
     }
 
