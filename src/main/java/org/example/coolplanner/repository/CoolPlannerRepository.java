@@ -83,15 +83,18 @@ public class CoolPlannerRepository {
         return project;
     }
 
-    public Task createTask(Task task) {
-        String sql = "INSERT INTO task (taskId, taskName, taskDetails, taskStartDate, taskDeadline, taskTimeEstimate, taskActualTime, taskStatus) VALUES (?,?,?,?,?,?,?,?)";
+    public Task createTask(Task task, UserStory userStory) {
+        String sql = "INSERT INTO task (taskName, taskDetails, taskStartDate, taskDeadline, taskTimeEstimate, taskActualTime, taskStatus, userStoryId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
+        task.setTaskActualTime(0);
+        task.setStatus(Status.Ikke_startet);
         jdbcTemplate.update(sql, task.getTaskName(),
                 task.getTaskDetails(),
                 task.getTaskStartDate(),
                 task.getTaskDeadLine(),
                 task.getTaskTimeEstimate(),
                 task.getTaskActualTime(),
-                task.getStatus());
+                task.getStatus().name(),
+                userStory.getUserStoryID());
         return task;
     }
 
