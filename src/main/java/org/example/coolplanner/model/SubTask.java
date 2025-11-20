@@ -1,18 +1,18 @@
 package org.example.coolplanner.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class SubTask {
     private int subTaskId;
     private String subTaskName;
     private String subTaskDetails;
-    private LocalDate subTaskStartDate;
-    private LocalDate subTaskDeadLine;
+    private Date subTaskStartDate;
+    private Date subTaskDeadLine;
     private int subTaskTimeEstimate;
     private int subTaskActualTime;
     private Status status;
 
-    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status) {
+    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, Date subTaskStartDate, Date subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status) {
         this.subTaskId = subTaskId;
         this.subTaskName = subTaskName;
         this.subTaskDetails = subTaskDetails;
@@ -49,19 +49,19 @@ public class SubTask {
         this.subTaskDetails = subTaskDetails;
     }
 
-    public LocalDate getSubTaskStartDate() {
+    public Date getSubTaskStartDate() {
         return subTaskStartDate;
     }
 
-    public void setSubTaskStartDate(LocalDate subTaskStartDate) {
+    public void setSubTaskStartDate(Date subTaskStartDate) {
         this.subTaskStartDate = subTaskStartDate;
     }
 
-    public LocalDate getSubTaskDeadLine() {
+    public Date getSubTaskDeadLine() {
         return subTaskDeadLine;
     }
 
-    public void setSubTaskDeadLine(LocalDate subTaskDeadLine) {
+    public void setSubTaskDeadLine(Date subTaskDeadLine) {
         this.subTaskDeadLine = subTaskDeadLine;
     }
 
@@ -77,8 +77,8 @@ public class SubTask {
         return subTaskActualTime;
     }
 
-    public void setTaskActualTime(int taskActualTime) {
-        this.taskActualTime = taskActualTime;
+    public void setSubTaskActualTime(int subTaskActualTime) {
+        this.subTaskActualTime = subTaskActualTime;
     }
 
     public Status getStatus() {
@@ -88,4 +88,4 @@ public class SubTask {
     public void setStatus(Status status) {
         this.status = status;
     }
-}
+

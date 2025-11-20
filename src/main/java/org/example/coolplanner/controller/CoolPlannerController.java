@@ -46,17 +46,17 @@ public class CoolPlannerController {
         return "redirect:/XYZ";
     }
 
-    @GetMapping("/createTask")
-    public String createTask (Model model) {
-        model.addAttribute("task", new Task());
-        return "createTask";
+    @GetMapping("/createSubTask")
+    public String createSubTask (Model model) {
+        model.addAttribute("subTask", new SubTask());
+        return "createSubTask";
     }
 
-    @PostMapping("/saveTask")
-    public String saveTask (@RequestParam int userStoryId, @ModelAttribute Task task, Model model) {
+    @PostMapping("/saveSubTask")
+    public String saveSubTask (@RequestParam int userStoryId, @ModelAttribute SubTask SubTask, Model model) {
         //Find userStory metode istedet for ny userStory her!!!!!!
         UserStory userStory = new UserStory(); //
-        coolPlannerService.createTask(task, userStory);
+        coolPlannerService.createSubTask(SubTask, userStory);
         return "redirect:/XYZ";
     }
 

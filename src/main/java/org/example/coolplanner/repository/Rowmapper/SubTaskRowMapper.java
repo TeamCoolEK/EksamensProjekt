@@ -1,7 +1,7 @@
 package org.example.coolplanner.repository.Rowmapper;
 
 import org.example.coolplanner.model.Status;
-import org.example.coolplanner.model.Task;
+import org.example.coolplanner.model.SubTask;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class SubTaskRowMapper implements RowMapper<SubTask> {
     @Override
     public SubTask mapRow(ResultSet rs, int rowNum) throws SQLException {
-        SubTask SubTask = new SubTask();
+        SubTask subTask = new SubTask();
 
         subTask.setSubTaskId(rs.getInt("subTaskId"));
         subTask.setSubTaskName(rs.getString("subTaskName"));
