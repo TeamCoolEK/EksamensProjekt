@@ -1,18 +1,20 @@
 package org.example.coolplanner.model;
 
-import java.util.Date;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 public class Project {
     private int projectId;
     private String projectName;
     private String projectDetails;
-    private Date projectStartDate;
-    private Date projectDeadLine;
+    private LocalDate projectStartDate;
+    private LocalDate projectDeadLine;
     private int projectTimeEstimate;
     private int projectActualTime;
     private Status status;
 
-    public Project (int projectId, String projectName, String projectDetails, Date projectStartDate, Date projectDeadLine, int projectTimeEstimate, int projectActualTime, Status status) {
+    public Project (int projectId, String projectName, String projectDetails, LocalDate projectStartDate, LocalDate projectDeadLine, int projectTimeEstimate, int projectActualTime, Status status) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDetails = projectDetails;
@@ -49,19 +51,19 @@ public class Project {
         this.projectDetails = projectDetails;
     }
 
-    public Date getProjectStartDate() {
+    public LocalDate getProjectStartDate() {
         return projectStartDate;
     }
 
-    public void setProjectStartDate(Date projectStartDate) {
+    public void setProjectStartDate(LocalDate projectStartDate) {
         this.projectStartDate = projectStartDate;
     }
 
-    public Date getProjectDeadLine() {
+    public LocalDate getProjectDeadLine() {
         return projectDeadLine;
     }
 
-    public void setProjectDeadLine(Date projectDeadLine) {
+    public void setProjectDeadLine(LocalDate projectDeadLine) {
         this.projectDeadLine = projectDeadLine;
     }
 

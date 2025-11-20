@@ -1,18 +1,18 @@
 package org.example.coolplanner.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Task {
     private int taskId;
     private String taskName;
     private String taskDetails;
-    private Date taskStartDate;
-    private Date taskDeadLine;
+    private LocalDate taskStartDate;
+    private LocalDate taskDeadLine;
     private int taskTimeEstimate;
     private int taskActualTime;
     private Status status;
 
-    public Task(int taskId, String taskName, String taskDetails, Date taskStartDate, Date taskDeadLine, int taskTimeEstimate, int taskActualTime, Status status) {
+    public Task(int taskId, String taskName, String taskDetails, LocalDate taskStartDate, LocalDate taskDeadLine, int taskTimeEstimate, int taskActualTime, Status status) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskDetails = taskDetails;
@@ -49,19 +49,19 @@ public class Task {
         this.taskDetails = taskDetails;
     }
 
-    public Date getTaskStartDate() {
+    public LocalDate getTaskStartDate() {
         return taskStartDate;
     }
 
-    public void setTaskStartDate(Date taskStartDate) {
+    public void setTaskStartDate(LocalDate taskStartDate) {
         this.taskStartDate = taskStartDate;
     }
 
-    public Date getTaskDeadLine() {
+    public LocalDate getTaskDeadLine() {
         return taskDeadLine;
     }
 
-    public void setTaskDeadLine(Date taskDeadLine) {
+    public void setTaskDeadLine(LocalDate taskDeadLine) {
         this.taskDeadLine = taskDeadLine;
     }
 
