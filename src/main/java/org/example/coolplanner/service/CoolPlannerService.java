@@ -27,7 +27,7 @@ public class CoolPlannerService {
         return repository.createSubProject(subProject);
     }
 
-    public Task createTask (Task task) {
+    public Task createTask(Task task) {
         return repository.createTask(task);
     }
 
@@ -70,11 +70,19 @@ public class CoolPlannerService {
         return null;
     }
 
-    public Project findProjectById(int id){
+    public Project findProjectById(int id) {
         return repository.findProjectById(id);
     }
 
-public void updateProject(Project project){
+    public void updateProject(Project project) {
         repository.updateProject(project);
-}
+    }
+
+    public SubProject findSubProjectById(int id) {
+        return repository.findSubProjectById(id);
+    }
+
+    public void updateSubProject(SubProject subProject) {
+        repository.updateSubProject(subProject);
+    }
 }
