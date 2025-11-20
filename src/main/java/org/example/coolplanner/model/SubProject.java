@@ -1,18 +1,18 @@
 package org.example.coolplanner.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class SubProject {
     private int subProjectId;
     private String subProjectName;
     private String subProjectDetails;
-    private Date subProjectStartDate;
-    private Date subProjectDeadLine;
+    private LocalDate subProjectStartDate;
+    private LocalDate subProjectDeadLine;
     private int subProjectTimeEstimate;
     private int subProjectActualTime;
     private Status status;
 
-    public SubProject(int subProjectId, String subProjectName, String subProjectDetails, Date subProjectDeadLine, Date subProjectStartDate, int subProjectTimeEstimate, int subProjectActualTime, Status status) {
+    public SubProject(int subProjectId, String subProjectName, String subProjectDetails, LocalDate subProjectDeadLine, LocalDate subProjectStartDate, int subProjectTimeEstimate, int subProjectActualTime, Status status) {
         this.subProjectId = subProjectId;
         this.subProjectName = subProjectName;
         this.subProjectDetails = subProjectDetails;
@@ -49,19 +49,19 @@ public class SubProject {
         this.subProjectDetails = subProjectDetails;
     }
 
-    public Date getSubProjectStartDate() {
+    public LocalDate getSubProjectStartDate() {
         return subProjectStartDate;
     }
 
-    public void setSubProjectStartDate(Date subProjectStartDate) {
+    public void setSubProjectStartDate(LocalDate subProjectStartDate) {
         this.subProjectStartDate = subProjectStartDate;
     }
 
-    public Date getSubProjectDeadLine() {
+    public LocalDate getSubProjectDeadLine() {
         return subProjectDeadLine;
     }
 
-    public void setSubProjectDeadLine(Date subProjectDeadLine) {
+    public void setSubProjectDeadLine(LocalDate subProjectDeadLine) {
         this.subProjectDeadLine = subProjectDeadLine;
     }
 

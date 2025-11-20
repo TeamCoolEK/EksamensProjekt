@@ -15,8 +15,8 @@ public class TaskRowMapper implements RowMapper<Task> {
         task.setTaskId(rs.getInt("taskId"));
         task.setTaskName(rs.getString("taskName"));
         task.setTaskDetails(rs.getString("taskDetails"));
-        task.setTaskStartDate(rs.getDate("taskStartDate"));
-        task.setTaskDeadLine(rs.getDate("taskDeadline"));
+        task.setTaskStartDate(rs.getDate("taskStartDate").toLocalDate());
+        task.setTaskDeadLine(rs.getDate("taskDeadline").toLocalDate());
         task.setTaskTimeEstimate(rs.getInt("taskTimeEstimate"));
         task.setTaskActualTime(rs.getInt("taskActualTime"));
         task.setStatus(Status.valueOf(rs.getString("taskStatus")));

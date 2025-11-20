@@ -83,15 +83,18 @@ public class CoolPlannerRepository {
         return project;
     }
 
-    public Task createTask(Task task) {
-        String sql = "INSERT INTO task (taskId, taskName, taskDetails, taskStartDate, taskDeadline, taskTimeEstimate, taskActualTime, taskStatus) VALUES (?,?,?,?,?,?,?,?)";
+    public Task createTask(Task task, UserStory userStory) {
+        String sql = "INSERT INTO task (taskName, taskDetails, taskStartDate, taskDeadline, taskTimeEstimate, taskActualTime, taskStatus, userStoryId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
+        task.setTaskActualTime(0);
+        task.setStatus(Status.Ikke_startet);
         jdbcTemplate.update(sql, task.getTaskName(),
                 task.getTaskDetails(),
                 task.getTaskStartDate(),
                 task.getTaskDeadLine(),
                 task.getTaskTimeEstimate(),
                 task.getTaskActualTime(),
-                task.getStatus());
+                task.getStatus().name(),
+                userStory.getUserStoryID());
         return task;
     }
 
@@ -124,6 +127,13 @@ public class CoolPlannerRepository {
         return jdbcTemplate.queryForObject(sql, new UserStoryRowMapper), userStoryID);
     }
 
+    public List<Task> findActiveTasks(int employeeId) {
+        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
+        return Task;
+    }
+}
+
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
         return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
@@ -145,6 +155,27 @@ public class CoolPlannerRepository {
                 project.getProjectId());
     }
 }
+
+    public SubProject findSubProjectById(int subProjectId) {
+        String sql = "SELECT * FROM project WHERE subProjectId = ?";
+        return jdbcTemplate.queryForObject(sql, new SubProjectRowMapper(), subProjectId);
+    }
+
+    public void updateSubProject(SubProject subProject){
+        String sql = "UPDATE subProject SET subProjectName = ?, subProjectDetails = ?, subProjectStartDato = ?, " +
+                "subProjectDeadline = ?, subProjectTimeEstimate = ?, subProjectActualTime = ?, subProjectStatus = ?, " +
+                "WHERE subProjectId = ?";
+
+        jdbcTemplate.update(sql,
+                subProject.getSubProjectName(),
+                subProject.getSubProjectDetails(),
+                subProject.getSubProjectStartDate(),
+                subProject.getSubProjectDeadLine(),
+                subProject.getSubProjectTimeEstimate(),
+                subProject.getSubProjectActualTime(),
+                subProject.getStatus(),
+                subProject.getSubProjectId());
+    }
 
 //        public List<Task> findActiveTasks ( int employeeId){
 //            String sql = "SELECT * FROM project WHERE employeeId = ?";
