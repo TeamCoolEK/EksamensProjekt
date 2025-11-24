@@ -172,14 +172,6 @@ public class CoolPlannerRepository {
     }
 }
 
-//        public List<Task> findActiveTasks ( int employeeId){
-//            String sql = "SELECT * FROM project WHERE employeeId = ?";
-//            List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
-//            return Task;
-//        }
-
-
-
 
 
 
