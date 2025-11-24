@@ -1,6 +1,5 @@
 package org.example.coolplanner.service;
 
-import org.apache.catalina.User;
 import org.example.coolplanner.model.*;
 import org.example.coolplanner.repository.CoolPlannerRepository;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,8 @@ public class CoolPlannerService {
         return repository.createSubProject(subProject);
     }
 
-    public SubTask createSubTask(SubTask subTask, UserStory userStory) {
-        return repository.createSubTask(subTask, userStory);
+    public SubTask createSubTask(SubTask subTask, Task task) {
+        return repository.createSubTask(subTask, task);
     }
 
     public void createEmployee(Employee employee) {
@@ -52,7 +51,7 @@ public class CoolPlannerService {
     }
 
 
-    public List<UserStory> getActiveUserStories(int employeeId) {
+    public List<Task> getActiveUserStories(int employeeId) {
         return repository.findActiveUserStories(employeeId);
     }
 
@@ -60,7 +59,7 @@ public class CoolPlannerService {
         return repository.findActiveSubTasks(employeeId);
     }
 
-    public void createUserStory(UserStory userStory) {
+    public void createTask(Task task) {
     }
 
     public Employee login(String email, String password) {
@@ -80,11 +79,11 @@ public class CoolPlannerService {
     }
 
 
-    public UserStory getUserStoryById(int userStoryID) {
-        return repository.findUserStoryById(userStoryID);
+    public Task getTaskById(int taskID) {
+        return repository.findTaskById(taskID);
     }
 
-    public void updateUserStory(UserStory userStory) {
+    public void updateTask(Task task) {
 
     }
 
