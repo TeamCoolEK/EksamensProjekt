@@ -3,9 +3,11 @@ package org.example.coolplanner.controller;
 import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.model.*;
 import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
+import org.example.coolplanner.model.Project;
+import org.example.coolplanner.model.SubProject;
+import org.example.coolplanner.model.SubTask;
+import org.example.coolplanner.model.Task;
 import org.example.coolplanner.service.CoolPlannerService;
-import org.springframework.data.repository.query.Param;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,17 +57,17 @@ public class CoolPlannerController {
     }
 
     @PostMapping("/saveSubTask")
-    public String saveSubTask (@RequestParam int userStoryId, @ModelAttribute SubTask SubTask, Model model) {
+    public String saveSubTask (@RequestParam int taskId, @ModelAttribute SubTask SubTask, Model model) {
         //Find userStory metode istedet for ny userStory her!!!!!!
-        UserStory userStory = new UserStory(); //
-        coolPlannerService.createSubTask(SubTask, userStory);
+        Task task = new Task(); //
+        coolPlannerService.createSubTask(SubTask, task);
         return "redirect:/XYZ";
     }
 
-    @GetMapping("/createUserStory")
-    public String createUserStory(Model model) {
-        model.addAttribute("userStory", new UserStory());
-        return "createUserStory";
+    @GetMapping("/createTask")
+    public String createTask(Model model) {
+        model.addAttribute("task", new Task());
+        return "createTask";
     }
 
     @GetMapping("/project/{id}/edit")
@@ -111,22 +113,22 @@ public class CoolPlannerController {
     }
 
 
-    @PostMapping("/saveUserStory")
-    public String saveUserStory(@ModelAttribute UserStory userStory, Model model) {
-        coolPlannerService.createUserStory(userStory);
+    @PostMapping("/saveTask")
+    public String saveTask(@ModelAttribute Task task, Model model) {
+        coolPlannerService.createTask(task);
         return "redirect:/XYZ";
     }
 
-    @GetMapping("/editUserStory/{id}")
-    public String editUserStory(@PathVariable int id, Model model) {
-        UserStory userStory = coolPlannerService.getUserStoryById(id);
-        model.addAttribute("userStory", userStory);
-        return "editUserStory";
+    @GetMapping("/editTask/{id}")
+    public String editTask(@PathVariable int id, Model model) {
+        Task task = coolPlannerService.getTaskById(id);
+        model.addAttribute("task", task);
+        return "editTask";
     }
 
-    @PostMapping("/updateUserStory")
-    public String updateUserStory(@ModelAttribute UserStory userStory) {
-        coolPlannerService.updateUserStory(userStory);
+    @PostMapping("/updateTask")
+    public String updateTask(@ModelAttribute Task task) {
+        coolPlannerService.updateTask(task);
         return "redirect:/XYZ";
     }
 

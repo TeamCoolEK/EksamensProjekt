@@ -87,8 +87,8 @@ public class CoolPlannerRepository {
         return project;
     }
 
-    public SubTask createSubTask(SubTask subTask, UserStory userStory) {
-        String sql = "INSERT INTO subTask (subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, userStoryId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
+    public SubTask createSubTask(SubTask subTask, Task task) {
+        String sql = "INSERT INTO subTask (subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, taskId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
         subTask.setSubTaskActualTime(0);
         subTask.setStatus(Status.Ikke_startet);
         jdbcTemplate.update(sql, subTask.getSubTaskName(),
@@ -98,7 +98,7 @@ public class CoolPlannerRepository {
                 subTask.getSubTaskTimeEstimate(),
                 subTask.getSubTaskActualTime(),
                 subTask.getStatus().name(),
-                userStory.getUserStoryID());
+                task.getTaskById());
         return subTask;
     }
 
@@ -120,15 +120,15 @@ public class CoolPlannerRepository {
         return SubProjects;
     }
 
-    public List<UserStory> findActiveUserStories(int employeeId) {
+    public List<Task> findActiveTasks(int employeeId) {
         String sql = "SELECT * FROM project WHERE employeeId = ?";
-        List<UserStory> UserStory = jdbcTemplate.query(sql, new UserStoryRowMapper(), employeeId);
-        return UserStory;
+        List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
+        return Task;
     }
 
-    public UserStory findUserStoryById(int userStoryID) {
-        String sql = "SELECT * FROM UserStory WHERE UserStoryID = ?";
-        return jdbcTemplate.queryForObject(sql, new UserStoryRowMapper(), userStoryID);
+    public Task findTaskById(int taskID) {
+        String sql = "SELECT * FROM Task WHERE TaskID = ?";
+        return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
 

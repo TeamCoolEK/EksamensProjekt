@@ -33,7 +33,7 @@ public class DashboardController {
         // Henter alle aktive objekter for den medarbejder, der er logget ind
         List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
         List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
-        List<UserStory> userStories = coolPlannerService.getActiveUserStories(employeeId);
+        List<Task> userStories = coolPlannerService.getActiveUserStories(employeeId);
         List<SubTask> tasks = coolPlannerService.getActiveSubTasks(employeeId);
 
         /* Lægger employee og alle lister på modellen, så vi i HTML kan
@@ -91,7 +91,7 @@ public class DashboardController {
         }
 
         int employeeId = employee.getEmployeeId();
-        List<UserStory> userStories = coolPlannerService.getActiveUserStories(employeeId);
+        List<Task> userStories = coolPlannerService.getActiveUserStories(employeeId);
 
         model.addAttribute("employee", employee);
         model.addAttribute("userStories", userStories);
