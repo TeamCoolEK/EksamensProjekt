@@ -2,6 +2,7 @@ package org.example.coolplanner.service;
 
 import org.example.coolplanner.model.*;
 import org.example.coolplanner.repository.CoolPlannerRepository;
+import org.example.coolplanner.repository.CoolplannerRepositoryFind;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +11,15 @@ import java.util.List;
 public class CoolPlannerService {
 
     private final CoolPlannerRepository repository;
+    private final CoolplannerRepositoryFind repositoryFind;
 
-    public CoolPlannerService(CoolPlannerRepository repository) {
+    public CoolPlannerService(CoolPlannerRepository repository, CoolplannerRepositoryFind repositoryFind) {
         this.repository = repository;
+        this.repositoryFind = repositoryFind;
     }
 
     public List<Project> getActiveProjects(int employeeId) {
-        return repository.findActiveProjects(employeeId);
+        return repositoryFind.findActiveProjects(employeeId);
     }
 
     public Project createProject(Project project, Employee employee) {
@@ -39,7 +42,7 @@ public class CoolPlannerService {
     }
 
     public Employee findEmployeeById(int id) {
-        return repository.findEmployeeById(id);
+        return repositoryFind.findEmployeeById(id);
     }
 
     public void updateEmployee(Employee employee) {
@@ -47,23 +50,23 @@ public class CoolPlannerService {
     }
 
     public List<SubProject> getActiveSubProjects(int employeeId) {
-        return repository.findActiveSubProjects(employeeId);
+        return repositoryFind.findActiveSubProjects(employeeId);
     }
 
 
     public List<Task> getActiveTasks(int employeeId) {
-        return repository.findActiveTasks(employeeId);
+        return repositoryFind.findActiveTasks(employeeId);
     }
 
     public List<SubTask> getActiveSubTasks(int employeeId) {
-        return repository.findActiveSubTasks(employeeId);
+        return repositoryFind.findActiveSubTasks(employeeId);
     }
 
     public void createTask(Task task) {
     }
 
     public Employee login(String email, String password) {
-        Employee employee = repository.findEmployeeByEmail(email);
+        Employee employee = repositoryFind.findEmployeeByEmail(email);
         if (employee != null && employee.getPassword().equals(password)) {
             return employee;
         }
@@ -71,7 +74,7 @@ public class CoolPlannerService {
     }
 
     public Project findProjectById(int id) {
-        return repository.findProjectById(id);
+        return repositoryFind.findProjectById(id);
     }
 
     public void updateProject(Project project) {
@@ -80,16 +83,15 @@ public class CoolPlannerService {
 
 
     public Task getTaskById(int taskID) {
-        return repository.findTaskById(taskID);
+        return repositoryFind.findTaskById(taskID);
     }
 
     public void updateTask(Task task) {
 
     }
 
-
     public SubProject findSubProjectById(int id) {
-        return repository.findSubProjectById(id);
+        return repositoryFind.findSubProjectById(id);
     }
 
     public void updateSubProject(SubProject subProject) {
