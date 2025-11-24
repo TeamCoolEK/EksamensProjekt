@@ -57,8 +57,12 @@ public class CoolPlannerRepository {
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), email);
     }
 
-    public SubProject createSubProject(SubProject subProject) {
-        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus) VALUES (?,?,?,?,?,?,?,?)";
+    public SubProject createSubProject(SubProject subProject, Project project) {
+        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus, projectId) VALUES (?,?,?,?,?,?,?,?,?)";
+        //dummy data
+        subProject.setSubProjectActualTime(0);
+        subProject.setSubProjectTimeEstimate(0);
+        subProject.setStatus(Status.Ikke_startet);
         jdbcTemplate.update(sql, subProject.getSubProjectId(),
                 subProject.getSubProjectName(),
                 subProject.getSubProjectDetails(),
@@ -66,7 +70,8 @@ public class CoolPlannerRepository {
                 subProject.getSubProjectDeadLine(),
                 subProject.getSubProjectTimeEstimate(),
                 subProject.getSubProjectActualTime(),
-                subProject.getStatus());
+                subProject.getStatus().name(),
+                project.getProjectId());
         return subProject;
     }
 

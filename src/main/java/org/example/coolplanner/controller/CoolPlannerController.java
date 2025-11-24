@@ -38,15 +38,16 @@ public class CoolPlannerController {
         return "redirect:/XYZ";
     }
 
-    @GetMapping("/createSubProject")
-    public String createSubProject(Model model) {
+    @GetMapping("/createSubProject/{id}")
+    public String createSubProject(@PathVariable int id, Model model) {
         model.addAttribute("subProject", new SubProject());
         return "createSubProject";
     }
 
-    @PostMapping("/saveSubProject")
-    public String saveSubProject (@ModelAttribute SubProject subProject, Model model) {
-        coolPlannerService.createSubProject(subProject);
+    @PostMapping("/saveSubProject/{id}")
+    public String saveSubProject (@PathVariable int id, @ModelAttribute SubProject subProject) {
+        Project project = coolPlannerService.findProjectById(id);
+        coolPlannerService.createSubProject(subProject, project);
         return "redirect:/XYZ";
     }
 
