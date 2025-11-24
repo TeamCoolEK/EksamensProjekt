@@ -109,7 +109,7 @@ public class DashboardController {
         }
 
         int employeeId = employee.getEmployeeId();
-        List<SubTask> tasks = coolPlannerService.getActiveSubTasks(employeeId);
+        List<SubTask> subTasks = coolPlannerService.getActiveSubTasks(employeeId);
 
         model.addAttribute("employee", employee);
         model.addAttribute("subTasks", subTasks);
