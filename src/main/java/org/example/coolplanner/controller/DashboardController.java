@@ -34,7 +34,7 @@ public class DashboardController {
         List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
         List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
         List<UserStory> userStories = coolPlannerService.getActiveUserStories(employeeId);
-        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
+        List<SubTask> tasks = coolPlannerService.getActiveSubTasks(employeeId);
 
         /* Lægger employee og alle lister på modellen, så vi i HTML kan
          sige "Velkommen 'firstname'" ved at skrive ${employee.firstname}
@@ -100,22 +100,22 @@ public class DashboardController {
         return "DashboardTask";
     }
 
-    // 4) Side med subTasks
-//    @GetMapping("/dashboard/subTasks")
-//    public String showSubTasks(HttpSession session, Model model) {
-//        Employee employee = (Employee) session.getAttribute("employee");
-//        if (employee == null) {
-//            return "redirect:/login";
-//        }
-//
-//        int employeeId = employee.getEmployeeId();
-//        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
-//
-//        model.addAttribute("employee", employee);
-//        model.addAttribute("tasks", tasks);
-//
-//        return "DashboardSubTasks";
-//    }
+    // 4) Side med tasks
+    @GetMapping("/dashboard/subTasks")
+    public String showTasks(HttpSession session, Model model) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/login";
+        }
+
+        int employeeId = employee.getEmployeeId();
+        List<SubTask> tasks = coolPlannerService.getActiveSubTasks(employeeId);
+
+        model.addAttribute("employee", employee);
+        model.addAttribute("subTasks", subTasks);
+
+        return "DashboardSubTasks";
+    }
     }
 
 
