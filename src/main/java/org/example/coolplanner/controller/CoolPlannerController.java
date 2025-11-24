@@ -1,5 +1,8 @@
 package org.example.coolplanner.controller;
 
+import jakarta.servlet.http.HttpSession;
+import org.example.coolplanner.model.*;
+import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
 import org.example.coolplanner.model.SubTask;
@@ -26,8 +29,12 @@ public class CoolPlannerController {
     }
 
     @PostMapping("/saveProject")
-    public String saveProject(@ModelAttribute Project project, Model model) {
-        coolPlannerService.createProject(project);
+    public String saveProject(@ModelAttribute Project project, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        //sætter employee ID til 0 for test
+        Employee employeeTest = new Employee();
+        employeeTest.setEmployeeId(1);
+        coolPlannerService.createProject(project, employeeTest);
         return "redirect:/XYZ";
     }
 
