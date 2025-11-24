@@ -58,8 +58,8 @@ public class CoolPlannerController {
 
     @PostMapping("/saveSubTask")
     public String saveSubTask (@RequestParam int taskId, @ModelAttribute SubTask SubTask, Model model) {
-        //Find userStory metode istedet for ny userStory her!!!!!!
-        Task task = new Task(); //
+        //Find task metode i stedet for ny task her!!!!!!
+        Task task = new Task();
         coolPlannerService.createSubTask(SubTask, task);
         return "redirect:/XYZ";
     }
