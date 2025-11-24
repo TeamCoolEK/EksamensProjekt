@@ -58,7 +58,9 @@ public class Task {
         return taskTimeEstimate;
     }
 
-    public void setTaskTimeEstimate(int taskTimeEstimate) { this.taskTimeEstimate = taskTimeEstimate; }
+    public void setTaskTimeEstimate(int taskTimeEstimate) {
+        this.taskTimeEstimate = taskTimeEstimate;
+    }
 
     public int getTaskActualTime() {
         return taskActualTime;
@@ -82,10 +84,6 @@ public class Task {
 
     public void setSubprojectID(int subprojectID) {
         this.subprojectID = subprojectID;
-    }
-
-    public Object getTaskById() {
-        return
     }
 }
 
