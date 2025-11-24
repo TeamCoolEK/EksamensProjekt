@@ -56,9 +56,9 @@ public class CoolPlannerService {
         return repository.findActiveUserStories(employeeId);
     }
 
-//    public List<Task> getActiveTasks(int employeeId) {
-//        return repository.findActiveTasks(employeeId);
-//    }
+    public List<SubTask> getActiveSubTasks(int employeeId) {
+        return repository.findActiveSubTasks(employeeId);
+    }
 
     public void createUserStory(UserStory userStory) {
     }
