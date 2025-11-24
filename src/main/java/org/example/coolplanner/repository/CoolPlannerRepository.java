@@ -47,19 +47,6 @@ public class CoolPlannerRepository {
         return count != null && count > 0;
     }
 
-    public SubProject createSubProject(SubProject subProject) {
-        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus) VALUES (?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, subProject.getSubProjectId(),
-                subProject.getSubProjectName(),
-                subProject.getSubProjectDetails(),
-                subProject.getSubProjectStartDate(),
-                subProject.getSubProjectDeadLine(),
-                subProject.getSubProjectTimeEstimate(),
-                subProject.getSubProjectActualTime(),
-                subProject.getStatus());
-        return subProject;
-    }
-
     public Project createProject(Project project, Employee employee) {
         String sql = "INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
         project.setProjectTimeEstimate(0);
@@ -77,6 +64,19 @@ public class CoolPlannerRepository {
         return project;
     }
 
+    public SubProject createSubProject(SubProject subProject) {
+        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus) VALUES (?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, subProject.getSubProjectId(),
+                subProject.getSubProjectName(),
+                subProject.getSubProjectDetails(),
+                subProject.getSubProjectStartDate(),
+                subProject.getSubProjectDeadLine(),
+                subProject.getSubProjectTimeEstimate(),
+                subProject.getSubProjectActualTime(),
+                subProject.getStatus());
+        return subProject;
+    }
+
     public SubTask createSubTask(SubTask subTask, Task task) {
         String sql = "INSERT INTO subTask (subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, taskId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
         subTask.setSubTaskActualTime(0);
@@ -88,7 +88,7 @@ public class CoolPlannerRepository {
                 subTask.getSubTaskTimeEstimate(),
                 subTask.getSubTaskActualTime(),
                 subTask.getStatus().name(),
-                task.getTaskById());
+                task.getTaskID());
         return subTask;
     }
 
