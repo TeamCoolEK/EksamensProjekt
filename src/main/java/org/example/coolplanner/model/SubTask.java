@@ -11,6 +11,7 @@ public class SubTask {
     private int subTaskTimeEstimate;
     private int subTaskActualTime;
     private Status status;
+    private int employeeId;
 
     public SubTask(int subTaskId, String subTaskName, String subTaskDetails, Date subTaskStartDate, Date subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status) {
         this.subTaskId = subTaskId;
@@ -89,6 +90,12 @@ public class SubTask {
     public void setStatus(Status status) {
         this.status = status;
     }
+public int getEmployeeId(){
+        return employeeId;
+}
 
+public void setEmployeeId(int employeeId){
+        this.employeeId = employeeId;
+}
 }
 

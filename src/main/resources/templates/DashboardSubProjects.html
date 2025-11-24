@@ -16,7 +16,7 @@
     </li>
 </ul>
 
-<a class="button" th:href="@{/dashboard/subprojects/createSubProject}">+ Tilføj nyt delprojekt</a>
+<a class="button" th:href="@{/createSubProject/{id}(id=${projectId})}">+ Tilføj nyt delprojekt</a>
 
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>

@@ -27,25 +27,25 @@ public class CoolplannerRepositoryFind {
     }
 
     public List<SubTask> findActiveSubTasks(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        String sql = "SELECT * FROM subTask WHERE employeeId = ?";
         List<SubTask> SubTask = jdbcTemplate.query(sql, new SubTaskRowMapper(), employeeId);
         return SubTask;
     }
 
     public List<Project> findActiveProjects(int employeeId) {
         String sql = "SELECT * FROM project WHERE employeeId = ?";
-        List<Project> projects = jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
-        return projects;
+        List<Project> project = jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
+        return project;
     }
 
     public List<SubProject> findActiveSubProjects(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        String sql = "SELECT * FROM subProject WHERE projectId = ?";
         List<SubProject> SubProjects = jdbcTemplate.query(sql, new SubProjectRowMapper(), employeeId);
         return SubProjects;
     }
 
     public List<Task> findActiveTasks(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        String sql = "SELECT * FROM task WHERE subProjectId = ?";
         List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
         return Task;
     }
@@ -64,6 +64,11 @@ public class CoolplannerRepositoryFind {
     public SubProject findSubProjectById(int subProjectId) {
         String sql = "SELECT * FROM project WHERE subProjectId = ?";
         return jdbcTemplate.queryForObject(sql, new SubProjectRowMapper(), subProjectId);
+    }
+
+    public List<SubTask> findSubTasksByTaskId(int taskId){
+        String sql = "SELECT * FROM subTask WHERE taskId = ?";
+        return jdbcTemplate.query(sql, new SubTaskRowMapper(), taskId);
     }
 
 }
