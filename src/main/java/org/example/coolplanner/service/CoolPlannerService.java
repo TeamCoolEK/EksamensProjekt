@@ -20,8 +20,8 @@ public class CoolPlannerService {
         return repository.findActiveProjects(employeeId);
     }
 
-    public Project createProject(Project project) {
-        return repository.createProject(project);
+    public Project createProject(Project project, Employee employee) {
+        return repository.createProject(project, employee);
     }
 
     public SubProject createSubProject(SubProject subProject) {

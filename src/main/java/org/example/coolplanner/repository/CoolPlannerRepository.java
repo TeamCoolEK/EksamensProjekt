@@ -70,8 +70,11 @@ public class CoolPlannerRepository {
         return subProject;
     }
 
-    public Project createProject(Project project) {
-        String sql = "INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus) VALUES (?,?,?,?,?,?,?,?)";
+    public Project createProject(Project project, Employee employee) {
+        String sql = "INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
+        project.setProjectTimeEstimate(0);
+        project.setProjectActualTime(0);
+        project.setStatus(Status.Ikke_startet);
         jdbcTemplate.update(sql, project.getProjectId(),
                 project.getProjectName(),
                 project.getProjectDetails(),
@@ -79,7 +82,8 @@ public class CoolPlannerRepository {
                 project.getProjectDeadLine(),
                 project.getProjectTimeEstimate(),
                 project.getProjectActualTime(),
-                project.getStatus());
+                project.getStatus().name(),
+                employee.getEmployeeId());
         return project;
     }
 
