@@ -2,7 +2,7 @@ package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
-import org.example.coolplanner.model.Task;
+import org.example.coolplanner.model.SubTask;
 import org.example.coolplanner.model.UserStory;
 import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.example.coolplanner.service.CoolPlannerService;

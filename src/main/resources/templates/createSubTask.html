@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opret task</title>
+</head>
+<body>
+<h1>Opret task</h1>
+
+<form th:action="@{/saveSubTask}" th:object="${subTask}" method="post">
+
+    <label>Del-projektets navn:</label>
+    <input type="text" placeholder="Navn" th:field="*{subTaskName}" required>
+
+    <label>Del-projekts beskrivelse:</label>
+    <input type="text" placeholder="Beskrivelse" th:field="*{subTaskDetails}" required>
+
+    <label>Start dato for del-projekt:</label>
+    <input type="date" th:field="*{subTaskStartDate}" required>
+
+    <label>Deadline for del-projekt:</label>
+    <input type="date" th:field="*{subTaskDeadLine}" required>
+
+    <label>Tidsestimat:</label>
+    <input type="number" placeholder="Timer" th:field="*{subTaskTimeEstimate}" required>
+
+    <button type="submit">Opret subtask</button>
+</form>
+</body>
+</html>

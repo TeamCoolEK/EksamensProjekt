@@ -1,5 +1,6 @@
 package org.example.coolplanner.service;
 
+import org.apache.catalina.User;
 import org.example.coolplanner.model.*;
 import org.example.coolplanner.repository.CoolPlannerRepository;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class CoolPlannerService {
         return repository.createSubProject(subProject);
     }
 
-    public SubTask createSubTask(SubTask subTask) {
-        return repository.createSubTask(subTask);
+    public SubTask createSubTask(SubTask subTask, UserStory userStory) {
+        return repository.createSubTask(subTask, userStory);
     }
 
     public void createEmployee(Employee employee) {

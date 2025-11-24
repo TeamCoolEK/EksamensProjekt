@@ -23,7 +23,8 @@ public class SubTask {
         this.status = status;
     }
 
-    public SubTask () {} //tom konstuktør <3
+    public SubTask() {
+    } //tom konstuktør <3
 
     public int getSubTaskId() {
         return subTaskId;
@@ -88,4 +89,6 @@ public class SubTask {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+}
 
