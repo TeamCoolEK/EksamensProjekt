@@ -1,5 +1,6 @@
 package org.example.coolplanner.repository.Rowmapper;
 
+import org.example.coolplanner.model.Status;
 import org.example.coolplanner.model.Task;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -19,7 +20,7 @@ public class TaskRowMapper implements RowMapper<Task> {
         task.setTaskDeadline(rs.getDate("TaskDeadline").toLocalDate());
         task.setTaskTimeEstimate(rs.getInt("TaskTimeEstimate"));
         task.setTaskActualTime(rs.getInt("TaskActualTime"));
-        task.setTaskStatus(rs.getString("TaskStatus"));
+        task.setTaskStatus(Status.valueOf(rs.getString("taskStatus")));
         task.setSubprojectID(rs.getInt("SubprojectID"));
 
 

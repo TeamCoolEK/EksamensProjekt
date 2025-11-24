@@ -11,7 +11,7 @@ public class Task {
     private LocalDate taskDeadline;
     private int taskTimeEstimate;
     private int taskActualTime;
-    private String taskStatus;
+    private Status taskStatus;
     private int subprojectID;
 
     public int getTaskID() {
@@ -70,11 +70,11 @@ public class Task {
         this.taskActualTime = taskActualTime;
     }
 
-    public String getTaskStatus() {
+    public Status getTaskStatus() {
         return taskStatus;
     }
 
-    public void setTaskStatus(String taskStatus) {
+    public void setTaskStatus(Status taskStatus) {
         this.taskStatus = taskStatus;
     }
 
