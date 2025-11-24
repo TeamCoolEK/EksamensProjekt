@@ -62,7 +62,8 @@ public class CoolPlannerService {
         return repositoryFind.findActiveSubTasks(employeeId);
     }
 
-    public void createTask(Task task) {
+    public void createTask(Task task, SubProject subProject) {
+        repository.createTask(task, subProject);
     }
 
     public Employee login(String email, String password) {

@@ -23,18 +23,6 @@
     <label>Deadline:</label>
     <input type="date" th:field="*{taskDeadline}" required>
 
-    <label>Tidsestimat:</label>
-    <input type="number" th:field="*{taskTimeEstimate}" min="0" required>
-
-    <label>Reel tid brugt:</label>
-    <input type="number" th:field="*{taskActualTime}" min="0">
-
-    <label>Status:</label>
-    <input type="Text" th:field="*{taskStatus}" required>
-
-    <label>Subproject ID:</label>
-    <input type="number" th:field="*{subprojectID}" required>
-
     <button type="submit">Opret Task</button>
 </form>
 </body>
