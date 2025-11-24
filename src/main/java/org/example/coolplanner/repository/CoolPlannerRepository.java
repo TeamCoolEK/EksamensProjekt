@@ -47,6 +47,34 @@ public class CoolPlannerRepository {
         return count != null && count > 0;
     }
 
+    public Employee findEmployeeById(int employeeId) {
+        String sql = "SELECT * FROM employee WHERE employeeId = ?";
+        return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), employeeId);
+    }
+
+    public Employee findEmployeeByEmail(String email) {
+        String sql = "SELECT * FROM employee WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), email);
+    }
+
+    public SubProject createSubProject(SubProject subProject, Project project) {
+        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus, projectId) VALUES (?,?,?,?,?,?,?,?,?)";
+        //dummy data
+        subProject.setSubProjectActualTime(0);
+        subProject.setSubProjectTimeEstimate(0);
+        subProject.setStatus(Status.Ikke_startet);
+        jdbcTemplate.update(sql, subProject.getSubProjectId(),
+                subProject.getSubProjectName(),
+                subProject.getSubProjectDetails(),
+                subProject.getSubProjectStartDate(),
+                subProject.getSubProjectDeadLine(),
+                subProject.getSubProjectTimeEstimate(),
+                subProject.getSubProjectActualTime(),
+                subProject.getStatus().name(),
+                project.getProjectId());
+        return subProject;
+    }
+
     public Project createProject(Project project, Employee employee) {
         String sql = "INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
         project.setProjectTimeEstimate(0);

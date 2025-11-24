@@ -26,8 +26,8 @@ public class CoolPlannerService {
         return repository.createProject(project, employee);
     }
 
-    public SubProject createSubProject(SubProject subProject) {
-        return repository.createSubProject(subProject);
+    public SubProject createSubProject(SubProject subProject, Project project) {
+        return repository.createSubProject(subProject, project);
     }
 
     public SubTask createSubTask(SubTask subTask, Task task) {
