@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CoolPlanner | Dine Subtasks</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Dine subtasks</h1>
+<p>Her kan du se dine subtasks og oprette nye.</p>
+
+<ul>
+    <li th:each="subTask : ${subTask}">
+        <span th:text="${subtask.subTaskName}">Subtasknavn</span>
+    </li>
+</ul>
+
+<a class="button" th:href="@{/dashboard/subprojects/createSubTask}">+ Tilføj ny subtask</a>
+
+
+<div th:replace="~{fragments/commenFragments :: footer}"></div>
+
+</body>
+</html>
