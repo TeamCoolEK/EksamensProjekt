@@ -9,9 +9,6 @@ import org.example.coolplanner.repository.Rowmapper.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-
 @Repository
 public class CoolPlannerRepository {
 
@@ -47,16 +44,6 @@ public class CoolPlannerRepository {
         return count != null && count > 0;
     }
 
-    public Employee findEmployeeById(int employeeId) {
-        String sql = "SELECT * FROM employee WHERE employeeId = ?";
-        return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), employeeId);
-    }
-
-    public Employee findEmployeeByEmail(String email) {
-        String sql = "SELECT * FROM employee WHERE email = ?";
-        return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), email);
-    }
-
     public SubProject createSubProject(SubProject subProject, Project project) {
         String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus, projectId) VALUES (?,?,?,?,?,?,?,?,?)";
         //dummy data
@@ -90,19 +77,6 @@ public class CoolPlannerRepository {
                 project.getStatus().name(),
                 employee.getEmployeeId());
         return project;
-    }
-
-    public SubProject createSubProject(SubProject subProject) {
-        String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus) VALUES (?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(sql, subProject.getSubProjectId(),
-                subProject.getSubProjectName(),
-                subProject.getSubProjectDetails(),
-                subProject.getSubProjectStartDate(),
-                subProject.getSubProjectDeadLine(),
-                subProject.getSubProjectTimeEstimate(),
-                subProject.getSubProjectActualTime(),
-                subProject.getStatus());
-        return subProject;
     }
 
     public Task createTask(Task task, SubProject subProject) {
@@ -177,6 +151,15 @@ public class CoolPlannerRepository {
     public void updateTaskTimeEstimate(Task task){
         String sql = "UPDATE task SET taskTimeEstimate = ? WHERE taskId = ?";
         jdbcTemplate.update(sql, task.getTaskTimeEstimate(), task.getTaskID());
+    }
+
+    public void updateSubProjectTimeEstimate(SubProject subProject) {
+        String sql = "UPDATE subProject SET subProjectTimeEstimate = ? WHERE subProjectId = ?";
+        jdbcTemplate.update(sql, subProject.getSubProjectTimeEstimate(), subProject.getSubProjectId());
+    }
+    public void updateProjectTimeEstimate(Project project){
+        String sql = "UPDATE project SET projectTimeEstimate = ? WHERE projectId = ?";
+        jdbcTemplate.update(sql, project.getProjectTimeEstimate(), project.getProjectId());
     }
 }
 
