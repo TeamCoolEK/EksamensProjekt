@@ -62,7 +62,7 @@ public class CoolplannerRepositoryFind {
     }
 
     public SubProject findSubProjectById(int subProjectId) {
-        String sql = "SELECT * FROM project WHERE subProjectId = ?";
+        String sql = "SELECT * FROM subProject WHERE subProjectId = ?";
         return jdbcTemplate.queryForObject(sql, new SubProjectRowMapper(), subProjectId);
     }
 

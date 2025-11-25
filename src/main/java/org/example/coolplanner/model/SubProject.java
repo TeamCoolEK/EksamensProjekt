@@ -11,8 +11,9 @@ public class SubProject {
     private int subProjectTimeEstimate;
     private int subProjectActualTime;
     private Status status;
+    private int projectId;
 
-    public SubProject(int subProjectId, String subProjectName, String subProjectDetails, LocalDate subProjectDeadLine, LocalDate subProjectStartDate, int subProjectTimeEstimate, int subProjectActualTime, Status status) {
+    public SubProject(int subProjectId, String subProjectName, String subProjectDetails, LocalDate subProjectDeadLine, LocalDate subProjectStartDate, int subProjectTimeEstimate, int subProjectActualTime, Status status, int projectId) {
         this.subProjectId = subProjectId;
         this.subProjectName = subProjectName;
         this.subProjectDetails = subProjectDetails;
@@ -21,9 +22,11 @@ public class SubProject {
         this.subProjectTimeEstimate = subProjectTimeEstimate;
         this.subProjectActualTime = subProjectActualTime;
         this.status = status;
+        this.projectId = projectId;
     }
 
-    public SubProject () {} //tom konstuktør
+    public SubProject() {
+    } //tom konstuktør
 
     public int getSubProjectId() {
         return subProjectId;
@@ -88,4 +91,13 @@ public class SubProject {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
 }

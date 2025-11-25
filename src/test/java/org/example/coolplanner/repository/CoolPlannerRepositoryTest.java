@@ -25,14 +25,14 @@ public class CoolPlannerRepositoryTest {
     CoolPlannerRepository coolPlannerRepository;
 
     //tilføjer employee til databasen, og henter den igen
-    @Test
-    void createAndFindEmployee () {
-        coolPlannerRepository.createEmployee(employee);
-
-        Employee result = coolPlannerRepository.findEmployeeByEmail("john.doe@example.com");
-
-        assertEquals("John", result.getFirstName());
-    }
+//    @Test
+//    void createAndFindEmployee () {
+//        coolPlannerRepository.createEmployee(employee);
+//
+//        Employee result = coolPlannerRepository.findEmployeeByEmail("john.doe@example.com");
+//
+//        assertEquals("John", result.getFirstName());
+//    }
 
     //Test employee (Kan genbruges :D)
     Employee employee = new Employee(

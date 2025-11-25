@@ -110,6 +110,9 @@ public class CoolPlannerService {
         Task task = repositoryFind.findTaskById(taskId);
         task.setTaskTimeEstimate(sum);
         repository.updateTaskTimeEstimate(task);
+
+        int subProjectId = task.getSubprojectID();
+        updateSubProjectTimeEstimateFromTasks(subProjectId);
     }
 
     public void closeProject(int projectId) {
@@ -130,6 +133,9 @@ public class CoolPlannerService {
     SubProject subProject = repositoryFind.findSubProjectById(subProjectId);
         subProject.setSubProjectTimeEstimate(sum);
         repository.updateSubProjectTimeEstimate(subProject);
+
+        int projectId = subProject.getProjectId();
+        updateProjectTimeEstimateFromSubProjects(projectId);
     }
 
     public void updateProjectTimeEstimateFromSubProjects(int projectId){

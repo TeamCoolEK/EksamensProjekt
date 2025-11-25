@@ -14,7 +14,9 @@ public class SubTask {
     private Status status;
     private int employeeId;
 
-    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status) {
+    private int taskId;
+
+    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status, int taskId) {
         this.subTaskId = subTaskId;
         this.subTaskName = subTaskName;
         this.subTaskDetails = subTaskDetails;
@@ -92,12 +94,22 @@ public class SubTask {
     public void setStatus(Status status) {
         this.status = status;
     }
-public int getEmployeeId(){
-        return employeeId;
-}
 
-public void setEmployeeId(int employeeId){
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
-}
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
 }
 
