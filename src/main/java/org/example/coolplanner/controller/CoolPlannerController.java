@@ -72,6 +72,7 @@ public class CoolPlannerController {
     @GetMapping("/createTask/{id}")
     public String createTask(@PathVariable int id, Model model) {
         model.addAttribute("task", new Task());
+        model.addAttribute("subProjectId", id);
         return "createTask";
     }
     //ENDPOINT til at gemme task i databasen
@@ -81,7 +82,7 @@ public class CoolPlannerController {
         coolPlannerService.createTask(task, subProject);
         coolPlannerService.updateSubProjectTimeEstimateFromTasks(id);
 
-        return "redirect:/XYZ";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/project/{id}/edit")

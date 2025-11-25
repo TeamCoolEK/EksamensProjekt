@@ -20,7 +20,7 @@ public class SubProjectRowMapper implements RowMapper<SubProject> {
         subProject.setSubProjectTimeEstimate(rs.getInt("subProjectTimeEstimate"));
         subProject.setSubProjectActualTime(rs.getInt("subProjectActualTime"));
         subProject.setStatus(Status.valueOf(rs.getString("subProjectStatus")));
-
+        subProject.setProjectId(rs.getInt("projectId"));
         return subProject;
     }
 }
