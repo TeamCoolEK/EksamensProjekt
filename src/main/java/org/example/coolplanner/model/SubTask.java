@@ -1,19 +1,20 @@
 package org.example.coolplanner.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SubTask {
     private int subTaskId;
     private String subTaskName;
     private String subTaskDetails;
-    private Date subTaskStartDate;
-    private Date subTaskDeadLine;
+    private LocalDate subTaskStartDate;
+    private LocalDate subTaskDeadLine;
     private int subTaskTimeEstimate;
     private int subTaskActualTime;
     private Status status;
     private int employeeId;
 
-    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, Date subTaskStartDate, Date subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status, int taskId) {
+    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status) {
         this.subTaskId = subTaskId;
         this.subTaskName = subTaskName;
         this.subTaskDetails = subTaskDetails;
@@ -52,19 +53,19 @@ public class SubTask {
         this.subTaskDetails = subTaskDetails;
     }
 
-    public Date getSubTaskStartDate() {
+    public LocalDate getSubTaskStartDate() {
         return subTaskStartDate;
     }
 
-    public void setSubTaskStartDate(Date subTaskStartDate) {
+    public void setSubTaskStartDate(LocalDate subTaskStartDate) {
         this.subTaskStartDate = subTaskStartDate;
     }
 
-    public Date getSubTaskDeadLine() {
+    public LocalDate getSubTaskDeadLine() {
         return subTaskDeadLine;
     }
 
-    public void setSubTaskDeadLine(Date subTaskDeadLine) {
+    public void setSubTaskDeadLine(LocalDate subTaskDeadLine) {
         this.subTaskDeadLine = subTaskDeadLine;
     }
 

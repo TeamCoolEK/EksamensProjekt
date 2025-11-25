@@ -49,6 +49,7 @@ public class CoolPlannerController {
     public String saveSubProject(@PathVariable int id, @ModelAttribute SubProject subProject) {
         Project project = coolPlannerService.findProjectById(id);
         coolPlannerService.createSubProject(subProject, project);
+        coolPlannerService.updateProjectTimeEstimateFromSubProjects(id);
         return "redirect:/dashboard";
     }
 
@@ -65,7 +66,7 @@ public class CoolPlannerController {
         Task task = coolPlannerService.getTaskById(id);
         coolPlannerService.createSubTask(SubTask, task);
         coolPlannerService.updateTaskTimeEstimateFromSubTasks(id);
-        return "redirect:/XYZ";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/createTask/{id}")
@@ -78,6 +79,8 @@ public class CoolPlannerController {
     public String saveTask(@PathVariable int id, @ModelAttribute Task task) {
         SubProject subProject = coolPlannerService.findSubProjectById(id);
         coolPlannerService.createTask(task, subProject);
+        coolPlannerService.updateSubProjectTimeEstimateFromTasks(id);
+
         return "redirect:/XYZ";
     }
 
