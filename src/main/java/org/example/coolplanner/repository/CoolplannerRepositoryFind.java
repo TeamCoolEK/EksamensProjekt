@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class CoolplannerRepositoryFind {
 
-        private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public CoolplannerRepositoryFind(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

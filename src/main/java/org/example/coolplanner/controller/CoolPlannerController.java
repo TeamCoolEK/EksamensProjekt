@@ -21,13 +21,13 @@ public class CoolPlannerController {
     public CoolPlannerController(CoolPlannerService coolPlannerService) {
         this.coolPlannerService = coolPlannerService;
     }
-
+    //ENDPOINT til createProject
     @GetMapping("/createProject")
     public String createProject(Model model) {
         model.addAttribute("project", new Project());
         return "createProject";
     }
-
+    //ENDPOINT til at gemme project i databasen
     @PostMapping("/saveProject")
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
@@ -37,26 +37,26 @@ public class CoolPlannerController {
         coolPlannerService.createProject(project, employeeTest);
         return "redirect:/XYZ";
     }
-
-    @GetMapping("/createSubProject/{id}")
+    //ENDPOINT til createSubProject
+    @GetMapping("/createSubProject/{id}") //{id bruges til at tildele projectId}
     public String createSubProject(@PathVariable int id, Model model) {
         model.addAttribute("subProject", new SubProject());
         return "createSubProject";
     }
-
+    //ENDPOINT til at gemme subProject i databasen
     @PostMapping("/saveSubProject/{id}")
     public String saveSubProject (@PathVariable int id, @ModelAttribute SubProject subProject) {
         Project project = coolPlannerService.findProjectById(id);
         coolPlannerService.createSubProject(subProject, project);
         return "redirect:/XYZ";
     }
-
+    //ENDPOINT til createSubTask
     @GetMapping("/createSubTask/{id}")
     public String createSubTask (@PathVariable int id, Model model) {
         model.addAttribute("subTask", new SubTask());
         return "createSubTask";
     }
-
+    //ENDPOINT til at gemme subTask i databasen
     @PostMapping("/saveSubTask/{id}")
     public String saveSubTask (@PathVariable int id, @ModelAttribute SubTask SubTask, Model model) {
         //Find task metode i stedet for ny task her!!!!!!
@@ -64,13 +64,13 @@ public class CoolPlannerController {
         coolPlannerService.createSubTask(SubTask, task);
         return "redirect:/XYZ";
     }
-
+    //ENDPOINT til createTask
     @GetMapping("/createTask/{id}")
     public String createTask(@PathVariable int id, Model model) {
         model.addAttribute("task", new Task());
         return "createTask";
     }
-
+    //ENDPOINT til at gemme task i databasen
     @PostMapping("/saveTask/{id}")
     public String saveTask(@PathVariable int id, @ModelAttribute Task task) {
         SubProject subProject = coolPlannerService.findSubProjectById(id);

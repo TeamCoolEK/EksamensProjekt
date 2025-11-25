@@ -14,6 +14,7 @@ public class Project {
     private int projectActualTime;
     private Status status;
 
+
     public Project (int projectId, String projectName, String projectDetails, LocalDate projectStartDate, LocalDate projectDeadLine, int projectTimeEstimate, int projectActualTime, Status status) {
         this.projectId = projectId;
         this.projectName = projectName;
