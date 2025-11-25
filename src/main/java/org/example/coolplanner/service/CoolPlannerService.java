@@ -88,6 +88,7 @@ public class CoolPlannerService {
     }
 
     public void updateTask(Task task) {
+        repository.updateTask(task);
 
     }
 
@@ -98,4 +99,10 @@ public class CoolPlannerService {
     public void updateSubProject(SubProject subProject) {
         repository.updateSubProject(subProject);
     }
+
+
+    public void updateSubTask(SubTask subTask) {
+        repository.updateSubTask(subTask);
+    }
 }
+

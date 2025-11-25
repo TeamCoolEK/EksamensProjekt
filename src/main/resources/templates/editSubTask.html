@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Rediger SubTask</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="formPage">
+    <h1>Rediger SubTask</h1>
+    <p class="subtitle">Opdater oplysninger for SubTask</p>
+
+    <form th:action="@{/updateSubTask}" th:object="${subTask}" method="post">
+        <!-- Hidden fields -->
+        <input type="hidden" th:field="*{subTaskId}" />
+        <input type="hidden" th:field="*{taskId}" />
+
+        <label for="subTaskName">Navn:</label>
+        <input id="subTaskName" type="text" th:field="*{subTaskName}" required />
+
+        <label for="subTaskDetails">Beskrivelse:</label>
+        <textarea id="subTaskDetails" th:field="*{subTaskDetails}"></textarea>
+
+        <label for="subTaskStartDate">Startdato:</label>
+        <input id="subTaskStartDate" type="date" th:field="*{subTaskStartDate}" />
+
+        <label for="subTaskDeadLine">Deadline:</label>
+        <input id="subTaskDeadLine" type="date" th:field="*{subTaskDeadLine}" />
+
+        <label for="subTaskTimeEstimate">Tidsestimat (timer):</label>
+        <input id="subTaskTimeEstimate" type="number" step="0.5" th:field="*{subTaskTimeEstimate}" />
+
+        <label for="subTaskActualTime">Faktisk tid (timer):</label>
+        <input id="subTaskActualTime" type="number" step="0.5" th:field="*{subTaskActualTime}" />
+
+        <label for="status">Status:</label>
+        <select id="status" th:field="*{status}">
+            <option th:value="Ikke_startet">Ikke startet</option>
+            <option th:value="I_gang">I gang</option>
+            <option th:value="Afsluttet">Afsluttet</option>
+        </select>
+
+        <div class="buttonGroup">
+            <button type="submit">Gem ændringer</button>
+            <a th:href="@{/task/{id}(id=${subTask.taskId})}" class="btn-secondary">Annuller</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
