@@ -88,6 +88,7 @@ public class CoolPlannerService {
     }
 
     public void updateTask(Task task) {
+        repository.updateTask(task);
 
     }
 
@@ -134,3 +135,4 @@ public class CoolPlannerService {
         repository.updateProjectTimeEstimate(project);
     }
 }
+

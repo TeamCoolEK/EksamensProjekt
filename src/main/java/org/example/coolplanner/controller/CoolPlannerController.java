@@ -46,7 +46,7 @@ public class CoolPlannerController {
     }
 
     @PostMapping("/saveSubProject/{id}")
-    public String saveSubProject (@PathVariable int id, @ModelAttribute SubProject subProject) {
+    public String saveSubProject(@PathVariable int id, @ModelAttribute SubProject subProject) {
         Project project = coolPlannerService.findProjectById(id);
         coolPlannerService.createSubProject(subProject, project);
         coolPlannerService.updateProjectTimeEstimateFromSubProjects(id);
@@ -54,14 +54,14 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/createSubTask/{id}")
-    public String createSubTask (@PathVariable int id, Model model) {
+    public String createSubTask(@PathVariable int id, Model model) {
         model.addAttribute("subTask", new SubTask());
         model.addAttribute("taskId", id);
         return "createSubTask";
     }
 
     @PostMapping("/saveSubTask/{id}")
-    public String saveSubTask (@PathVariable int id, @ModelAttribute SubTask SubTask, Model model) {
+    public String saveSubTask(@PathVariable int id, @ModelAttribute SubTask SubTask, Model model) {
         //Find task metode i stedet for ny task her!!!!!!
         Task task = coolPlannerService.getTaskById(id);
         coolPlannerService.createSubTask(SubTask, task);
@@ -90,7 +90,7 @@ public class CoolPlannerController {
         if (project == null) {
             return "redirect:/";
         }
-   model.addAttribute("project", project);
+        model.addAttribute("project", project);
         return "editProject";
     }
 
@@ -104,7 +104,7 @@ public class CoolPlannerController {
             coolPlannerService.updateProject(form);
             return "redirect:";
         } catch (IllegalArgumentException e) {
-            model.addAttribute("prject", form);
+            model.addAttribute("project", form);
             model.addAttribute("errorMessage", e.getMessage());
             return "editProject";
         }
@@ -113,10 +113,10 @@ public class CoolPlannerController {
     @GetMapping("/subProject/{id}/edit")
     public String updateSubProject(@PathVariable int id,
                                    @ModelAttribute SubProject form,
-                                   Model model){
+                                   Model model) {
         form.setSubProjectId(id);
 
-        try{
+        try {
             coolPlannerService.updateSubProject(form);
             return "redirect:";
         } catch (IllegalArgumentException e) {
@@ -139,5 +139,26 @@ public class CoolPlannerController {
         return "redirect:/XYZ";
     }
 
+    @GetMapping("/editSubTask/{id}")
+    public String editSubTask(@PathVariable("id") int id, Model model) {
+        SubTask subTask = coolPlannerService.getSubTaskById(id);
+        if (subTask == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("subTask", subTask);
+        return "editSubTask";
+    }
+
+    @PostMapping("/updateSubTask")
+    public String updateSubTask(@ModelAttribute("subTask") SubTask subTask, Model model) {
+        try {
+            coolPlannerService.updateSubTask(subTask);
+            return "redirect:/task/" + subTask.getTaskId();
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("subTask", subTask);
+            model.addAttribute("errorMessage", e.getMessage());
+            return "editSubTask";
+        }
+    }
 }
 

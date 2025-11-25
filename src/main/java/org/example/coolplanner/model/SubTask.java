@@ -23,6 +23,7 @@ public class SubTask {
         this.subTaskTimeEstimate = subTaskTimeEstimate;
         this.subTaskActualTime = subTaskActualTime;
         this.status = status;
+        this.taskId = taskId;
     }
 
     public SubTask() {
