@@ -13,7 +13,7 @@ public class SubTask {
     private Status status;
     private int employeeId;
 
-    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, Date subTaskStartDate, Date subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status) {
+    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, Date subTaskStartDate, Date subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status, int taskId) {
         this.subTaskId = subTaskId;
         this.subTaskName = subTaskName;
         this.subTaskDetails = subTaskDetails;
@@ -22,6 +22,7 @@ public class SubTask {
         this.subTaskTimeEstimate = subTaskTimeEstimate;
         this.subTaskActualTime = subTaskActualTime;
         this.status = status;
+        this.taskId = taskId;
     }
 
     public SubTask() {

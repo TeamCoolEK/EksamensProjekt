@@ -121,6 +121,21 @@ public class CoolPlannerRepository {
         return task;
     }
 
+    public void updateTask(Task task) {
+        String sql = "UPDATE task SET taskName = ?, taskDetails = ?, taskStartDate = ?, " + "taskDeadline = ?, taskTimeEstimate = ?, taskActualTime = ?, taskStatus = ? " +
+                "WHERE taskId = ?";
+
+        jdbcTemplate.update(sql,
+                task.getTaskName(),
+                task.getTaskDetails(),
+                task.getTaskStartDate(),
+                task.getTaskDeadline(),
+                task.getTaskTimeEstimate(),
+                task.getTaskActualTime(),
+                task.getTaskStatus().name(),
+                task.getTaskID());
+    }
+
     public SubTask createSubTask(SubTask subTask, Task task) {
         String sql = "INSERT INTO subTask (subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, taskId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -142,7 +157,24 @@ public class CoolPlannerRepository {
         return subTask;
     }
 
-    public void updateProject(Project project) {
+    public void updateSubTask(SubTask subTask) {
+        String sql = "UPDATE subTask SET subTaskName = ?, subTaskDetails = ?, subTaskStartDate = ?, " +
+                "subTaskDeadline = ?, subTaskTimeEstimate = ?, subTaskActualTime = ?, subTaskStatus = ? " +
+                "WHERE subTaskId = ?";
+
+        jdbcTemplate.update(sql,
+                subTask.getSubTaskName(),
+                subTask.getSubTaskDetails(),
+                subTask.getSubTaskStartDate(),
+                subTask.getSubTaskDeadLine(),
+                subTask.getSubTaskTimeEstimate(),
+                subTask.getSubTaskActualTime(),
+                subTask.getStatus().name(),
+                subTask.getSubTaskId());
+
+    }
+
+        public void updateProject(Project project) {
         String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDato = ?, " +
                 "projectDeadline = ?, projectTimeEstimate = ?, projectActualTime = ?, projectStatus = ? " +
                 "WHERE projectId = ?";
