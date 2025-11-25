@@ -7,7 +7,9 @@
 <body>
 <h1>Opret task</h1>
 
-<form th:action="@{/saveSubTask}" th:object="${subTask}" method="post">
+<form th:action="@{/saveSubTask/{id}(id=${taskId})}"
+      th:object="${subTask}"
+      method="post">
 
     <label>Del-projektets navn:</label>
     <input type="text" placeholder="Navn" th:field="*{subTaskName}" required>

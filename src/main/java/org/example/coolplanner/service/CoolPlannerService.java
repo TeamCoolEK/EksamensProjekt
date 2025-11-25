@@ -100,9 +100,16 @@ public class CoolPlannerService {
         repository.updateSubProject(subProject);
     }
 
+    public void updateTaskTimeEstimateFromSubTasks(int taskId){
+        List<SubTask> subTasks = repositoryFind.findSubTasksByTaskId(taskId);
 
-    public void updateSubTask(SubTask subTask) {
-        repository.updateSubTask(subTask);
+        int sum = 0;
+        for(SubTask subTask : subTasks){
+            sum += subTask.getSubTaskTimeEstimate();
+        }
+        Task task = repositoryFind.findTaskById(taskId);
+        task.setTaskTimeEstimate(sum);
+        repository.updateTaskTimeEstimate(task);
     }
 }
 

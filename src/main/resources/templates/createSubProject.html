@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>Opret del-projekt</title>
 </head>
 <body>
 <h1>Opret del-projekt</h1>
 
-<form th:action="@{/saveSubProject}" th:object="${subProject}" method="post">
+<form th:action="@{/saveSubProject/{id}(id=${projectId})}"
+      th:object="${subProject}"
+      method="post">
 
   <label>Del-projektets navn:</label>
   <input type="text" placeholder="Navn" th:field="*{subProjectName}" required>

@@ -41,6 +41,7 @@ public class CoolPlannerController {
     @GetMapping("/createSubProject/{id}")
     public String createSubProject(@PathVariable int id, Model model) {
         model.addAttribute("subProject", new SubProject());
+        model.addAttribute("projectId", id);
         return "createSubProject";
     }
 
@@ -48,12 +49,13 @@ public class CoolPlannerController {
     public String saveSubProject(@PathVariable int id, @ModelAttribute SubProject subProject) {
         Project project = coolPlannerService.findProjectById(id);
         coolPlannerService.createSubProject(subProject, project);
-        return "redirect:/XYZ";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/createSubTask/{id}")
     public String createSubTask(@PathVariable int id, Model model) {
         model.addAttribute("subTask", new SubTask());
+        model.addAttribute("taskId", id);
         return "createSubTask";
     }
 
@@ -62,6 +64,7 @@ public class CoolPlannerController {
         //Find task metode i stedet for ny task her!!!!!!
         Task task = coolPlannerService.getTaskById(id);
         coolPlannerService.createSubTask(SubTask, task);
+        coolPlannerService.updateTaskTimeEstimateFromSubTasks(id);
         return "redirect:/XYZ";
     }
 
