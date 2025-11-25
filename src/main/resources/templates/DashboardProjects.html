@@ -12,7 +12,9 @@
 
 <ul>
     <li th:each="project : ${projects}">
-        <span th:text="${project.projectName}">Projektnavn</span>
+        <a th:href="@{'/projects/' + ${project.projectId}}">
+            <span th:text="${project.projectName}">Projektnavn</span>
+        </a>
     </li>
 </ul>
 <a class="button" th:href="@{/dashboard/projects/createProject}">+ Tilføj nyt projekt</a>

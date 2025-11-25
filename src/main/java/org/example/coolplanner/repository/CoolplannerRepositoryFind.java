@@ -71,6 +71,11 @@ public class CoolplannerRepositoryFind {
         return jdbcTemplate.query(sql, new SubTaskRowMapper(), taskId);
     }
 
+    public List<Project> findClosedProjects(int employeeId) {
+        String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus = 'LUKKET'";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
+    }
+
     public List<Task> findTasksBySubProjectId(int subProjectId) {
         String sql = "SELECT * FROM task WHERE subProjectId = ?";
         return jdbcTemplate.query(sql, new TaskRowMapper(), subProjectId);
