@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> CoolPlanner | Lukkede projekter </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>Lukkede projekter</h1>
+
+<table>
+    <tr>
+        <th>Projekt</th>
+        <th>Status</th>
+    </tr>
+
+    <tr th:each="p : ${closedProjects}">
+        <td th:text="${p.projectName}"></td>
+        <td th:text="${p.status}"></td>
+    </tr>
+</table>
+
+<a th:href="@{/dashboard}">Tilbage</a>
+
+
+</body>
+</html>

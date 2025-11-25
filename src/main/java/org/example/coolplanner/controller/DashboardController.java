@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.service.CoolPlannerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -115,6 +118,36 @@ public class DashboardController {
         model.addAttribute("subTasks", subTasks);
 
         return "DashboardSubTasks";
+    }
+
+    //Side med lukkede projekter
+    @GetMapping("/dashboard/projects/closed")
+    public String showClosedProjects(HttpSession session, Model model) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) return "redirect:/login";
+
+        List<Project> closedProjects = coolPlannerService.getClosedProjects(employee.getEmployeeId());
+        model.addAttribute("employee", employee);
+        model.addAttribute("closedProjects", closedProjects);
+        return "closedProjects";
+    }
+
+    //Side til ét projekt ved at bruge navn.
+    @GetMapping("/projects/{projectName}")
+    public String showProject(@PathVariable int projectId, Model model) {
+        Project project = coolPlannerService.findProjectById(projectId);
+        model.addAttribute("project", project);
+        return "projectDetails";
+    }
+
+    @PostMapping("/projects/{projectId}/close")
+    public String closeProject(@PathVariable int projectId, @RequestParam(required = false) String confirm) {
+
+        // Checkbox sender fx value="on"
+        if (confirm != null) {
+            coolPlannerService.closeProject(projectId); // sætter status til LUKKET
+        }
+        return "redirect:/projects/" + projectId;
     }
     }
 

@@ -110,4 +110,14 @@ public class CoolPlannerService {
         task.setTaskTimeEstimate(sum);
         repository.updateTaskTimeEstimate(task);
     }
+
+    public void closeProject(int projectId) {
+        repository.closeProject(projectId);
+    }
+
+     public List<Project> getClosedProjects(int employeeId) {
+        return repositoryFind.findClosedProjects(employeeId);
+    }
+
+
 }

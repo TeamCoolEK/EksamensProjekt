@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> CoolPlanner | Projekt </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1 th:text="${project.projectName}"></h1>
+
+<h3>Luk projekt</h3>
+
+<form th:action="@{/projects/{id}/close(id=${project.projectName})}" method="post">
+    <label>
+        <input type="checkbox" name="confirm">
+        Jeg bekræfter, at jeg vil lukke projektet.
+    </label>
+
+    <button type="submit">Luk projekt</button>
+</form>
+
+</body>
+</html>

@@ -178,6 +178,13 @@ public class CoolPlannerRepository {
         String sql = "UPDATE task SET taskTimeEstimate = ? WHERE taskId = ?";
         jdbcTemplate.update(sql, task.getTaskTimeEstimate(), task.getTaskID());
     }
+
+    public void closeProject(int projectId) {
+        String sql = "UPDATE project SET projectStatus = 'LUKKET' WHERE projectId = ?";
+        jdbcTemplate.update(sql, projectId);
+    }
+
+
 }
 
 
