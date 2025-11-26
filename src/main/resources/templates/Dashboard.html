@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
+
 <h1> Velkommen, <span th:text="${employee.firstName}">Bruger</span> </h1>
 <h2> På denne side har du dit Dashboard med overblik over alle aktive projekter <br>
-        Du kan også tilgå delprojekter, user stories samt task. God arbejdslyst.
+        Du kan også tilgå delprojekter, user stories samt tasks. God arbejdslyst.
 </h2>
 
 <ul>
@@ -18,7 +20,9 @@
     <li><a th:href="@{/dashboard/subTasks}">Se sub tasks</a></li>
 </ul>
 
-<a th:href="@{/dashboard/projects/closed}">Lukkede projekter</a>
+<a th:href="@{/dashboard/projects/closedProjects}">Lukkede projekter</a>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 
 </body>
 </html>

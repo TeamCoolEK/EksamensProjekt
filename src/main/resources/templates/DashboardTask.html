@@ -6,12 +6,18 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
+
 <h1>Dine tasks</h1>
 <p>Her kan du se dine tasks til projektet og oprette nye.</p>
 
 <ul>
-    <li th:each="Task : ${Task}">
-        <span th:text="${task.TaskName}">Tasknavn</span>
+    <li th:each="task : ${tasks}">
+        <span th:text="${task.taskName}">Tasknavn</span>
+        <a class="button small"
+           th:href="@{/editTask/{id}(id=${task.taskID})}">
+            Rediger
+        </a>
     </li>
 </ul>
 

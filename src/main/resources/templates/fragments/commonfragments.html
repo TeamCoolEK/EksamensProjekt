@@ -2,7 +2,31 @@
 <!-- Genbrugelige fragments til navbar, header, footer -->
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <body>
+<!-- Top navigation (højre hjørne) -->
+<nav th:fragment="navbar">
+    <div class="navbar-container">
 
+        <!-- Venstre side: Logo -->
+        <div class="navbar-venstre">
+            <a th:href="@{/dashboard}" class="logo">CoolPlanner</a>
+        </div>
+
+        <!-- Højre side: Rediger profil og log ud knapper -->
+        <!-- Rediger profil-knap -->
+        <!-- Her bruger vi 'session.employee.employeeId' – så vi ikke skal sende employee med som parameter hver gang.-->
+        <div class="navbar-højre" th:if="${session.employee != null}">
+            <a class="btn secondary small"
+               th:href="@{/employee/{id}/editEmployee(id=${session.employee.employeeId})}">
+                Rediger profil
+            </a>
+
+            <!-- Log ud-knap -->
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn small">Log ud</button>
+            </form>
+        </div>
+    </div>
+</nav>
 
 <!-- Footer med kontaktinfo -->
 <footer th:fragment="footer">
