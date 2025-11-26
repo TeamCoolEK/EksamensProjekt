@@ -200,7 +200,3 @@ public class CoolPlannerRepository {
         jdbcTemplate.update(sql, project.getProjectTimeEstimate(), project.getProjectId());
     }
 }
-
-
-
-
