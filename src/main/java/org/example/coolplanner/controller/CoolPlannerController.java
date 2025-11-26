@@ -61,7 +61,7 @@ public class CoolPlannerController {
     }
     //ENDPOINT til at gemme subTask i databasen
     @PostMapping("/saveSubTask/{id}")
-    public String saveSubTask(@PathVariable int id, @ModelAttribute SubTask SubTask, Model model) {
+    public String saveSubTask(@PathVariable int id, @ModelAttribute SubTask subTask, Model model) {
         //Find task metode i stedet for ny task her!!!!!!
         Task task = coolPlannerService.getTaskById(id);
         coolPlannerService.createSubTask(SubTask, task);
@@ -72,6 +72,7 @@ public class CoolPlannerController {
     @GetMapping("/createTask/{id}")
     public String createTask(@PathVariable int id, Model model) {
         model.addAttribute("task", new Task());
+        model.addAttribute("subProjectId", id);
         return "createTask";
     }
     //ENDPOINT til at gemme task i databasen
@@ -81,7 +82,7 @@ public class CoolPlannerController {
         coolPlannerService.createTask(task, subProject);
         coolPlannerService.updateSubProjectTimeEstimateFromTasks(id);
 
-        return "redirect:/XYZ";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/project/{id}/edit")

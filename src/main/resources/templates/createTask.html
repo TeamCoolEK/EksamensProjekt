@@ -9,7 +9,9 @@
 
 <h1>Opret Task</h1>
 
-<form th:action="@{/saveTask}" th:object = "${task}" method="post">
+<form th:action="@{/saveTask/{id}(id=${subProjectId})}"
+      th:object="${task}"
+      method="post">
 
     <label>Navn på Task:</label>
     <input type="text" th:field="*{taskName}" required>

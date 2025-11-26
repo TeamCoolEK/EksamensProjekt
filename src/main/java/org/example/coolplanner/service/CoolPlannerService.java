@@ -33,6 +33,12 @@ public class CoolPlannerService {
     public SubTask createSubTask(SubTask subTask, Task task) {
         return repository.createSubTask(subTask, task);
     }
+    public SubTask getSubTaskById(int id) {
+        return repositoryFind.findSubTaskById(id);
+    }
+    public void updateSubTask(SubTask subTask) {
+        repository.updateSubTask(subTask);
+    }
 
     public void createEmployee(Employee employee) {
         if (repository.emailExists(employee.getEmail())) {
@@ -110,6 +116,9 @@ public class CoolPlannerService {
         Task task = repositoryFind.findTaskById(taskId);
         task.setTaskTimeEstimate(sum);
         repository.updateTaskTimeEstimate(task);
+
+        int subProjectId = task.getSubprojectID();
+        updateSubProjectTimeEstimateFromTasks(subProjectId);
     }
 
     public void closeProject(int projectId) {
@@ -130,6 +139,9 @@ public class CoolPlannerService {
     SubProject subProject = repositoryFind.findSubProjectById(subProjectId);
         subProject.setSubProjectTimeEstimate(sum);
         repository.updateSubProjectTimeEstimate(subProject);
+
+        int projectId = subProject.getProjectId();
+        updateProjectTimeEstimateFromSubProjects(projectId);
     }
 
     public void updateProjectTimeEstimateFromSubProjects(int projectId){
