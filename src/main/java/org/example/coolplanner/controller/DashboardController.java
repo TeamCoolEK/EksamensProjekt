@@ -149,6 +149,6 @@ public class DashboardController {
         }
         return "redirect:/projects/" + projectId;
     }
-    }
+}
 
 
