@@ -5,6 +5,9 @@
   <title>Opret del-projekt</title>
 </head>
 <body>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
+
+
 <h1>Opret del-projekt</h1>
 
 <form th:action="@{/saveSubProject/{id}(id=${projectId})}"
@@ -25,5 +28,7 @@
 
   <button type="submit">Opret del-projekt</button>
 </form>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

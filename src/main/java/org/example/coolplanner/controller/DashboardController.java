@@ -121,7 +121,7 @@ public class DashboardController {
     }
 
     //Side med lukkede projekter
-    @GetMapping("/dashboard/projects/closed")
+    @GetMapping("/dashboard/projects/closedProjects")
     public String showClosedProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) return "redirect:/login";
@@ -133,7 +133,7 @@ public class DashboardController {
     }
 
     //Side til ét projekt ved at bruge navn.
-    @GetMapping("/projects/{projectName}")
+    @GetMapping("/projects/{projectId}")
     public String showProject(@PathVariable int projectId, Model model) {
         Project project = coolPlannerService.findProjectById(projectId);
         model.addAttribute("project", project);

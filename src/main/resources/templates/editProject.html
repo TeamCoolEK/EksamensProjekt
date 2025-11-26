@@ -6,6 +6,8 @@
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
+
 
 <div class="formPage">
   <h1>Rediger projekt</h1>
@@ -50,5 +52,6 @@
   </form>
 </div>
 
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

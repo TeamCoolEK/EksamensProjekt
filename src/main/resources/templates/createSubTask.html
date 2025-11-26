@@ -5,6 +5,8 @@
     <title>Opret task</title>
 </head>
 <body>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
+
 <h1>Opret task</h1>
 
 <form th:action="@{/saveSubTask/{id}(id=${taskId})}"
@@ -28,5 +30,7 @@
 
     <button type="submit">Opret subtask</button>
 </form>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>
