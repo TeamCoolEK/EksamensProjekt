@@ -31,10 +31,7 @@ public class CoolPlannerController {
     @PostMapping("/saveProject")
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
-        //sætter employee ID til 0 for test
-        Employee employeeTest = new Employee();
-        employeeTest.setEmployeeId(1);
-        coolPlannerService.createProject(project, employeeTest);
+        coolPlannerService.createProject(project, employee);
         return "redirect:/XYZ";
     }
     //ENDPOINT til createSubProject
@@ -64,7 +61,7 @@ public class CoolPlannerController {
     public String saveSubTask(@PathVariable int id, @ModelAttribute SubTask subTask, Model model) {
         //Find task metode i stedet for ny task her!!!!!!
         Task task = coolPlannerService.getTaskById(id);
-        coolPlannerService.createSubTask(SubTask, task);
+        coolPlannerService.createSubTask(subTask, task);
         coolPlannerService.updateTaskTimeEstimateFromSubTasks(id);
         return "redirect:/dashboard";
     }
