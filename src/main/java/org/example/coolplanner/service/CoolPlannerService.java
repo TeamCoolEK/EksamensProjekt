@@ -33,6 +33,12 @@ public class CoolPlannerService {
     public SubTask createSubTask(SubTask subTask, Task task) {
         return repository.createSubTask(subTask, task);
     }
+    public SubTask getSubTaskById(int id) {
+        return repositoryFind.findSubTaskById(id);
+    }
+    public void updateSubTask(SubTask subTask) {
+        repository.updateSubTask(subTask);
+    }
 
     public void createEmployee(Employee employee) {
         if (repository.emailExists(employee.getEmail())) {
