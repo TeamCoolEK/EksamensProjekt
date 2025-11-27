@@ -10,15 +10,21 @@
 
 <h1> Velkommen, <span th:text="${employee.firstName}">Bruger</span> </h1>
 <h2> På denne side har du dit Dashboard med overblik over alle aktive projekter <br>
-        Du kan også tilgå delprojekter, user stories samt tasks. God arbejdslyst.
+        Tilgå delprojekter, ved at vælge et projekt. God arbejdslyst.
 </h2>
 
+<p><br>Projekter for <span th:text="${employee.firstName}">Bruger</span></p>
+<p>Her kan du se alle dine aktive projekter.</p>
+
 <ul>
-    <li><a th:href="@{/dashboard/projects}">Se projekter</a></li>
-    <li><a th:href="@{/dashboard/subprojects}">Se delprojekter</a></li>
-    <li><a th:href="@{/dashboard/tasks}">Se tasks</a></li>
-    <li><a th:href="@{/dashboard/subTasks}">Se sub tasks</a></li>
+    <li th:each="project : ${projects}">
+        <a th:href="@{'/projects/' + ${project.projectId}}">
+            <span th:text="${project.projectName}">Projektnavn</span>
+        </a>
+    </li>
 </ul>
+
+<a class="button" th:href="@{/dashboard/projects/createProject}">+ Tilføj nyt projekt</a>
 
 <a th:href="@{/dashboard/projects/closedProjects}">Lukkede projekter</a>
 

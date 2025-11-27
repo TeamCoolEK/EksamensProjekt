@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dashboard")
+@RequestMapping("")
 public class DashboardController {
 
     private final CoolPlannerService coolPlannerService;
@@ -22,11 +22,11 @@ public class DashboardController {
     //Hoveddashboard til at vise knapper videre til projects,sub-projects osv.
     //Bruger HttpSession og session.getAttribute "employee" for at sikre det er den rigtige bruger, hvis oplysninger vi henter.
     //Model model bruges til at sende data til HTML-siden.
-    @GetMapping("/")
+    @GetMapping("/dashboard")
     public String showDashboard(Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee"); // Henter bruger fra session
         if (employee == null) {
-            return "redirect:/login"; // Sender bruger videre til login-side, hvis bruger ikke er logget ind
+            return "redirect:/employee/login"; // Sender bruger videre til login-side, hvis bruger ikke er logget ind
         }
         //Tjekker om der rent faktisk ligger en bruger i sessionen (altså at brugeren er logget ind).
         int employeeId = employee.getEmployeeId(); // Henter brugerens ID fra employee-objektet.
@@ -49,7 +49,7 @@ public class DashboardController {
     }
 
     // 1) Side med projekter
-    @GetMapping("/projects")
+    @GetMapping("/dashboard/projects")
     public String showProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -66,7 +66,7 @@ public class DashboardController {
     }
 
     // 2) Side med delprojekter
-    @GetMapping("/subprojects")
+    @GetMapping("/dashboard/subprojects")
     public String showSubProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -84,7 +84,7 @@ public class DashboardController {
     }
 
     // 3) Side med task
-    @GetMapping("/task")
+    @GetMapping("/dashboard/task")
     public String showTask(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -102,7 +102,7 @@ public class DashboardController {
     }
 
     // 4) Side med tasks
-    @GetMapping("/subTasks")
+    @GetMapping("/dashboard/subTasks")
     public String showTasks(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
