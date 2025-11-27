@@ -78,7 +78,6 @@ public class CoolPlannerController {
         SubProject subProject = coolPlannerService.findSubProjectById(id);
         coolPlannerService.createTask(task, subProject);
         coolPlannerService.updateSubProjectTimeEstimateFromTasks(id);
-
         return "redirect:/dashboard";
     }
 

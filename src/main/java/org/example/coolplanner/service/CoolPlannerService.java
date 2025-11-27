@@ -5,6 +5,7 @@ import org.example.coolplanner.repository.CoolPlannerRepository;
 import org.example.coolplanner.repository.CoolplannerRepositoryFind;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -33,9 +34,11 @@ public class CoolPlannerService {
     public SubTask createSubTask(SubTask subTask, Task task) {
         return repository.createSubTask(subTask, task);
     }
+
     public SubTask getSubTaskById(int id) {
         return repositoryFind.findSubTaskById(id);
     }
+
     public void updateSubTask(SubTask subTask) {
         repository.updateSubTask(subTask);
     }
@@ -125,7 +128,7 @@ public class CoolPlannerService {
         repository.closeProject(projectId);
     }
 
-     public List<Project> getClosedProjects(int employeeId) {
+    public List<Project> getClosedProjects(int employeeId) {
         return repositoryFind.findClosedProjects(employeeId);
     }
 
@@ -133,10 +136,10 @@ public class CoolPlannerService {
     public void updateSubProjectTimeEstimateFromTasks(int subProjectId) {
         List<Task> tasks = repositoryFind.findTasksBySubProjectId(subProjectId);
         int sum = 0;
-        for(Task task : tasks) {
+        for (Task task : tasks) {
             sum += task.getTaskTimeEstimate();
         }
-    SubProject subProject = repositoryFind.findSubProjectById(subProjectId);
+        SubProject subProject = repositoryFind.findSubProjectById(subProjectId);
         subProject.setSubProjectTimeEstimate(sum);
         repository.updateSubProjectTimeEstimate(subProject);
 
@@ -144,16 +147,46 @@ public class CoolPlannerService {
         updateProjectTimeEstimateFromSubProjects(projectId);
     }
 
-    public void updateProjectTimeEstimateFromSubProjects(int projectId){
+    public void updateProjectTimeEstimateFromSubProjects(int projectId) {
         List<SubProject> subProjects = repositoryFind.findSubProjectByProjectId(projectId);
 
         int sum = 0;
-        for(SubProject sub : subProjects){
+        for (SubProject sub : subProjects) {
             sum += sub.getSubProjectTimeEstimate();
         }
         Project project = repositoryFind.findProjectById(projectId);
         project.setProjectTimeEstimate(sum);
         repository.updateProjectTimeEstimate(project);
+    }
+
+    public double calculateDailyHours(Project project) {
+        LocalDate today = LocalDate.now();
+        LocalDate deadline = project.getProjectDeadLine();
+
+        int remainingHours = 0;
+
+        //Finder alle subprojecter for projectet //
+        List<SubProject> subProjects = repositoryFind.findSubProjectByProjectId(project.getProjectId());
+
+        //Finder tasks under hvert subProject //
+        for (SubProject subProject : subProjects) {
+
+            List<Task> tasks = repositoryFind.findTasksBySubProjectId(subProject.getSubProjectId());
+
+            // udregner kun ud fra åbne tasks //
+            for (Task task : tasks) {
+                if (!task.getTaskStatus().equals(Status.Lukket)) {
+                    remainingHours += task.getTaskTimeEstimate();
+                }
+            }
+        }
+        // beregner antal dage til deadline //
+        int daysToDeadline = (int) (deadline.toEpochDay() - today.toEpochDay());
+        if (daysToDeadline <= 0) {
+            daysToDeadline = 1;
+        }
+
+        return (double) remainingHours / daysToDeadline;
     }
 }
 
