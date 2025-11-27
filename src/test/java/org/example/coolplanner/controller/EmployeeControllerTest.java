@@ -1,9 +1,10 @@
 package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Employee;
-import org.example.coolplanner.repository.CoolPlannerRepository;
-import org.example.coolplanner.repository.CoolplannerRepositoryFind;
-import org.example.coolplanner.service.CoolPlannerService;
+import org.example.coolplanner.repository.CoolPlannerWriteRepository;
+import org.example.coolplanner.repository.CoolPlannerReadRepository;
+import org.example.coolplanner.service.CoolPlannerWriteService;
+import org.example.coolplanner.service.CoolPlannerReadService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,13 +24,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class EmployeeControllerTest {
 
     @MockitoBean
-    private CoolPlannerService coolPlannerService;
+    private CoolPlannerWriteService coolPlannerWriteService;
 
     @MockitoBean
-    private CoolPlannerRepository coolplannerRepository;
+    private CoolPlannerWriteRepository coolplannerWriteRepository;
 
     @MockitoBean
-    private CoolplannerRepositoryFind coolplannerRepositoryFind;
+    private CoolPlannerReadRepository coolplannerReadRepository;
+
+    @MockitoBean
+    private CoolPlannerReadService coolPlannerReadService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -55,7 +59,7 @@ public class EmployeeControllerTest {
                 )
                 .andExpect(status().is3xxRedirection());
 
-        verify(coolPlannerService).createEmployee(any(Employee.class));
+        verify(coolPlannerWriteService).createEmployee(any(Employee.class));
     }
 
     @Test
@@ -63,7 +67,7 @@ public class EmployeeControllerTest {
         Employee test = new Employee();
         test.setEmployeeId(1);
 
-        when(coolPlannerService.findEmployeeById(1)).thenReturn(test);
+        when(coolPlannerReadService.findEmployeeById(1)).thenReturn(test);
 
         mockMvc.perform(
                 get("/employee/edit/{id}", test.getEmployeeId()))
@@ -84,7 +88,7 @@ public class EmployeeControllerTest {
                 )
                 .andExpect(status().is3xxRedirection());
 
-        verify(coolPlannerService).updateEmployee(
+        verify(coolPlannerWriteService).updateEmployee(
                 argThat(emp ->
                         emp.getEmployeeId() == 1 &&
                         emp.getFirstName().equals("Maiken") &&
@@ -106,7 +110,7 @@ public class EmployeeControllerTest {
         Employee test = new Employee();
         test.setEmployeeId(1);
 
-        when(coolPlannerService.login("test@test.dk", "1234")).thenReturn(test);
+        when(coolPlannerReadService.login("test@test.dk", "1234")).thenReturn(test);
 
         mockMvc.perform(
                 post("/employee/login")
@@ -116,7 +120,7 @@ public class EmployeeControllerTest {
         )
                 .andExpect(status().is3xxRedirection());
 
-        verify(coolPlannerService).login(
+        verify(coolPlannerReadService).login(
                 "test@test.dk", "1234"
         );
     }

@@ -2,7 +2,8 @@ package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.model.Project;
-import org.example.coolplanner.service.CoolPlannerService;
+import org.example.coolplanner.service.CoolPlannerReadService;
+import org.example.coolplanner.service.CoolPlannerWriteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,7 +25,8 @@ public class CoolPlannerControllerTest {
 
     //Mocker service klassen
     @MockitoBean
-    private CoolPlannerService coolPlannerService;
+    private CoolPlannerWriteService coolPlannerWriteService;
+    private CoolPlannerReadService coolPlannerReadService;
 
     //Bruger mockMvc klasse, til at kalde mock metoder på web lageret
     @Autowired
@@ -61,7 +63,7 @@ public class CoolPlannerControllerTest {
                 .andExpect(status().is3xxRedirection()) //forventer redirect
                 .andExpect(redirectedUrl("/XYZ")); //til /XYZ
         //Verificere at createProject blev kaldt med employeeSession
-        verify(coolPlannerService).createProject(
+        verify(coolPlannerWriteService).createProject(
                 //vi sender et project objekt igennem, og et employee objekt
                 // med employeeId == 1 som vores employeeSession test objekt
                 // læs evt kommentar på updateProjectTest for argThat forklaring...
@@ -77,7 +79,7 @@ public class CoolPlannerControllerTest {
         test.setProjectId(1);
 
         //mocker findProject metode og binder den til test objektet
-        when(coolPlannerService.findProjectById(1)).thenReturn(test);
+        when(coolPlannerReadService.findProjectById(1)).thenReturn(test);
 
         mockMvc.perform(
                 get("/project/{id}/edit", test.getProjectId()))
@@ -102,7 +104,7 @@ public class CoolPlannerControllerTest {
                 .andExpect(status().is3xxRedirection());
 
         //verificere at updateProject bruger path variablen som sættes på test form
-        verify(coolPlannerService).updateProject(
+        verify(coolPlannerWriteService).updateProject(
                 //argThat bruger lampda expression til at samligne specifikke værdier i et objekt,
                 // istedet for at sende hele objektet igennem... Her samlignes at getProjectId
                 // fra test form, er == 1, og at det kan sendes igennem til service kaldet

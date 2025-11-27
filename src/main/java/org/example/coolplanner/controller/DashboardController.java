@@ -3,7 +3,8 @@ package org.example.coolplanner.controller;
 import org.example.coolplanner.model.*;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
-import org.example.coolplanner.service.CoolPlannerService;
+import org.example.coolplanner.service.CoolPlannerWriteService;
+import org.example.coolplanner.service.CoolPlannerReadService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +14,12 @@ import java.util.List;
 @RequestMapping("")
 public class DashboardController {
 
-    private final CoolPlannerService coolPlannerService;
+    private final CoolPlannerWriteService coolPlannerWriteService;
+    private final CoolPlannerReadService coolPlannerReadService;
 
-    public DashboardController(CoolPlannerService coolPlannerService) {
-        this.coolPlannerService = coolPlannerService;
+    public DashboardController(CoolPlannerWriteService coolPlannerWriteService, CoolPlannerReadService coolPlannerReadService) {
+        this.coolPlannerWriteService = coolPlannerWriteService;
+        this.coolPlannerReadService = coolPlannerReadService;// dependencies injection
     }
 
     //Hoveddashboard til at vise knapper videre til projects,sub-projects osv.
@@ -32,10 +35,10 @@ public class DashboardController {
         int employeeId = employee.getEmployeeId(); // Henter brugerens ID fra employee-objektet.
 
         // Henter alle aktive objekter for den medarbejder, der er logget ind
-        List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
-        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
-        List<Task> userStories = coolPlannerService.getActiveTasks(employeeId);
-        List<SubTask> tasks = coolPlannerService.getActiveSubTasks(employeeId);
+        List<Project> projects = coolPlannerReadService.getActiveProjects(employeeId);
+        List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(employeeId);
+        List<Task> userStories = coolPlannerReadService.getActiveTasks(employeeId);
+        List<SubTask> tasks = coolPlannerReadService.getActiveSubTasks(employeeId);
 
         /* Lægger employee og alle lister på modellen, så vi i HTML kan
          sige "Velkommen 'firstname'" ved at skrive ${employee.firstname}
@@ -57,7 +60,7 @@ public class DashboardController {
         }
 
         int employeeId = employee.getEmployeeId();
-        List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
+        List<Project> projects = coolPlannerReadService.getActiveProjects(employeeId);
 
         model.addAttribute("employee", employee);
         model.addAttribute("projects", projects);
@@ -74,7 +77,7 @@ public class DashboardController {
         }
 
         int employeeId = employee.getEmployeeId();
-        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
+        List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(employeeId);
 
         model.addAttribute("employee", employee);
         model.addAttribute("subProjects", subProjects);
@@ -92,7 +95,7 @@ public class DashboardController {
         }
 
         int employeeId = employee.getEmployeeId();
-        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
+        List<Task> tasks = coolPlannerReadService.getActiveTasks(employeeId);
 
         model.addAttribute("employee", employee);
         model.addAttribute("tasks", tasks);
@@ -110,7 +113,7 @@ public class DashboardController {
         }
 
         int employeeId = employee.getEmployeeId();
-        List<SubTask> subTasks = coolPlannerService.getActiveSubTasks(employeeId);
+        List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(employeeId);
 
         model.addAttribute("employee", employee);
         model.addAttribute("subTasks", subTasks);
@@ -124,7 +127,7 @@ public class DashboardController {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) return "redirect:/login";
 
-        List<Project> closedProjects = coolPlannerService.getClosedProjects(employee.getEmployeeId());
+        List<Project> closedProjects = coolPlannerReadService.getClosedProjects(employee.getEmployeeId());
         model.addAttribute("employee", employee);
         model.addAttribute("closedProjects", closedProjects);
         return "closedProjects";
@@ -133,7 +136,7 @@ public class DashboardController {
     //Side til ét projekt ved at bruge navn.
     @GetMapping("/projects/{projectId}")
     public String showProject(@PathVariable int projectId, Model model) {
-        Project project = coolPlannerService.findProjectById(projectId);
+        Project project = coolPlannerReadService.findProjectById(projectId);
         model.addAttribute("project", project);
         return "projectDetails";
     }
@@ -143,7 +146,7 @@ public class DashboardController {
 
         // Checkbox sender fx value="on"
         if (confirm != null) {
-            coolPlannerService.closeProject(projectId); // sætter status til LUKKET
+            coolPlannerWriteService.closeProject(projectId); // sætter status til LUKKET
         }
         return "redirect:/projects/" + projectId;
     }
