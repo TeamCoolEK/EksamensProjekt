@@ -19,16 +19,16 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 @ActiveProfiles("test")
 //Bruger h2.sql script til oprettelse af h2 database
 @Sql(scripts = "classpath:h2.sql", executionPhase = BEFORE_TEST_METHOD)
-public class CoolPlannerRepositoryFindTest {
+public class CoolPlannerWriteRepositoryFindTest {
 
     //injecter repo dependencies
     @Autowired
-    CoolplannerRepositoryFind coolplannerRepositoryFind;
+    CoolPlannerReadRepository coolplannerReadRepository;
 
     //Finder employee med id fra h2.sql init data
     @Test
     void findEmployeeById() {
-        Employee result = coolplannerRepositoryFind.findEmployeeById(2);
+        Employee result = coolplannerReadRepository.findEmployeeById(2);
 
         assertEquals("Sebastian", result.getFirstName());
     }
