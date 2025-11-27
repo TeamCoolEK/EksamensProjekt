@@ -13,6 +13,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -72,8 +73,14 @@ public class CoolPlannerControllerTest {
     //tester editProject Get request
     @Test
     void editProjectTest () throws Exception {
+        Project test = new Project();
+        test.setProjectId(1);
+
+        //mocker findProject metode og binder den til test objektet
+        when(coolPlannerService.findProjectById(1)).thenReturn(test);
+
         mockMvc.perform(
-                get("/project/{id}/edit"))
+                get("/project/{id}/edit", test.getProjectId()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("editProject"))
                 .andExpect(model().attribute("project", instanceOf(Project.class)));
