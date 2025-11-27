@@ -41,7 +41,7 @@ public class CoolPlannerService {
     }
 
     public void createEmployee(Employee employee) {
-        if (repository.emailExists(employee.getEmail())) {
+        if (repositoryFind.emailExists(employee.getEmail())) {
             throw new IllegalArgumentException("Der findes allerede en bruger med den email");
         }
         repository.createEmployee(employee);

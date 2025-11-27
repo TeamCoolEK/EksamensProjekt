@@ -38,12 +38,6 @@ public class CoolPlannerRepository {
                 employee.getEmployeeId());
     }
 
-    public boolean emailExists(String email) {
-        String sql = "SELECT COUNT(*) FROM employee WHERE email =?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
-        return count != null && count > 0;
-    }
-
     public SubProject createSubProject(SubProject subProject, Project project) {
         String sql = "INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus, projectId) VALUES (?,?,?,?,?,?,?,?,?)";
         //dummy data
@@ -189,7 +183,6 @@ public class CoolPlannerRepository {
         String sql = "UPDATE project SET projectStatus = 'LUKKET' WHERE projectId = ?";
         jdbcTemplate.update(sql, projectId);
     }
-
 
     public void updateSubProjectTimeEstimate(SubProject subProject) {
         String sql = "UPDATE subProject SET subProjectTimeEstimate = ? WHERE subProjectId = ?";

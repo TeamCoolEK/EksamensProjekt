@@ -64,7 +64,7 @@ public class CoolPlannerController {
     public String saveSubTask(@PathVariable int id, @ModelAttribute SubTask subTask, Model model) {
         //Find task metode i stedet for ny task her!!!!!!
         Task task = coolPlannerService.getTaskById(id);
-        coolPlannerService.createSubTask(SubTask, task);
+        coolPlannerService.createSubTask(subTask, task);
         coolPlannerService.updateTaskTimeEstimateFromSubTasks(id);
         return "redirect:/dashboard";
     }

@@ -26,6 +26,12 @@ public class CoolplannerRepositoryFind {
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), email);
     }
 
+    public boolean emailExists(String email) {
+        String sql = "SELECT COUNT(*) FROM employee WHERE email =?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+
     public List<SubTask> findActiveSubTasks(int employeeId) {
         String sql = "SELECT * FROM subTask WHERE employeeId = ?";
         List<SubTask> SubTask = jdbcTemplate.query(sql, new SubTaskRowMapper(), employeeId);
