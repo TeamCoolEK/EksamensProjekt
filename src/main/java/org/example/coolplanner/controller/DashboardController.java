@@ -5,14 +5,12 @@ import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.service.CoolPlannerService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/dashboard")
 public class DashboardController {
 
     private final CoolPlannerService coolPlannerService;
@@ -24,7 +22,7 @@ public class DashboardController {
     //Hoveddashboard til at vise knapper videre til projects,sub-projects osv.
     //Bruger HttpSession og session.getAttribute "employee" for at sikre det er den rigtige bruger, hvis oplysninger vi henter.
     //Model model bruges til at sende data til HTML-siden.
-    @GetMapping("/dashboard")
+    @GetMapping("/")
     public String showDashboard(Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee"); // Henter bruger fra session
         if (employee == null) {
@@ -51,7 +49,7 @@ public class DashboardController {
     }
 
     // 1) Side med projekter
-    @GetMapping("/dashboard/projects")
+    @GetMapping("/projects")
     public String showProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -68,7 +66,7 @@ public class DashboardController {
     }
 
     // 2) Side med delprojekter
-    @GetMapping("/dashboard/subprojects")
+    @GetMapping("/subprojects")
     public String showSubProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -86,7 +84,7 @@ public class DashboardController {
     }
 
     // 3) Side med task
-    @GetMapping("/dashboard/task")
+    @GetMapping("/task")
     public String showTask(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -104,7 +102,7 @@ public class DashboardController {
     }
 
     // 4) Side med tasks
-    @GetMapping("/dashboard/subTasks")
+    @GetMapping("/subTasks")
     public String showTasks(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -121,7 +119,7 @@ public class DashboardController {
     }
 
     //Side med lukkede projekter
-    @GetMapping("/dashboard/projects/closedProjects")
+    @GetMapping("/projects/closedProjects")
     public String showClosedProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) return "redirect:/login";

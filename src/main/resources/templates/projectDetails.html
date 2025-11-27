@@ -10,6 +10,40 @@
 
 <h1 th:text="${project.projectName}">Projektnavn</h1>
 
+<ul th:each="project : ${project}">
+    <li>
+        <div>
+            <p>Beskrivelse: <span th:text="${project.projectDetails}">Beskrivelse:</span></p>
+
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Start Dato: <span th:text="${project.projectStartDate}">Start dato</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Deadline: <span th:text="${project.projectDeadLine}">Deadline</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Estimeret tid: <span th:text="${project.projectTimeEstimate}">Tidsestimat</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Faktiske tid: <span th:text="${project.projectActualTime}">Faktisk tid</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Status: <span th:text="${project.status}">Status</span></p>
+        </div>
+    </li>
+</ul>
+
 <a class="rediger-projekt-knap"
    th:href="@{/project/{id}/edit(id=${project.projectId})}">
     Rediger projekt
