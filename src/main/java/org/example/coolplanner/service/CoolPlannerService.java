@@ -188,5 +188,59 @@ public class CoolPlannerService {
 
         return (double) remainingHours / daysToDeadline;
     }
-}
+
+    public void completeSubTask(int subTaskId, int actualTime) {
+        repository.completeSubTask(subTaskId, actualTime);
+        SubTask subTask = repositoryFind.findSubTaskById(subTaskId);
+        int taskId = subTask.getTaskId();
+
+        updateTaskActualTimeFromSubTask(taskId);
+    }
+
+    public void updateTaskActualTimeFromSubTask(int taskId) {
+        List<SubTask> subTasks = repositoryFind.findSubTasksByTaskId(taskId);
+
+        int sum = 0;
+        for (SubTask st : subTasks) {
+            sum += st.getSubTaskActualTime();
+        }
+
+        Task task = repositoryFind.findTaskById(taskId);
+        task.setTaskActualTime(sum);
+        repository.updateTaskActualTime(task);
+
+        int subProjectId = task.getSubprojectID();
+        updateSubProjectActualTimeFromTasks(subProjectId);
+        }
+
+        public void updateSubProjectActualTimeFromTasks(int subProjectId){
+        List<Task> tasks = repositoryFind.findTasksBySubProjectId(subProjectId);
+
+        int sum = 0;
+        for(Task t : tasks){
+            sum += t.getTaskActualTime();
+        }
+        SubProject subProject = repositoryFind.findSubProjectById(subProjectId);
+        subProject.setSubProjectActualTime(sum);
+        repository.updateSubProjectActualTime(subProject);
+
+    int projectId = subProject.getProjectId();
+    updateProjectActualTimeFromSubProject(projectId);
+    }
+
+    public void updateProjectActualTimeFromSubProject(int projectId){
+        List<SubProject> subProjects = repositoryFind.findSubProjectByProjectId(projectId);
+
+        int sum = 0;
+        for(SubProject sp : subProjects){
+            sum += sp.getSubProjectActualTime();
+        }
+
+        Project project = repositoryFind.findProjectById(projectId);
+        project.setProjectActualTime(sum);
+        repository.updateProjectActualTime(project);
+    }
+
+    }
+
 

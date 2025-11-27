@@ -84,7 +84,7 @@ public class CoolPlannerRepository {
         task.setTaskActualTime(0);
         task.setTaskTimeEstimate(0);
         task.setTaskStatus(Status.Ikke_startet);
-        jdbcTemplate.update(sql,task.getTaskName(),
+        jdbcTemplate.update(sql, task.getTaskName(),
                 task.getTaskDetails(),
                 task.getTaskStartDate(),
                 task.getTaskDeadline(),
@@ -133,7 +133,7 @@ public class CoolPlannerRepository {
 
     public void updateSubTask(SubTask subTask) {
         String sql = "UPDATE subTask SET subTaskName = ?, subTaskDetails = ?, subTaskStartDate = ?, " +
-                "subTaskDeadline = ?, subTaskTimeEstimate = ?, subTaskActualTime = ?, subTaskStatus = ?, " +
+                "subTaskDeadline = ?, subTaskTimeEstimate = ?, subTaskActualTime = ?, subTaskStatus = ? " +
                 "WHERE subTaskId = ?";
 
         jdbcTemplate.update(sql,
@@ -148,7 +148,7 @@ public class CoolPlannerRepository {
 
     }
 
-        public void updateProject(Project project) {
+    public void updateProject(Project project) {
         String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDato = ?, " +
                 "projectDeadline = ?, projectTimeEstimate = ?, projectActualTime = ?, projectStatus = ? " +
                 "WHERE projectId = ?";
@@ -166,7 +166,7 @@ public class CoolPlannerRepository {
 
     public void updateSubProject(SubProject subProject) {
         String sql = "UPDATE subProject SET subProjectName = ?, subProjectDetails = ?, subProjectStartDato = ?, " +
-                "subProjectDeadline = ?, subProjectTimeEstimate = ?, subProjectActualTime = ?, subProjectStatus = ?, " +
+                "subProjectDeadline = ?, subProjectTimeEstimate = ?, subProjectActualTime = ?, subProjectStatus = ? " +
                 "WHERE subProjectId = ?";
 
         jdbcTemplate.update(sql,
@@ -180,7 +180,7 @@ public class CoolPlannerRepository {
                 subProject.getSubProjectId());
     }
 
-    public void updateTaskTimeEstimate(Task task){
+    public void updateTaskTimeEstimate(Task task) {
         String sql = "UPDATE task SET taskTimeEstimate = ? WHERE taskId = ?";
         jdbcTemplate.update(sql, task.getTaskTimeEstimate(), task.getTaskID());
     }
@@ -195,8 +195,28 @@ public class CoolPlannerRepository {
         String sql = "UPDATE subProject SET subProjectTimeEstimate = ? WHERE subProjectId = ?";
         jdbcTemplate.update(sql, subProject.getSubProjectTimeEstimate(), subProject.getSubProjectId());
     }
-    public void updateProjectTimeEstimate(Project project){
+
+    public void updateProjectTimeEstimate(Project project) {
         String sql = "UPDATE project SET projectTimeEstimate = ? WHERE projectId = ?";
         jdbcTemplate.update(sql, project.getProjectTimeEstimate(), project.getProjectId());
+    }
+
+    public void completeSubTask(int subTaskId, int actualTime) {
+        String sql = "UPDATE subTask SET subTaskActualTime = ?, subTaskStatus = ? WHERE subTaskId = ?";
+        jdbcTemplate.update(sql, actualTime, Status.Lukket.name(), subTaskId);
+    }
+
+    public void updateTaskActualTime(Task task) {
+        String sql = "UPDATE task SET taskActualTime = ? WHERE taskId = ?";
+        jdbcTemplate.update(sql, task.getTaskActualTime(), task.getTaskID());
+    }
+
+    public void updateSubProjectActualTime(SubProject subProject){
+        String sql = "UPDATE subProject SET  subProjectActualTime = ? WHERE subProjectId = ?";
+        jdbcTemplate.update(sql, subProject.getSubProjectActualTime(), subProject.getSubProjectId());
+    }
+    public void updateProjectActualTime(Project project){
+        String sql = "UPDATE project SET projectActualTime = ? WHERE projectId = ?";
+        jdbcTemplate.update(sql, project.getProjectActualTime(), project.getProjectId());
     }
 }
