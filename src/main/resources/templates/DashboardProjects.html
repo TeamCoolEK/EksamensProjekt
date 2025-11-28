@@ -8,20 +8,71 @@
 <body>
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Projekter for <span th:text="${employee.firstName}">Bruger</span></h1>
-<p>Her kan du se alle dine aktive projekter.</p>
+<h1 th:text="${project.projectName}">Projektnavn</h1>
 
-<!-- Muliggør det at trykke ind på selve projektet.-->
-<ul>
-    <li th:each="project : ${projects}">
-        <a th:href="@{'/projects/' + ${project.projectId}}">
-            <span th:text="${project.projectName}">Projektnavn</span>
-        </a>
+<ul th:each="project : ${project}">
+    <li>
+        <div>
+            <p>Beskrivelse: <span th:text="${project.projectDetails}">Beskrivelse:</span></p>
+
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Start Dato: <span th:text="${project.projectStartDate}">Start dato</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Deadline: <span th:text="${project.projectDeadLine}">Deadline</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Estimeret tid: <span th:text="${project.projectTimeEstimate}">Tidsestimat</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Faktiske tid: <span th:text="${project.projectActualTime}">Faktisk tid</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Status: <span th:text="${project.status}">Status</span></p>
+        </div>
     </li>
 </ul>
 
-<a class="button" th:href="@{/dashboard/projects/createProject}">+ Tilføj nyt projekt</a>
+<h2>Delprojekter:</h2>
 
+<ul>
+    <li th:each="subProject : ${subProjects}">
+        <div>
+            <a th:href="@{'/dashboard/subprojects/' + ${subProject.subProjectId}}">
+                <p><span th:text="${subProject.subProjectName}">Del-projekt navn</span></p>
+            </a>
+        </div>
+    </li>
+</ul>
+<!-- opret delprojekt knap -->
+<a th:href="@{/createSubProject/{id}(id=${project.projectId})}">
+    <p>+ Tilføj nyt delprojekt</p>
+</a>
+<!-- redigere projekt knap -->
+<a class="rediger-projekt-knap" th:href="@{/project/{id}/edit(id=${project.projectId})}">
+    <p>Rediger projekt</p>
+</a>
+
+<h3>Luk projekt</h3>
+<form th:action="@{/projects/{id}/close(id=${project.projectId})}" method="post">
+    <label>
+        <input type="checkbox" name="confirm">
+        Jeg bekræfter, at jeg vil lukke projektet.
+    </label>
+
+    <button type="submit">Luk projekt</button>
+</form>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>

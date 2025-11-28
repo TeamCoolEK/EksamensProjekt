@@ -8,22 +8,61 @@
 <body>
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Dine delprojekter</h1>
-<p>Her kan du se dine delprojekter og oprette nye.</p>
+<h1 th:text="${subProject.subProjectName}">Projektnavn</h1>
 
-<ul>
-    <li th:each="subProject : ${subProjects}">
-        <span th:text="${subProject.subProjectName}">Delprojektnavn</span>
-        <!-- Rediger-knap for det enkelte delprojekt -->
-        <a class="button small"
-           th:href="@{/subproject/{id}/edit(id=${subProject.subProjectId})}">
-            Rediger
-        </a>
+<ul th:each="subProjects : ${subProject}">
+    <li>
+        <div>
+            <p>Beskrivelse: <span th:text="${subProject.subProjectDetails}">Beskrivelse:</span></p>
+
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Start Dato: <span th:text="${subProject.subProjectStartDate}">Start dato</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Deadline: <span th:text="${subProject.subProjectDeadLine}">Deadline</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Estimeret tid: <span th:text="${subProject.subProjectTimeEstimate}">Tidsestimat</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Faktiske tid: <span th:text="${subProject.subProjectActualTime}">Faktisk tid</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Status: <span th:text="${subProject.status}">Status</span></p>
+        </div>
     </li>
 </ul>
 
-<a class="button" th:href="@{/createSubProject/{id}(id=${projectId})}">+ Tilføj nyt delprojekt</a>
+<h2>Opgaver: </h2>
 
+<ul>
+    <li th:each="task : ${tasks}">
+        <div>
+            <a th:href="@{'/dashboard/tasks/' + ${task.taskID}}">
+                <p><span th:text="${task.taskName}">Task navn</span></p>
+            </a>
+        </div>
+    </li>
+</ul>
+
+<a class="button" th:href="@{/createTask/{id}(id=${subProject.subProjectId})}">
+    <p>+ Tilføj ny opgave</p>
+</a>
+
+<a class="rediger-projekt-knap" th:href="@{/subProject/{id}/edit(id=${subProject.subProjectId})}">
+    <p>Rediger del-projekt</p>
+</a>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>

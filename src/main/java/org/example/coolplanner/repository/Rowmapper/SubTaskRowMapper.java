@@ -21,6 +21,7 @@ public class SubTaskRowMapper implements RowMapper<SubTask> {
         subTask.setSubTaskActualTime(rs.getInt("subTaskActualTime"));
         subTask.setStatus(Status.valueOf(rs.getString("subTaskStatus")));
         subTask.setTaskId(rs.getInt("taskId"));
+        subTask.setEmployeeId(rs.getInt("employeeId"));
 
         return subTask;
     }

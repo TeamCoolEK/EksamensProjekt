@@ -6,24 +6,48 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Dine subtasks</h1>
-<p>Her kan du se dine subtasks og oprette nye.</p>
+<h1 th:text="${subTask.subTaskName}">SubTask navn</h1>
 
-<ul>
-    <li th:each="subTask : ${subTasks}">
-        <span th:text="${subTask.subTaskName}">Subtask navn</span>
-        <!-- Rediger-knap for den enkelte subtask -->
-        <a class="button small"
-           th:href="@{/subtask/{id}/edit(id=${subTask.subTaskId})}">
-            Rediger
-        </a>
+<ul th:each="subtasks : ${subTask}">
+    <li>
+        <div>
+            <p>Beskrivelse: <span th:text="${subTask.subTaskDetails}">Beskrivelse:</span></p>
+
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Start Dato: <span th:text="${subTask.subTaskStartDate}">Start dato</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Deadline: <span th:text="${subTask.subTaskDeadLine}">Deadline</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Estimeret tid: <span th:text="${subTask.subTaskTimeEstimate}">Tidsestimat</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Faktiske tid: <span th:text="${subTask.subTaskActualTime}">Faktisk tid</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Status: <span th:text="${subTask.status}">Status</span></p>
+        </div>
     </li>
 </ul>
 
-<a class="button" th:href="@{/dashboard/subprojects/createSubTask}">+ Tilføj ny subtask</a>
-
+<a class="rediger-projekt-knap" th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}">
+    <p>Rediger delopgave</p>
+</a>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 

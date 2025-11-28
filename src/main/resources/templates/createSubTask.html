@@ -7,7 +7,7 @@
 <body>
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Opret task</h1>
+<h1>Opret delopgave</h1>
 
 <form th:action="@{/saveSubTask/{id}(id=${taskId})}"
       th:object="${subTask}"

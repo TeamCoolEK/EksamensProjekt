@@ -52,71 +52,85 @@ public class DashboardController {
     }
 
     // 1) Side med projekter
-    @GetMapping("/dashboard/projects")
-    public String showProjects(HttpSession session, Model model) {
+    @GetMapping("/dashboard/projects/{id}")
+    public String showProjects(@PathVariable int id, HttpSession session, Model model) {
+        //henter employee session og tildeler dens id
         Employee employee = (Employee) session.getAttribute("employee");
+
+        //Redirecter til login hvis sessionen er tom/udløbet
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
+        //Henter projektet
+        Project project = coolPlannerService.findProjectById(id);
+        //Henter liste af projektets delprojekter
+        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(id);
 
         int employeeId = employee.getEmployeeId();
         List<Project> projects = coolPlannerReadService.getActiveProjects(employeeId);
 
         model.addAttribute("employee", employee);
-        model.addAttribute("projects", projects);
-
+        model.addAttribute("project", project);
+        model.addAttribute("subProjects", subProjects);
         return "DashboardProjects";
     }
 
     // 2) Side med delprojekter
-    @GetMapping("/dashboard/subprojects")
-    public String showSubProjects(HttpSession session, Model model) {
+    @GetMapping("/dashboard/subprojects/{id}")
+    public String showSubProjects(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
 
+        SubProject subProject = coolPlannerService.findSubProjectById(id);
+        List<Task> tasks = coolPlannerService.getActiveTasks(id);
         int employeeId = employee.getEmployeeId();
         List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(employeeId);
 
         model.addAttribute("employee", employee);
-        model.addAttribute("subProjects", subProjects);
+        model.addAttribute("subProject", subProject);
+        model.addAttribute("tasks", tasks);
 
         // viser filen: src/main/resources/template/dashboardSubProjects.html
         return "DashboardSubProjects";
     }
 
     // 3) Side med task
-    @GetMapping("/dashboard/task")
-    public String showTask(HttpSession session, Model model) {
+    @GetMapping("/dashboard/tasks/{id}")
+    public String showTask(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
 
+        Task task = coolPlannerService.getTaskById(id);
+        List<SubTask> subTasks = coolPlannerService.getActiveSubTasks(id);
         int employeeId = employee.getEmployeeId();
         List<Task> tasks = coolPlannerReadService.getActiveTasks(employeeId);
 
         model.addAttribute("employee", employee);
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("task", task);
+        model.addAttribute("subTasks", subTasks);
 
         // viser filen: src/main/resources/template/dashboardTasks.html
         return "DashboardTask";
     }
 
-    // 4) Side med tasks
-    @GetMapping("/dashboard/subTasks")
-    public String showTasks(HttpSession session, Model model) {
+    // 4) Side med subtasks
+    @GetMapping("/dashboard/subTasks/{id}")
+    public String showTasks(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
             return "redirect:/login";
         }
 
+        SubTask subTask = coolPlannerService.getSubTaskById(id);
         int employeeId = employee.getEmployeeId();
         List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(employeeId);
 
         model.addAttribute("employee", employee);
-        model.addAttribute("subTasks", subTasks);
+        model.addAttribute("subTask", subTask);
 
         return "DashboardSubTasks";
     }
