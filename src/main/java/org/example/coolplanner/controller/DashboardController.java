@@ -62,12 +62,9 @@ public class DashboardController {
             return "redirect:/employee/login";
         }
         //Henter projektet
-        Project project = coolPlannerService.findProjectById(id);
+        Project project = coolPlannerReadService.findProjectById(id);
         //Henter liste af projektets delprojekter
-        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(id);
-
-        int employeeId = employee.getEmployeeId();
-        List<Project> projects = coolPlannerReadService.getActiveProjects(employeeId);
+        List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(project.getProjectId());
 
         model.addAttribute("employee", employee);
         model.addAttribute("project", project);
@@ -83,10 +80,8 @@ public class DashboardController {
             return "redirect:/employee/login";
         }
 
-        SubProject subProject = coolPlannerService.findSubProjectById(id);
-        List<Task> tasks = coolPlannerService.getActiveTasks(id);
-        int employeeId = employee.getEmployeeId();
-        List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(employeeId);
+        SubProject subProject = coolPlannerReadService.findSubProjectById(id);
+        List<Task> tasks = coolPlannerReadService.getActiveTasks(id);
 
         model.addAttribute("employee", employee);
         model.addAttribute("subProject", subProject);
@@ -104,10 +99,8 @@ public class DashboardController {
             return "redirect:/employee/login";
         }
 
-        Task task = coolPlannerService.getTaskById(id);
-        List<SubTask> subTasks = coolPlannerService.getActiveSubTasks(id);
-        int employeeId = employee.getEmployeeId();
-        List<Task> tasks = coolPlannerReadService.getActiveTasks(employeeId);
+        Task task = coolPlannerReadService.getTaskById(id);
+        List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(id);
 
         model.addAttribute("employee", employee);
         model.addAttribute("task", task);
@@ -125,9 +118,7 @@ public class DashboardController {
             return "redirect:/login";
         }
 
-        SubTask subTask = coolPlannerService.getSubTaskById(id);
-        int employeeId = employee.getEmployeeId();
-        List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(employeeId);
+        SubTask subTask = coolPlannerReadService.getSubTaskById(id);
 
         model.addAttribute("employee", employee);
         model.addAttribute("subTask", subTask);

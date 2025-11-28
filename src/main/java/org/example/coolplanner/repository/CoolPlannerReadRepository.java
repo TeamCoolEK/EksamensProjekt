@@ -51,7 +51,7 @@ public class CoolPlannerReadRepository {
     }
 
     public Task findTaskById(int taskID) {
-        String sql = "SELECT * FROM Task WHERE TaskID = ?";
+        String sql = "SELECT * FROM task WHERE taskId = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 

@@ -49,6 +49,10 @@
     <p>Rediger delopgave</p>
 </a>
 
+<a class="rediger-projekt-knap" th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}">
+    <p>Luk delopgave</p>
+</a>
+
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 
 </body>
