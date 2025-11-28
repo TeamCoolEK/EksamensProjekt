@@ -23,7 +23,11 @@ public class CoolPlannerController {
     }
     //ENDPOINT til createProject
     @GetMapping("/createProject")
-    public String createProject(Model model) {
+    public String createProject(Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
         model.addAttribute("project", new Project());
         return "createProject";
     }
@@ -32,7 +36,7 @@ public class CoolPlannerController {
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
         coolPlannerService.createProject(project, employee);
-        return "redirect:/XYZ";
+        return "redirect:/dashboard";
     }
     //ENDPOINT til createSubProject
     @GetMapping("/createSubProject/{id}") //{id bruges til at tildele projectId}

@@ -8,21 +8,61 @@
 <body>
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Dine tasks</h1>
-<p>Her kan du se dine tasks til projektet og oprette nye.</p>
+<h1 th:text="${task.taskName}">Task navn</h1>
 
-<ul>
-    <li th:each="task : ${tasks}">
-        <span th:text="${task.taskName}">Tasknavn</span>
-        <a class="button small"
-           th:href="@{/editTask/{id}(id=${task.taskID})}">
-            Rediger
-        </a>
+<ul th:each="tasks : ${task}">
+    <li>
+        <div>
+            <p>Beskrivelse: <span th:text="${task.taskDetails}">Beskrivelse:</span></p>
+
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Start Dato: <span th:text="${task.taskStartDate}">Start dato</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Deadline: <span th:text="${task.taskDeadline}">Deadline</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Estimeret tid: <span th:text="${task.taskTimeEstimate}">Tidsestimat</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Faktiske tid: <span th:text="${task.taskActualTime}">Faktisk tid</span></p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Status: <span th:text="${task.taskStatus}">Status</span></p>
+        </div>
     </li>
 </ul>
 
-<a class="button" th:href="@{/dashboard/subprojects/createTask}">+ Tilføj ny task</a>
+<h2>Delopgaver: </h2>
 
+<ul>
+    <li th:each="subTask : ${subTasks}">
+        <div>
+            <a th:href="@{'/dashboard/tasks/' + ${subTask.subTaskId}}">
+                <p><span th:text="${subTask.subTaskName}">Sub task navn</span></p>
+            </a>
+        </div>
+    </li>
+</ul>
+
+<a class="button" th:href="@{/createSubTask/{id}(id=${task.taskID})}">
+    <p>+ Tilføj ny delopgave</p>
+</a>
+
+<a class="rediger-projekt-knap" th:href="@{/task/{id}/edit(id=${task.taskID})}">
+    <p>Rediger opgave</p>
+</a>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>

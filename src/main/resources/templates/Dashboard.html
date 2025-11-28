@@ -18,13 +18,17 @@
 
 <ul>
     <li th:each="project : ${projects}">
-        <a th:href="@{'/projects/' + ${project.projectId}}">
-            <span th:text="${project.projectName}">Projektnavn</span>
-        </a>
+        <div>
+            <a th:href="@{'dashboard/projects/' + ${project.projectId}}">
+                <p><span th:text="${project.projectName}">Projektnavn</span></p>
+            </a>
+            <p>Deadline: <span th:text="${project.projectDeadLine}">Projektnavn</span></p>
+            <!-- timer pr dag ud fra dage til deadline / estimeret tid -->
+        </div>
     </li>
 </ul>
 
-<a class="button" th:href="@{/dashboard/projects/createProject}">+ Tilføj nyt projekt</a>
+<a class="button" th:href="@{/createProject}">+ Tilføj nyt projekt</a>
 
 <a th:href="@{/dashboard/projects/closedProjects}">Lukkede projekter</a>
 

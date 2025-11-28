@@ -58,17 +58,17 @@ public class CoolPlannerService {
         repository.updateEmployee(employee);
     }
 
-    public List<SubProject> getActiveSubProjects(int employeeId) {
-        return repositoryFind.findActiveSubProjects(employeeId);
+    public List<SubProject> getActiveSubProjects(int projectId) {
+        return repositoryFind.findActiveSubProjects(projectId);
     }
 
 
-    public List<Task> getActiveTasks(int employeeId) {
-        return repositoryFind.findActiveTasks(employeeId);
+    public List<Task> getActiveTasks(int subProjectId) {
+        return repositoryFind.findActiveTasks(subProjectId);
     }
 
-    public List<SubTask> getActiveSubTasks(int employeeId) {
-        return repositoryFind.findActiveSubTasks(employeeId);
+    public List<SubTask> getActiveSubTasks(int taskId) {
+        return repositoryFind.findActiveSubTasks(taskId);
     }
 
     public void createTask(Task task, SubProject subProject) {
