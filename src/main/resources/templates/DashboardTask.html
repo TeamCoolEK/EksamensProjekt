@@ -49,7 +49,7 @@
 <ul>
     <li th:each="subTask : ${subTasks}">
         <div>
-            <a th:href="@{'/dashboard/tasks/' + ${subTask.subTaskId}}">
+            <a th:href="@{'/dashboard/subTasks/' + ${subTask.subTaskId}}">
                 <p><span th:text="${subTask.subTaskName}">Sub task navn</span></p>
             </a>
         </div>

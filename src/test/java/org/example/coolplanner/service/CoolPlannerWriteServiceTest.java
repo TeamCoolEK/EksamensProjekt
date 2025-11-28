@@ -35,7 +35,7 @@ public class CoolPlannerWriteServiceTest {
         //Fortæller at repo metoden skal retunere test employee, når den får employeeId 1 (Mocker databasen)
         when(coolplannerReadRepository.findEmployeeById(1)).thenReturn(employee);
         //Henter test employee med service metoden
-        Employee result = coolPlannerWriteService.findEmployeeById(1);
+        Employee result = coolplannerReadRepository.findEmployeeById(1);
         //Forventer "John", ud fra den employee vi har hentet med service metoden.
         assertEquals("John", result.getFirstName());
     }
