@@ -107,19 +107,18 @@ public class DashboardController {
         return "DashboardTask";
     }
 
-    // 4) Side med tasks
-    @GetMapping("/dashboard/subTasks")
-    public String showTasks(HttpSession session, Model model) {
+    // 4) Side med subtasks
+    @GetMapping("/dashboard/subTasks/{id}")
+    public String showTasks(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
             return "redirect:/login";
         }
 
-        int employeeId = employee.getEmployeeId();
-        List<SubTask> subTasks = coolPlannerService.getActiveSubTasks(employeeId);
+        SubTask subTask = coolPlannerService.getSubTaskById(id);
 
         model.addAttribute("employee", employee);
-        model.addAttribute("subTasks", subTasks);
+        model.addAttribute("subTask", subTask);
 
         return "DashboardSubTasks";
     }

@@ -27,7 +27,7 @@ public class CoolplannerRepositoryFind {
     }
 
     public List<SubTask> findActiveSubTasks(int employeeId) {
-        String sql = "SELECT * FROM subTask WHERE employeeId = ?";
+        String sql = "SELECT * FROM subTask WHERE taskId = ?";
         List<SubTask> SubTask = jdbcTemplate.query(sql, new SubTaskRowMapper(), employeeId);
         return SubTask;
     }
