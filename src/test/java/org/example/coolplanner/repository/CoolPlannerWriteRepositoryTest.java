@@ -2,8 +2,6 @@ package org.example.coolplanner.repository;
 
 import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.model.EmployeeRole;
-import org.example.coolplanner.model.Project;
-import org.example.coolplanner.model.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,14 +18,14 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 @ActiveProfiles("test")
 //Bruger h2.sql script til oprettelse af h2 database
 @Sql(scripts = "classpath:h2.sql", executionPhase = BEFORE_TEST_METHOD)
-public class CoolPlannerRepositoryTest {
+public class CoolPlannerWriteRepositoryTest {
 
     //injecter repo dependencies
     @Autowired
-    CoolPlannerRepository coolPlannerRepository;
+    CoolPlannerWriteRepository coolPlannerWriteRepository;
 
     @Autowired
-    CoolplannerRepositoryFind coolplannerRepositoryFind;
+    CoolPlannerReadRepository coolplannerReadRepository;
 
     //tilføjer employee til databasen, og henter den igen
 //    @Test
@@ -41,11 +39,11 @@ public class CoolPlannerRepositoryTest {
 
     @Test
     void CreateUpdateAndFindEmployee () {
-        coolPlannerRepository.createEmployee(employee);
+        coolPlannerWriteRepository.createEmployee(employee);
 
-        coolPlannerRepository.updateEmployee(updateEmployee);
+        coolPlannerWriteRepository.updateEmployee(updateEmployee);
 
-        Employee result = coolplannerRepositoryFind.findEmployeeById(1);
+        Employee result = coolplannerReadRepository.findEmployeeById(1);
 
         assertEquals("password", result.getPassword());
     }

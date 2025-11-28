@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Afslut SubTask</title>
+</head>
+<body>
+<h1>Afslut SubTask</h1>
+
+<p th:text="'SubTask: ' + ${subTask.subTaskName}"></p>
+<p th:text="'Detaljer: ' + ${subTask.subTaskDetails}"></p>
+<p th:text="'Deadline: ' + ${subTask.subTaskDeadLine}"></p>
+
+<form th:action="@{'/subTask/' + ${subTask.subTaskId} + '/complete'}" method="post">
+  <label for="actualTime">Faktisk tid brugt (timer):</label>
+  <input type="number" id="actualTime" name="actualTime" min="0" required>
+
+  <button type="submit">Afslut SubTask</button>
+</form>
+
+<a th:href="@{/dashboard/subTasks}">Tilbage til SubTasks</a>
+</body>
+</html>

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CoolplannerRepositoryFind {
+public class CoolPlannerReadRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public CoolplannerRepositoryFind(JdbcTemplate jdbcTemplate) {
+    public CoolPlannerReadRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
