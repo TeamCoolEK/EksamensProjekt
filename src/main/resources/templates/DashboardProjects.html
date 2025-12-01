@@ -60,12 +60,12 @@
     <p>+ Tilføj nyt delprojekt</p>
 </a>
 <!-- redigere projekt knap -->
-<a class="rediger-projekt-knap" th:href="@{/project/{id}/edit(id=${project.projectId})}">
+<a class="rediger-projekt-knap" th:href="@{/project/{id}/edit/(id=${project.projectId})}">
     <p>Rediger projekt</p>
 </a>
 
 <h3>Luk projekt</h3>
-<form th:action="@{/projects/{id}/close(id=${project.projectId})}" method="post">
+<form th:action="@{/projects/{id}/close/(id=${project.projectId})}" method="post">
     <label>
         <input type="checkbox" name="confirm">
         Jeg bekræfter, at jeg vil lukke projektet.

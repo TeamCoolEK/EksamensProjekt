@@ -19,7 +19,7 @@
 <ul>
     <li th:each="project : ${projects}">
         <div>
-            <a th:href="@{'dashboard/projects/' + ${project.projectId}}">
+            <a th:href="@{'/dashboard/projects/' + ${project.projectId}}">
                 <p><span th:text="${project.projectName}">Projektnavn</span></p>
             </a>
             <p>Deadline: <span th:text="${project.projectDeadLine}">Projektnavn</span></p>

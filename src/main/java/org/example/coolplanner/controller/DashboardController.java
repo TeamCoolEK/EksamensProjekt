@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/dashboard")
 public class DashboardController {
 
     private final CoolPlannerWriteService coolPlannerWriteService;
@@ -25,7 +25,7 @@ public class DashboardController {
     //Hoveddashboard til at vise knapper videre til projects,sub-projects osv.
     //Bruger HttpSession og session.getAttribute "employee" for at sikre det er den rigtige bruger, hvis oplysninger vi henter.
     //Model model bruges til at sende data til HTML-siden.
-    @GetMapping("/dashboard")
+    @GetMapping("/show")
     public String showDashboard(Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee"); // Henter bruger fra session
         if (employee == null) {
@@ -52,7 +52,7 @@ public class DashboardController {
     }
 
     // 1) Side med projekter
-    @GetMapping("/dashboard/projects/{id}")
+    @GetMapping("/projects/{id}")
     public String showProjects(@PathVariable int id, HttpSession session, Model model) {
         //henter employee session og tildeler dens id
         Employee employee = (Employee) session.getAttribute("employee");
@@ -73,7 +73,7 @@ public class DashboardController {
     }
 
     // 2) Side med delprojekter
-    @GetMapping("/dashboard/subprojects/{id}")
+    @GetMapping("/subprojects/{id}")
     public String showSubProjects(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -92,7 +92,7 @@ public class DashboardController {
     }
 
     // 3) Side med task
-    @GetMapping("/dashboard/tasks/{id}")
+    @GetMapping("/tasks/{id}")
     public String showTask(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -111,7 +111,7 @@ public class DashboardController {
     }
 
     // 4) Side med subtasks
-    @GetMapping("/dashboard/subTasks/{id}")
+    @GetMapping("/subTasks/{id}")
     public String showTasks(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
@@ -136,14 +136,6 @@ public class DashboardController {
         model.addAttribute("employee", employee);
         model.addAttribute("closedProjects", closedProjects);
         return "closedProjects";
-    }
-
-    //Side til ét projekt ved at bruge navn.
-    @GetMapping("/projects/{projectId}")
-    public String showProject(@PathVariable int projectId, Model model) {
-        Project project = coolPlannerReadService.findProjectById(projectId);
-        model.addAttribute("project", project);
-        return "projectDetails";
     }
 
     @PostMapping("/projects/{projectId}/close")
