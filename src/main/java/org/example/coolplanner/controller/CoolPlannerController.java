@@ -137,7 +137,7 @@ public class CoolPlannerController {
         }
     }
 
-    @GetMapping("/editTask/{id}")
+    @GetMapping("/task/{id}/edit")
     public String editTask(@PathVariable int id, Model model) {
         Task task = coolPlannerReadService.getTaskById(id);
         model.addAttribute("task", task);
@@ -150,7 +150,7 @@ public class CoolPlannerController {
         return "redirect:/XYZ";
     }
 
-    @GetMapping("/editSubTask/{id}")
+    @GetMapping("/subTask/{id}/edit")
     public String editSubTask(@PathVariable("id") int id, Model model) {
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
         if (subTask == null) {
@@ -160,11 +160,13 @@ public class CoolPlannerController {
         return "editSubTask";
     }
 
-    @PostMapping("/updateSubTask")
-    public String updateSubTask(@ModelAttribute("subTask") SubTask subTask, Model model) {
+    @PostMapping("/updateSubTask/{id}")
+    public String updateSubTask(@PathVariable int id,
+                                @ModelAttribute("subTask") SubTask subTask,
+                                Model model) {
         try {
             coolPlannerWriteService.updateSubTask(subTask);
-            return "redirect:/task/" + subTask.getTaskId();
+            return "redirect:/dashboard/subTask/" + subTask.getTaskId();
         } catch (IllegalArgumentException e) {
             model.addAttribute("subTask", subTask);
             model.addAttribute("errorMessage", e.getMessage());

@@ -25,10 +25,10 @@
         <textarea id="subTaskDetails" th:field="*{subTaskDetails}"></textarea>
 
         <label for="subTaskStartDate">Startdato:</label>
-        <input id="subTaskStartDate" type="date" th:field="*{subTaskStartDate}" />
+        <input id="subTaskStartDate" type="date" th:field="*{subTaskStartDate}" required />
 
         <label for="subTaskDeadLine">Deadline:</label>
-        <input id="subTaskDeadLine" type="date" th:field="*{subTaskDeadLine}" />
+        <input id="subTaskDeadLine" type="date" th:field="*{subTaskDeadLine}" required />
 
         <label for="subTaskTimeEstimate">Tidsestimat (timer):</label>
         <input id="subTaskTimeEstimate" type="number" step="0.5" th:field="*{subTaskTimeEstimate}" />
@@ -45,7 +45,7 @@
 
         <div class="buttonGroup">
             <button type="submit">Gem ændringer</button>
-            <a th:href="@{/task/{id}(id=${subTask.taskId})}" class="btn-secondary">Annuller</a>
+            <a th:href="@{/dashboard/subTasks/{id}(id=${subTask.taskId})}" class="btn-secondary">Annuller</a>
         </div>
     </form>
 </div>
