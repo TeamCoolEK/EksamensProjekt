@@ -31,12 +31,6 @@
     <label for="subProjectDeadline">Deadline:</label>
     <input id="subProjectDeadline" type="date" th:field="*{subProjectDeadLine}"/>
 
-    <label for="subProjectTimeEstimate">Tidsestimat (timer):</label>
-    <input id="subProjectTimeEstimate" type="number" step="0.5" th:field="*{subProjectTimeEstimate}"/>
-
-    <label for="subProjectActualTime">Faktisk tid (timer):</label>
-    <input id="subProjectActualTime" type="number" step="0.5" th:field="*{subProjectActualTime}"/>
-
     <label for="subProjectStatus">Status:</label>
     <select id="subProjectStatus" th:field="*{status}">
       <option th:value="Ikke_startet">Ikke startet</option>
