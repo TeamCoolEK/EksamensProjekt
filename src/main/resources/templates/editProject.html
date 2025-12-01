@@ -20,6 +20,17 @@
     <!-- Skjult id så vi ved hvilket projekt der skal opdateres -->
     <input type="hidden" th:field="*{projectId}"/>
 
+    <li>
+      <div>
+        <p>Start Dato: <span th:text="${project.projectStartDate}">Start dato</span></p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <p>Deadline: <span th:text="${project.projectDeadLine}">Deadline</span></p>
+      </div>
+    </li>
+
     <label for="projectName">Projektnavn:</label>
     <input id="projectName" type="text" th:field="*{projectName}" required/>
 

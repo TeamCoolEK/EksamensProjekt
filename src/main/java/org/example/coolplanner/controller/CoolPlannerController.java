@@ -65,6 +65,7 @@ public class CoolPlannerController {
     public String createSubTask(@PathVariable int id, Model model) {
         model.addAttribute("subTask", new SubTask());
         model.addAttribute("taskId", id);
+        model.addAttribute("employees",coolPlannerReadService.getAllEmployees());
         return "createSubTask";
     }
 
@@ -167,6 +168,7 @@ public class CoolPlannerController {
             return "redirect:/";
         }
         model.addAttribute("subTask", subTask);
+        model.addAttribute("employees", coolPlannerReadService.getAllEmployees());
         return "editSubTask";
     }
 

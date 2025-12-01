@@ -43,6 +43,18 @@
             <p>Status: <span th:text="${subTask.subTaskStatus}">Status</span></p>
         </div>
     </li>
+    <li>
+        <div>
+            <p>Ansvarlig:
+                <span th:if="${responsibleEmployee != null}"
+                      th:text="${responsibleEmployee.firstName + ' ' + responsibleEmployee.lastName}">
+                </span>
+                <span th:if="${responsibleEmployee == null}">
+                    Ingen tildelt
+                </span>
+            </p>
+        </div>
+    </li>
 </ul>
 
 <a class="rediger-projekt-knap" th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}">
