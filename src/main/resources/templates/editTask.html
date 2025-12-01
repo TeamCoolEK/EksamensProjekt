@@ -16,6 +16,18 @@
     <form th:action="@{/updateTask}" th:object="${task}" method="post">
 
         <input type="hidden" th:field="*{taskID}" />
+<ul>
+        <li>
+            <div>
+                <p>Start Dato: <span th:text="${task.taskStartDate}">Start dato</span></p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <p>Deadline: <span th:text="${task.taskDeadline}">Deadline</span></p>
+            </div>
+        </li>
+</ul>
 
         <label for="taskName" >Navn på Task:</label>
         <input id="taskName" type="text" th:field="*{taskName}" required/>
@@ -24,27 +36,27 @@
         <textarea id="taskDetails" th:field="*{taskDetails}"></textarea>
 
         <label for="taskStartDate">Startdato:</label>
-        <input id="taskStartDate" type="date" th:field="*{taskStartDate}"/>
+        <input id="taskStartDate" type="date" th:field="*{taskStartDate}" required />
 
         <label for="taskDeadline">Deadline:</label>
-        <input id="taskDeadline" type="date" th:field="*{taskDeadline}"/>
+        <input id="taskDeadline" type="date" th:field="*{taskDeadline}" required />
 
         <label for="taskTimeEstimate">Tidsestimat:</label>
-        <input id="taskTimeEstimate" type="number" th:field="*{taskTimeEstimate}"/>
+        <input id="taskTimeEstimate" type="hidden" step="0.5" th:field="*{taskTimeEstimate}" required />
 
         <label for="TaskActualTime">Reel tid brugt:</label>
-        <input id="taskActualTime" type="number" th:field="*{taskActualTime}"/>
+        <input id="taskActualTime" type="hidden" step="0.5" th:field="*{taskActualTime}" required />
 
         <label for="taskStatus">Status:</label>
         <select id="taskStatus" th:field="*{taskStatus}">
-            <option th:value="ikke_startet">Ikke startet</option>
+            <option th:value="Ikke_startet">Ikke startet</option>
             <option th:value="I_gang">I gang</option>
             <option th:value="Afsluttet">Afsluttet</option>
         </select>
 
         <div class="buttonGroup">
             <button type="submit">Gem ændringer</button>
-            <a th:href="@{/dashboard}" class="btn-secondary">Annuller</a>
+            <a th:href="@{/dashboard/show}" class="btn-secondary">Annuller</a>
         </div>
     </form>
 </div>

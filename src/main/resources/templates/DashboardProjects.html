@@ -65,7 +65,7 @@
 </a>
 
 <h3>Luk projekt</h3>
-<form th:action="@{/projects/{id}/close/(id=${project.projectId})}" method="post">
+<form th:action="@{/dashboard/projects/{id}/close(id=${project.projectId})}" method="post">
     <label>
         <input type="checkbox" name="confirm">
         Jeg bekræfter, at jeg vil lukke projektet.

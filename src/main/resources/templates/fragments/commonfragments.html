@@ -8,7 +8,7 @@
 
         <!-- Venstre side: Logo -->
         <div class="navbar-venstre">
-            <a th:href="@{/dashboard}" class="logo">CoolPlanner</a>
+            <a th:href="@{/dashboard/show}" class="logo">CoolPlanner</a>
         </div>
 
         <!-- Højre side: Rediger profil og log ud knapper -->
@@ -16,12 +16,12 @@
         <!-- Her bruger vi 'session.employee.employeeId' – så vi ikke skal sende employee med som parameter hver gang.-->
         <div class="navbar-højre" th:if="${session.employee != null}">
             <a class="btn secondary small"
-               th:href="@{/employee/{id}/editEmployee(id=${session.employee.employeeId})}">
+               th:href="@{/employee/edit/{id}/(id=${session.employee.employeeId})}">
                 Rediger profil
             </a>
 
             <!-- Log ud-knap -->
-            <form th:action="@{/logout}" method="post">
+            <form th:action="@{/employee/logout}" method="post">
                 <button type="submit" class="btn small">Log ud</button>
             </form>
         </div>

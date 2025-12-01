@@ -26,10 +26,13 @@
     <textarea id="subProjectDetails" th:field="*{subProjectDetails}"></textarea>
 
     <label for="subProjectStartDate">Startdato:</label>
-    <input id="subProjectStartDate" type="date" th:field="*{subProjectStartDate}"/>
+    <input id="subProjectStartDate" type="date" th:field="*{subProjectStartDate}" required />
 
     <label for="subProjectDeadline">Deadline:</label>
-    <input id="subProjectDeadline" type="date" th:field="*{subProjectDeadLine}"/>
+    <input id="subProjectDeadline" type="date" th:field="*{subProjectDeadLine}" required />
+
+    <input id="subProjectTimeEstimate" type="hidden" step="0.5" th:field="*{subProjectTimeEstimate}"/>
+    <input id="projectActualTime" type="hidden" step="0.5" th:field="*{subProjectActualTime}"/>
 
     <label for="subProjectStatus">Status:</label>
     <select id="subProjectStatus" th:field="*{status}">
@@ -40,7 +43,7 @@
 
     <div class="buttonGroup">
       <button type="submit">Gem ændringer</button>
-      <a th:href="@{/dashboard}" class="btn-secondary">Annuller</a>
+      <a th:href="@{/dashboard/show}" class="btn-secondary">Annuller</a>
     </div>
 
   </form>

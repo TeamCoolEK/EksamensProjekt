@@ -33,7 +33,7 @@ public class CoolPlannerReadRepository {
     }
 
     public List<Project> findActiveProjects(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus != 'Lukket'";
         List<Project> project = jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
         return project;
     }

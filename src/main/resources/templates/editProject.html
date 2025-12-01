@@ -27,16 +27,13 @@
     <textarea id="projectDetails" th:field="*{projectDetails}"></textarea>
 
     <label for="projectStartDate">Startdato:</label>
-    <input id="projectStartDate" type="date" th:field="*{projectStartDate}"/>
+    <input id="projectStartDate" type="date" th:field="*{projectStartDate}" required/>
 
     <label for="projectDeadline">Deadline:</label>
-    <input id="projectDeadline" type="date" th:field="*{projectDeadLine}"/>
+    <input id="projectDeadline" type="date" th:field="*{projectDeadLine}" required/>
 
-    <label for="projectTimeEstimate">Tidsestimat (timer):</label>
-    <input id="projectTimeEstimate" type="number" step="0.5" th:field="*{projectTimeEstimate}"/>
-
-    <label for="projectActualTime">Faktisk tid (timer):</label>
-    <input id="projectActualTime" type="number" step="0.5" th:field="*{projectActualTime}"/>
+    <input id="projectTimeEstimate" type="hidden" step="0.5" th:field="*{projectTimeEstimate}"/>
+    <input id="projectActualTime" type="hidden" step="0.5" th:field="*{projectActualTime}"/>
 
     <label for="status">Status:</label>
     <select id="status" th:field="*{status}">

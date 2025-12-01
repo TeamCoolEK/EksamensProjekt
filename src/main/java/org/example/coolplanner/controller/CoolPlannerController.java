@@ -40,7 +40,7 @@ public class CoolPlannerController {
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
         coolPlannerWriteService.createProject(project, employee);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/show";
     }
 
     //ENDPOINT til createSubProject
@@ -57,7 +57,7 @@ public class CoolPlannerController {
         Project project = coolPlannerReadService.findProjectById(id);
         coolPlannerWriteService.createSubProject(subProject, project);
         coolPlannerWriteService.updateProjectTimeEstimateFromSubProjects(id);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/show";
     }
 
     //ENDPOINT til createSubTask
@@ -75,7 +75,7 @@ public class CoolPlannerController {
         Task task = coolPlannerReadService.getTaskById(id);
         coolPlannerWriteService.createSubTask(subTask, task);
         coolPlannerWriteService.updateTaskTimeEstimateFromSubTasks(id);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/show";
     }
 
     //ENDPOINT til createTask
@@ -92,7 +92,7 @@ public class CoolPlannerController {
         SubProject subProject = coolPlannerReadService.findSubProjectById(id);
         coolPlannerWriteService.createTask(task, subProject);
         coolPlannerWriteService.updateSubProjectTimeEstimateFromTasks(id);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/show";
     }
 
     @GetMapping("/project/{id}/edit")
@@ -113,7 +113,7 @@ public class CoolPlannerController {
 
         try {
             coolPlannerWriteService.updateProject(form);
-            return "redirect:";
+            return "redirect:/dashboard/show";
         } catch (IllegalArgumentException e) {
             model.addAttribute("project", form);
             model.addAttribute("errorMessage", e.getMessage());
@@ -125,13 +125,13 @@ public class CoolPlannerController {
     public String editSubProject(@PathVariable int id, Model model) {
         SubProject subProject = coolPlannerReadService.findSubProjectById(id);
         if (subProject == null) {
-            return "redirect:/";
+            return "redirect:/dashboard/show";
         }
         model.addAttribute("subProject", subProject);
         return "editSubProject";
     }
 
-    @PostMapping("/updateSubProject")
+    @PostMapping("/subproject/update/{id}")
     public String updateSubProject(@PathVariable int id,
                                    @ModelAttribute SubProject form,
                                    Model model) {
@@ -139,7 +139,7 @@ public class CoolPlannerController {
 
         try {
             coolPlannerWriteService.updateSubProject(form);
-            return "redirect:";
+            return "redirect:/dashboard/subprojects/" + form.getSubProjectId();
         } catch (IllegalArgumentException e) {
             model.addAttribute("subProject", form);
             model.addAttribute("errorMessage", e.getMessage());
@@ -176,25 +176,11 @@ public class CoolPlannerController {
         return "redirect:/dashboard/subTasks/" + subTask.getSubTaskId();
     }
 
-//    @PostMapping("/updateSubTask/{id}")
-//    public String updateSubTask(@PathVariable int id,
-//                                @ModelAttribute("subTask") SubTask subTask,
-//                                Model model) {
-//        try {
-//            coolPlannerWriteService.updateSubTask(subTask);
-//            return "redirect:/dashboard/subTask/" + subTask.getTaskId();
-//        } catch (IllegalArgumentException e) {
-//            model.addAttribute("subTask", subTask);
-//            model.addAttribute("errorMessage", e.getMessage());
-//            return "editSubTask";
-//        }
-//    }
-
     @GetMapping("/subTask/{id}/complete")
     public String showCompleteSubTaskFrom(@PathVariable int id, Model model) {
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
         if (subTask == null) {
-            return "redirect:/dashboard";
+            return "redirect:/dashboard/show";
         }
         model.addAttribute("subTask", subTask);
         return "completeSubTask";
@@ -205,6 +191,6 @@ public class CoolPlannerController {
                                   @RequestParam("actualTime")
                                   int actualTime) {
         coolPlannerWriteService.completeSubTask(id, actualTime);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard/show";
     }
 }

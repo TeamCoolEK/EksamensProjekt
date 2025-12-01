@@ -38,7 +38,7 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/{id}/")
     public String editEmployee(@PathVariable int id, Model model) {
         Employee employee = readService.findEmployeeById(id);
         model.addAttribute("employee", employee);
@@ -48,7 +48,7 @@ public class EmployeeController {
     @PostMapping("/update")
     public String updateEmployee(@ModelAttribute Employee employee) {
         service.updateEmployee(employee);
-        return "redirect:/";
+        return "redirect:/dashboard/show";
     }
 
     @GetMapping("/login")
@@ -68,5 +68,11 @@ public class EmployeeController {
 
         model.addAttribute("wrongCredentials", true);
         return "login";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session ){
+        session.removeAttribute("employee");
+    return "redirect:/";
     }
 }
