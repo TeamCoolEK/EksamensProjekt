@@ -19,7 +19,7 @@ public class SubTaskRowMapper implements RowMapper<SubTask> {
         subTask.setSubTaskDeadLine(rs.getDate("subTaskDeadline").toLocalDate());
         subTask.setSubTaskTimeEstimate(rs.getInt("subTaskTimeEstimate"));
         subTask.setSubTaskActualTime(rs.getInt("subTaskActualTime"));
-        subTask.setStatus(Status.valueOf(rs.getString("subTaskStatus")));
+        subTask.setSubTaskStatus(Status.valueOf(rs.getString("subTaskStatus")));
         subTask.setTaskId(rs.getInt("taskId"));
         subTask.setEmployeeId(rs.getInt("employeeId"));
 

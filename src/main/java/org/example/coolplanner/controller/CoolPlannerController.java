@@ -161,7 +161,7 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/subTask/{id}/edit")
-    public String editSubTask(@PathVariable("id") int id, Model model) {
+    public String editSubTask(@PathVariable int id, Model model) {
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
         if (subTask == null) {
             return "redirect:/";
@@ -170,19 +170,25 @@ public class CoolPlannerController {
         return "editSubTask";
     }
 
-    @PostMapping("/updateSubTask/{id}")
-    public String updateSubTask(@PathVariable int id,
-                                @ModelAttribute("subTask") SubTask subTask,
-                                Model model) {
-        try {
-            coolPlannerWriteService.updateSubTask(subTask);
-            return "redirect:/dashboard/subTask/" + subTask.getTaskId();
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("subTask", subTask);
-            model.addAttribute("errorMessage", e.getMessage());
-            return "editSubTask";
-        }
+    @PostMapping("/updateSubTask")
+    public String updateSubTask(@ModelAttribute SubTask subTask) {
+        coolPlannerWriteService.updateSubTask(subTask);
+        return "redirect:/dashboard/subTasks/" + subTask.getSubTaskId();
     }
+
+//    @PostMapping("/updateSubTask/{id}")
+//    public String updateSubTask(@PathVariable int id,
+//                                @ModelAttribute("subTask") SubTask subTask,
+//                                Model model) {
+//        try {
+//            coolPlannerWriteService.updateSubTask(subTask);
+//            return "redirect:/dashboard/subTask/" + subTask.getTaskId();
+//        } catch (IllegalArgumentException e) {
+//            model.addAttribute("subTask", subTask);
+//            model.addAttribute("errorMessage", e.getMessage());
+//            return "editSubTask";
+//        }
+//    }
 
     @GetMapping("/subTask/{id}/complete")
     public String showCompleteSubTaskFrom(@PathVariable int id, Model model) {
