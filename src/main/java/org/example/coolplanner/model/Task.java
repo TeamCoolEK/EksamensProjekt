@@ -14,6 +14,21 @@ public class Task {
     private Status taskStatus;
     private int subprojectID;
 
+    public Task(int taskID, String taskName, String taskDetails, LocalDate taskStartDate, LocalDate taskDeadline, int taskTimeEstimate, int taskActualTime, Status taskStatus, int subprojectID) {
+        this.taskID = taskID;
+        this.taskName = taskName;
+        this.taskDetails = taskDetails;
+        this.taskStartDate = taskStartDate;
+        this.taskDeadline = taskDeadline;
+        this.taskTimeEstimate = taskTimeEstimate;
+        this.taskActualTime = taskActualTime;
+        this.taskStatus = taskStatus;
+        this.subprojectID = subprojectID;
+    }
+
+    public Task(){
+    }
+
     public int getTaskID() {
         return taskID;
     }
