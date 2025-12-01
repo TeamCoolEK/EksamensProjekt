@@ -122,6 +122,16 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/subProject/{id}/edit")
+    public String editSubProject(@PathVariable int id, Model model) {
+        SubProject subProject = coolPlannerReadService.findSubProjectById(id);
+        if (subProject == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("subProject", subProject);
+        return "editSubProject";
+    }
+
+    @GetMapping("/subProject/{id}/update")
     public String updateSubProject(@PathVariable int id,
                                    @ModelAttribute SubProject form,
                                    Model model) {
@@ -147,7 +157,7 @@ public class CoolPlannerController {
     @PostMapping("/updateTask")
     public String updateTask(@ModelAttribute Task task) {
         coolPlannerWriteService.updateTask(task);
-        return "redirect:/XYZ";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/subTask/{id}/edit")
