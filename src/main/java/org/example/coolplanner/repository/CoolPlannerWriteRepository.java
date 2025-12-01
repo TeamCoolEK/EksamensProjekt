@@ -148,7 +148,7 @@ public class CoolPlannerWriteRepository {
     }
 // Metode til at opdatere et Project
     public void updateProject(Project project) {
-        String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDato = ?, " +
+        String sql = "UPDATE project SET projectName = ?, projectDetails = ?, projectStartDate = ?, " +
                 "projectDeadline = ?, projectTimeEstimate = ?, projectActualTime = ?, projectStatus = ? " +
                 "WHERE projectId = ?";
 
@@ -159,7 +159,7 @@ public class CoolPlannerWriteRepository {
                 project.getProjectDeadLine(),
                 project.getProjectTimeEstimate(),
                 project.getProjectActualTime(),
-                project.getStatus(),
+                project.getStatus().name(),
                 project.getProjectId());
     }
     // Metode til at opdatere et SubProject
@@ -175,7 +175,7 @@ public class CoolPlannerWriteRepository {
                 subProject.getSubProjectDeadLine(),
                 subProject.getSubProjectTimeEstimate(),
                 subProject.getSubProjectActualTime(),
-                subProject.getStatus(),
+                subProject.getStatus().name(),
                 subProject.getSubProjectId());
     }
 // Metode som opdatere den estimerede tid på en Task.
@@ -185,7 +185,7 @@ public class CoolPlannerWriteRepository {
     }
 
     public void closeProject(int projectId) {
-        String sql = "UPDATE project SET projectStatus = 'LUKKET' WHERE projectId = ?";
+        String sql = "UPDATE project SET projectStatus = 'Lukket' WHERE projectId = ?";
         jdbcTemplate.update(sql, projectId);
     }
 

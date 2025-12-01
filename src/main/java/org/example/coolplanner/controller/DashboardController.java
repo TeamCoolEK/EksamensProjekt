@@ -36,18 +36,13 @@ public class DashboardController {
 
         // Henter alle aktive objekter for den medarbejder, der er logget ind
         List<Project> projects = coolPlannerReadService.getActiveProjects(employeeId);
-        List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(employeeId);
-        List<Task> userStories = coolPlannerReadService.getActiveTasks(employeeId);
-        List<SubTask> tasks = coolPlannerReadService.getActiveSubTasks(employeeId);
 
         /* Lægger employee og alle lister på modellen, så vi i HTML kan
          sige "Velkommen 'firstname'" ved at skrive ${employee.firstname}
          samt vise et overblik af projekter, delprojekter, user stories og tasks */
         model.addAttribute("employee", employee);
         model.addAttribute("projects", projects);
-        model.addAttribute("subProjects", subProjects);
-        model.addAttribute("userStories", userStories);
-        model.addAttribute("tasks", tasks);
+
         return "Dashboard";
     }
 
@@ -138,14 +133,15 @@ public class DashboardController {
         return "closedProjects";
     }
 
-    @PostMapping("/projects/{projectId}/close")
-    public String closeProject(@PathVariable int projectId, @RequestParam(required = false) String confirm) {
+    @PostMapping("/projects/{id}/close")
+    public String closeProject(@PathVariable int id, @RequestParam(required = false) String confirm) {
 
         // Checkbox sender fx value="on"
         if (confirm != null) {
-            coolPlannerWriteService.closeProject(projectId); // sætter status til LUKKET
+            coolPlannerWriteService.closeProject(id); // sætter status til LUKKET
+            return "redirect:/dashboard/show";
         }
-        return "redirect:/projects/" + projectId;
+        return "redirect:/show";
     }
 }
 
