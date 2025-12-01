@@ -115,7 +115,7 @@ public class DashboardController {
     public String showTasks(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
 
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
@@ -127,7 +127,7 @@ public class DashboardController {
     }
 
     //Side med lukkede projekter
-    @GetMapping("/projects/closedProjects")
+    @GetMapping("/dashboard/projects/closedProjects")
     public String showClosedProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) return "redirect:/login";

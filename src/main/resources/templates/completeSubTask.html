@@ -10,6 +10,7 @@
 <p th:text="'SubTask: ' + ${subTask.subTaskName}"></p>
 <p th:text="'Detaljer: ' + ${subTask.subTaskDetails}"></p>
 <p th:text="'Deadline: ' + ${subTask.subTaskDeadLine}"></p>
+<p th:text="'Tidsestimat: '+ ${subTask.subTaskTimeEstimate}"></p>
 
 <form th:action="@{'/subTask/' + ${subTask.subTaskId} + '/complete'}" method="post">
   <label for="actualTime">Faktisk tid brugt (timer):</label>
