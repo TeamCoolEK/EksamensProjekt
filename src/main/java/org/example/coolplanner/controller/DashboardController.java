@@ -127,7 +127,7 @@ public class DashboardController {
     }
 
     //Side med lukkede projekter
-    @GetMapping("/dashboard/projects/closedProjects")
+    @GetMapping("/projects/closedProjects")
     public String showClosedProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) return "redirect:/login";
