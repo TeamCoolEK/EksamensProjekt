@@ -69,6 +69,7 @@ public class CoolPlannerWriteService {
         for (SubTask subTask : subTasks) {
             sum += subTask.getSubTaskTimeEstimate();
         }
+
         Task task = readRepository.findTaskById(taskId);
         task.setTaskTimeEstimate(sum);
         writeRepository.updateTaskTimeEstimate(task);
