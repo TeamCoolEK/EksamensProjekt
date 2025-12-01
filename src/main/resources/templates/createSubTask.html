@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Opret task</title>
@@ -27,6 +27,17 @@
 
     <label>Tidsestimat:</label>
     <input type="number" placeholder="Timer" th:field="*{subTaskTimeEstimate}" required>
+
+    <!-- dropdown til ansvarlig medarbejder -->
+    <label for="employee">Ansvarlig:</label>
+    <select id="employee" th:field="*{employeeId}" required>
+        <option value="0" disabled selected>Vælg medarbejder</option>
+        <option th:each="emp : ${employees}"
+                th:value="${emp.employeeId}"
+                th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName}">
+        </option>
+
+    </select>
 
     <button type="submit">Opret subtask</button>
 </form>

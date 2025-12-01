@@ -115,8 +115,14 @@ public class DashboardController {
 
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
 
+        Employee responsibleEmployee = null;
+        if(subTask.getEmployeeId() != 0) {
+            responsibleEmployee = coolPlannerReadService.findEmployeeById(subTask.getEmployeeId());
+        }
+
         model.addAttribute("employee", employee);
         model.addAttribute("subTask", subTask);
+        model.addAttribute("responsibleEmployee", responsibleEmployee);
 
         return "DashboardSubTasks";
     }

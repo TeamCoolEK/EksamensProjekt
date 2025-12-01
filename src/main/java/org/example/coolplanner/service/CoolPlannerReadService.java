@@ -63,4 +63,7 @@ public class CoolPlannerReadService {
         return readRepository.findClosedProjects(employeeId);
     }
 
+    public List<Employee> getAllEmployees(){
+        return readRepository.findAllEmployees();
+    }
 }

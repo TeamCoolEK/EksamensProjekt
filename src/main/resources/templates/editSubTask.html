@@ -17,6 +17,17 @@
 
         <input type="hidden" th:field="*{subTaskId}" />
 
+        <li>
+            <div>
+                <p>Start Dato: <span th:text="${subTask.subTaskStartDate}">Start dato</span></p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <p>Deadline: <span th:text="${subTask.subTaskDeadLine}">Deadline</span></p>
+            </div>
+        </li>
+
         <label for="taskName" >Navn på Task:</label>
         <input id="taskName" type="text" th:field="*{subTaskName}" required/>
 
@@ -38,6 +49,16 @@
             <option th:value="Ikke_startet">Ikke startet</option>
             <option th:value="I_gang">I gang</option>
             <option th:value="Afsluttet">Afsluttet</option>
+        </select>
+
+        <label for="employee">Ansvarlig:</label>
+        <select id="employee" th:field="*{employeeId}" required>
+            <option th:value="0" disabled>Vælg medarbejder</option>
+
+            <option th:each="emp : ${employees}"
+                    th:value="${emp.employeeId}"
+                    th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName}">
+            </option>
         </select>
 
         <div class="buttonGroup">

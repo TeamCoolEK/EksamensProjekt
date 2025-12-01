@@ -19,6 +19,17 @@
 
     <input type="hidden" th:field="*{subProjectId}"/>
 
+    <li>
+      <div>
+        <p>Start Dato: <span th:text="${subProject.subProjectStartDate}">Start dato</span></p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <p>Deadline: <span th:text="${subProject.subProjectDeadLine}">Deadline</span></p>
+      </div>
+    </li>
+
     <label for="subProjectName">Navn:</label>
     <input id="subProjectName" type="text" th:field="*{subProjectName}" required/>
 
