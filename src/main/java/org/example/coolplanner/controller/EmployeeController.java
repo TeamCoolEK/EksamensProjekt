@@ -63,7 +63,7 @@ public class EmployeeController {
         if (employee != null){
             session.setAttribute("employee", employee);
             session.setMaxInactiveInterval(900);
-            return "redirect:/dashboard";
+            return "redirect:/dashboard/show";
         }
 
         model.addAttribute("wrongCredentials", true);

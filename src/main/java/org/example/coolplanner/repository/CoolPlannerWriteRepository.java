@@ -164,7 +164,7 @@ public class CoolPlannerWriteRepository {
     }
     // Metode til at opdatere et SubProject
     public void updateSubProject(SubProject subProject) {
-        String sql = "UPDATE subProject SET subProjectName = ?, subProjectDetails = ?, subProjectStartDato = ?, " +
+        String sql = "UPDATE subProject SET subProjectName = ?, subProjectDetails = ?, subProjectStartDate = ?, " +
                 "subProjectDeadline = ?, subProjectTimeEstimate = ?, subProjectActualTime = ?, subProjectStatus = ? " +
                 "WHERE subProjectId = ?";
 
