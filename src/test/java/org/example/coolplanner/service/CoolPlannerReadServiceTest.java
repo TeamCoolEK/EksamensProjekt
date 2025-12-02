@@ -2,7 +2,6 @@ package org.example.coolplanner.service;
 
 import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.model.EmployeeRole;
-import org.example.coolplanner.repository.CoolPlannerWriteRepository;
 import org.example.coolplanner.repository.CoolPlannerReadRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +17,12 @@ import static org.mockito.Mockito.*;
 //Struktur bør være Repo = Database håndtering -> service = logik(resten af metoden) -> controller = weblag (Benytte metoden)
 @ExtendWith(MockitoExtension.class)
 public class CoolPlannerReadServiceTest {
+
     //Mocker repo's til brug i test
     @Mock
     CoolPlannerReadRepository coolplannerReadRepository;
-    //injecter service klassens dependencies
 
+    //injecter service klassens dependencies
     @InjectMocks
     CoolPlannerReadService coolPlannerReadService;
 
