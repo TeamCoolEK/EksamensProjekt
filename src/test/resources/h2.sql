@@ -1,9 +1,9 @@
 --h2 tabeller--
-DROP TABLE IF EXISTS employee;
-DROP TABLE IF EXISTS project;
-DROP TABLE IF EXISTS subProject;
-DROP TABLE IF EXISTS task;
 DROP TABLE IF EXISTS subTask;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS subProject;
+DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS employee;
 
 CREATE TABLE employee (
                           employeeId INT AUTO_INCREMENT PRIMARY KEY,
