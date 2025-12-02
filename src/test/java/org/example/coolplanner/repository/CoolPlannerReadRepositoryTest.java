@@ -19,7 +19,7 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 @ActiveProfiles("test")
 //Bruger h2.sql script til oprettelse af h2 database
 @Sql(scripts = "classpath:h2.sql", executionPhase = BEFORE_TEST_METHOD)
-public class CoolPlannerWriteRepositoryFindTest {
+public class CoolPlannerReadRepositoryTest {
 
     //injecter repo dependencies
     @Autowired
