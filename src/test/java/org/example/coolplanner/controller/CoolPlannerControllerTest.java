@@ -26,6 +26,8 @@ public class CoolPlannerControllerTest {
     //Mocker service klassen
     @MockitoBean
     private CoolPlannerWriteService coolPlannerWriteService;
+
+    @MockitoBean
     private CoolPlannerReadService coolPlannerReadService;
 
     //Bruger mockMvc klasse, til at kalde mock metoder på web lageret
@@ -36,8 +38,10 @@ public class CoolPlannerControllerTest {
     //hvis der retuneres andet (404, 500, osv), fejler testen
     @Test
     void createProjectTest() throws Exception { //mockMvc thrower exception
-        //mocker HTTP request på /createProject endpoint
-        mockMvc.perform(get("/createProject"))
+        //mocker employee til session
+        Employee employee = new Employee();
+        //mocker HTTP request på /createProject endpoint og mocked employee session
+        mockMvc.perform(get("/createProject").sessionAttr("employee", employee))
                 //Forventer 200 kode (success)
                 .andExpect(status().isOk())
                 //forventer HTML createProject
@@ -61,7 +65,7 @@ public class CoolPlannerControllerTest {
                                 .param("projectDetails", "details") //sætter projectDetails
                 )
                 .andExpect(status().is3xxRedirection()) //forventer redirect
-                .andExpect(redirectedUrl("/XYZ")); //til /XYZ
+                .andExpect(redirectedUrl("/dashboard/show")); //til /XYZ
         //Verificere at createProject blev kaldt med employeeSession
         verify(coolPlannerWriteService).createProject(
                 //vi sender et project objekt igennem, og et employee objekt

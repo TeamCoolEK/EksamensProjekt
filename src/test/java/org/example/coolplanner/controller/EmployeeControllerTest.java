@@ -70,7 +70,7 @@ public class EmployeeControllerTest {
         when(coolPlannerReadService.findEmployeeById(1)).thenReturn(test);
 
         mockMvc.perform(
-                get("/employee/edit/{id}", test.getEmployeeId()))
+                get("/employee/edit/{id}/", test.getEmployeeId()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("editEmployee"))
                 .andExpect(model().attribute("employee", instanceOf(Employee.class))
