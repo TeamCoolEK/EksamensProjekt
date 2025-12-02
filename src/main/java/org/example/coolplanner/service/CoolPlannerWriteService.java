@@ -5,6 +5,7 @@ import org.example.coolplanner.repository.CoolPlannerWriteRepository;
 import org.example.coolplanner.repository.CoolPlannerReadRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -108,34 +109,63 @@ public class CoolPlannerWriteService {
         writeRepository.updateProjectTimeEstimate(project);
     }
 
+    private int calculateWorkingDays(LocalDate startDate, LocalDate endDate) {
+        if (endDate.isBefore(startDate)) {
+            return 0;
+        }
+
+        int workingDays = 0;
+        LocalDate date = startDate;
+
+        while (!date.isAfter(endDate)) {
+            // Hvis dagen IKKE er lørdag eller søndag, tælles den som arbejdsdag
+            if (date.getDayOfWeek() != DayOfWeek.SATURDAY && date.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                workingDays++;
+            }
+            date = date.plusDays(1); // gå videre til næste dag
+        }
+
+        return workingDays;
+    }
+
     public double calculateDailyHours(Project project) {
         LocalDate today = LocalDate.now();
         LocalDate deadline = project.getProjectDeadLine();
 
+        // Hvis deadline er i fortiden, sæt den til i dag
+        if (deadline.isBefore(today)) {
+            deadline = today;
+        }
+
         int remainingHours = 0;
 
-        //Finder alle subprojecter for projectet //
+        // Find alle subProjects for projektet
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(project.getProjectId());
-
-        //Finder tasks under hvert subProject //
         for (SubProject subProject : subProjects) {
 
+            //Find alle tasks under hvert subProject
             List<Task> tasks = readRepository.findTasksBySubProjectId(subProject.getSubProjectId());
-
-            // udregner kun ud fra åbne tasks //
             for (Task task : tasks) {
-                if (!task.getTaskStatus().equals(Status.Lukket)) {
-                    remainingHours += task.getTaskTimeEstimate();
+
+                // Find alle subTasks under hver task
+                List<SubTask> subTasks = readRepository.findSubTasksByTaskId(task.getTaskID());
+                for (SubTask subTask : subTasks) {
+
+                    // Medtag kun IKKE-lukkede subTasks
+                    if (!subTask.getSubTaskStatus().equals(Status.Lukket)) {
+                        remainingHours += subTask.getSubTaskTimeEstimate();
+                    }
                 }
             }
         }
-        // beregner antal dage til deadline //
-        int daysToDeadline = (int) (deadline.toEpochDay() - today.toEpochDay());
-        if (daysToDeadline <= 0) {
-            daysToDeadline = 1;
+        // Beregn antal arbejdsdage (man-fre) frem til deadline
+        int workingDays = calculateWorkingDays(today, deadline);
+        if (workingDays <= 0) {
+            workingDays = 1; // undgå division med 0
         }
 
-        return (double) remainingHours / daysToDeadline;
+        // Timer pr. arbejdsdag
+        return (double) remainingHours / workingDays;
     }
 
     public void completeSubTask(int subTaskId, int actualTime) {

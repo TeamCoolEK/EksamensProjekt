@@ -61,9 +61,12 @@ public class DashboardController {
         //Henter liste af projektets delprojekter
         List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(project.getProjectId());
 
+        double dailyHours = coolPlannerWriteService.calculateDailyHours(project);
+
         model.addAttribute("employee", employee);
         model.addAttribute("project", project);
         model.addAttribute("subProjects", subProjects);
+        model.addAttribute("dailyHours", dailyHours);
         return "DashboardProjects";
     }
 
@@ -141,14 +144,11 @@ public class DashboardController {
 
     @PostMapping("/projects/{id}/close")
     public String closeProject(@PathVariable int id, @RequestParam(required = false) String confirm) {
-
-        // Checkbox sender fx value="on"
-        if (confirm != null) {
+        
             coolPlannerWriteService.closeProject(id); // sætter status til LUKKET
             return "redirect:/dashboard/show";
         }
-        return "redirect:/show";
+
     }
-}
 
 

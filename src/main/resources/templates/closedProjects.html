@@ -10,17 +10,14 @@
 
 <h1>Lukkede projekter</h1>
 
-<table>
-    <tr>
-        <th>Projekt</th>
-        <th>Status</th>
-    </tr>
-
-    <tr th:each="p : ${closedProjects}">
-        <td th:text="${p.projectName}"></td>
-        <td th:text="${p.status}"></td>
-    </tr>
-</table>
+    <li th:each="cp : ${closedProjects}">
+        <div>
+            <a th:href="@{'/dashboard/projects/' + ${cp.projectId}}">
+                <p><span th:text="${cp.projectName}"></span></p>
+            </a>
+            <p> Status: <span th:text="${cp.status}"></span></p>
+        </div>
+    </li>
 
 <a th:href="@{/dashboard/show}">Tilbage</a>
 
