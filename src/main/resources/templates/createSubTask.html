@@ -34,7 +34,7 @@
         <option value="0" disabled selected>Vælg medarbejder</option>
         <option th:each="emp : ${employees}"
                 th:value="${emp.employeeId}"
-                th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName}">
+                th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName + ' ' + emp.getRole()}">
         </option>
 
     </select>
