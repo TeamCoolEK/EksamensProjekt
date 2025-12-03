@@ -63,10 +63,16 @@ public class DashboardController {
 
         double dailyHours = coolPlannerWriteService.calculateDailyHours(project);
 
+        int remainingEstimate = coolPlannerWriteService.
+                calculateProjectRemainingTimeEstimateFromSubProjects(project.getProjectId());
+
+
         model.addAttribute("employee", employee);
         model.addAttribute("project", project);
         model.addAttribute("subProjects", subProjects);
         model.addAttribute("dailyHours", dailyHours);
+        model.addAttribute("remainingEstimate", remainingEstimate);
+
         return "DashboardProjects";
     }
 
@@ -81,9 +87,13 @@ public class DashboardController {
         SubProject subProject = coolPlannerReadService.findSubProjectById(id);
         List<Task> tasks = coolPlannerReadService.getActiveTasks(id);
 
+        int remainingEstimate = coolPlannerWriteService.
+                calculateSubProjectRemainingTimeEstimateFromTasks(subProject.getSubProjectId());
+
         model.addAttribute("employee", employee);
         model.addAttribute("subProject", subProject);
         model.addAttribute("tasks", tasks);
+        model.addAttribute("remainingEstimate", remainingEstimate);
 
         // viser filen: src/main/resources/template/dashboardSubProjects.html
         return "DashboardSubProjects";
@@ -100,9 +110,13 @@ public class DashboardController {
         Task task = coolPlannerReadService.getTaskById(id);
         List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(id);
 
+        int remainingEstimate = coolPlannerWriteService.
+                calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskID());
+
         model.addAttribute("employee", employee);
         model.addAttribute("task", task);
         model.addAttribute("subTasks", subTasks);
+        model.addAttribute("remainingEstimate", remainingEstimate);
 
         // viser filen: src/main/resources/template/dashboardTasks.html
         return "DashboardTask";
@@ -144,7 +158,7 @@ public class DashboardController {
 
     @PostMapping("/projects/{id}/close")
     public String closeProject(@PathVariable int id, @RequestParam(required = false) String confirm) {
-        
+
             coolPlannerWriteService.closeProject(id); // sætter status til LUKKET
             return "redirect:/dashboard/show";
         }

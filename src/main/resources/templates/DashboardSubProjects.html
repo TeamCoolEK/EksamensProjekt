@@ -29,7 +29,16 @@
     </li>
     <li>
         <div>
-            <p>Estimeret tid: <span th:text="${subProject.subProjectTimeEstimate}">Tidsestimat</span></p>
+            <p>Estimeret tid i alt:
+                <span th:text="${subProject.subProjectTimeEstimate}">Tidsestimat</span> timer
+            </p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Resterende estimeret tid:
+                <span th:text="${remainingEstimate}">Resterende tidsestimat</span> timer
+            </p>
         </div>
     </li>
     <li>

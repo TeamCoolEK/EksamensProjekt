@@ -29,12 +29,23 @@
     </li>
     <li>
         <div>
-            <p>Estimeret tid: <span th:text="${project.projectTimeEstimate}">Tidsestimat</span></p>
+            <p>Estimeret tid i alt:
+                <span th:text="${project.projectTimeEstimate}">Tidsestimat</span> timer
+            </p>
         </div>
     </li>
     <li>
         <div>
-            <p>Faktiske tid: <span th:text="${project.projectActualTime}">Faktisk tid</span></p>
+            <p>Resterende estimeret tid:
+                <span th:text="${remainingEstimate}">Resterende tidsestimat</span> timer
+            </p>
+        </div>
+    </li>
+    <li>
+        <div>
+            <p>Faktiske tid:
+                <span th:text="${project.projectActualTime}">Faktisk tid</span> timer
+            </p>
         </div>
     </li>
     <li>
@@ -43,9 +54,9 @@
         </div>
     </li>
 
-    <p>Du skal i gennemsnit bruge
+    <p>I skal i gennemsnit bruge
         <span th:text="${#numbers.formatDecimal(dailyHours, 1, 2)}"></span>
-        timer pr. arbejdsdag for at nå deadline.
+        timer pr. arbejdsdag for at nå deadline, fra dags dato.
     </p>
 
 </ul>
