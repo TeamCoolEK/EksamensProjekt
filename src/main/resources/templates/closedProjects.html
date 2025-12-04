@@ -2,24 +2,70 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> CoolPlanner | Lukkede projekter </title>
-    <link rel="stylesheet" href="/style.css">
+    <title>CoolPlanner | Lukkede projekter</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Lukkede projekter</h1>
+<main class="page">
 
-    <li th:each="cp : ${closedProjects}">
-        <div>
-            <a th:href="@{'/dashboard/projects/' + ${cp.projectId}}">
-                <p><span th:text="${cp.projectName}"></span></p>
-            </a>
-            <p> Status: <span th:text="${cp.status}"></span></p>
+    <!-- Header til lukkede projekter -->
+    <section class="glass project-detail-header">
+        <h1>Lukkede projekter</h1>
+
+        <p class="meta-text">
+            Her kan du se projekter, der er afsluttet eller manuelt lukket.
+        </p>
+    </section>
+
+    <!-- Liste over lukkede projekter -->
+    <section class="projects-section">
+        <div class="section-heading">
+            <h2>Arkiv</h2>
+            <span class="count-pill"
+                  th:text="${#lists.size(closedProjects)} + ' lukket(e) projekt(er)'">
+                0 lukket(e) projekt(er)
+            </span>
         </div>
-    </li>
 
-<a th:href="@{/dashboard/show}">Tilbage</a>
+        <ul class="project-list">
+            <li th:each="cp : ${closedProjects}">
+                <a th:href="@{'/dashboard/projects/' + ${cp.projectId}}">
+                    <div class="project-card glass subproject-card">
+
+                        <div class="project-card-top">
+                            <p class="project-name"
+                               th:text="${cp.projectName}">
+                                Projektnavn
+                            </p>
+                        </div>
+
+                        <div class="project-card-footer">
+                            <span class="status-pill">
+                                Lukket
+                            </span>
+                            <span>
+                                Status:
+                                <span th:text="${cp.status}">Lukket</span>
+                            </span>
+                        </div>
+
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <div class="button-row">
+            <a class="btn-ghost" th:href="@{/dashboard/show}">
+                Tilbage til dashboard
+            </a>
+        </div>
+
+    </section>
+
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>

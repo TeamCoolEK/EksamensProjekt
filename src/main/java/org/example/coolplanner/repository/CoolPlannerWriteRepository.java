@@ -204,7 +204,7 @@ public class CoolPlannerWriteRepository {
         String sql = "UPDATE subTask SET subTaskActualTime = ?, subTaskStatus = ? WHERE subTaskId = ?";
         jdbcTemplate.update(sql, actualTime, Status.Lukket.name(), subTaskId);
     }
-// Sætter  Tasks faktiske tid.
+// Sætter Tasks faktiske tid.
     public void updateTaskActualTime(Task task) {
         String sql = "UPDATE task SET taskActualTime = ? WHERE taskId = ?";
         jdbcTemplate.update(sql, task.getTaskActualTime(), task.getTaskID());

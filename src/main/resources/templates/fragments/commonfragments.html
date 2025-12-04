@@ -2,7 +2,8 @@
 <!-- Genbrugelige fragments til navbar, header, footer -->
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <body>
-<!-- Top navigation (højre hjørne) -->
+
+<!-- Top navigation -->
 <nav th:fragment="navbar">
     <div class="navbar-container">
 
@@ -11,33 +12,52 @@
             <a th:href="@{/dashboard/show}" class="logo">CoolPlanner</a>
         </div>
 
-        <!-- Højre side: Rediger profil og log ud knapper -->
-        <!-- Rediger profil-knap -->
-        <!-- Her bruger vi 'session.employee.employeeId' – så vi ikke skal sende employee med som parameter hver gang.-->
+        <!-- Højre side: Når man ER logget ind -->
         <div class="navbar-højre" th:if="${session.employee != null}">
-            <a class="btn secondary small"
+            <span class="meta-text">
+                Logget ind som
+                <span th:text="${session.employee.firstName}">Bruger</span>
+            </span>
+
+            <a class="btn-ghost"
                th:href="@{/employee/edit/{id}/(id=${session.employee.employeeId})}">
                 Rediger profil
             </a>
 
-            <!-- Log ud-knap -->
             <form th:action="@{/employee/logout}" method="post">
-                <button type="submit" class="btn small">Log ud</button>
+                <button type="submit" class="btn-primary">
+                    Log ud
+                </button>
             </form>
+        </div>
+
+        <!-- Højre side: Når man IKKE er logget ind -->
+        <div class="navbar-højre" th:if="${session.employee == null}">
+            <a class="btn-ghost" th:href="@{/employee/login}">
+                Log ind
+            </a>
+            <a class="btn-primary" th:href="@{/employee/createEmployee}">
+                Opret medarbejder
+            </a>
         </div>
     </div>
 </nav>
 
 <!-- Footer med kontaktinfo -->
-<footer th:fragment="footer">
-    <div class="siteFooter">
-        <div class="footerInner">
-            <p class="footerTitle">Kontakt os</p>
-            <p>E-mail: <a href="mailto:TeamCool@stud.ek.dk">TeamCool@stud.ek.dk</a></p>
-            <p>Telefon: <a href="tel:12345678">12345678</a></p>
-            <p>Adresse: Guldbergsgade 29N, 2200 København</p>
-        </div>
+<footer th:fragment="footer" class="site-footer">
+    <div class="footerInner">
+        <p class="footerTitle">Kontakt os</p>
+        <p>
+            E-mail:
+            <a href="mailto:TeamCool@stud.ek.dk">TeamCool@stud.ek.dk</a>
+        </p>
+        <p>
+            Telefon:
+            <a href="tel:12345678">12345678</a>
+        </p>
+        <p>Adresse: Guldbergsgade 29N, 2200 København</p>
     </div>
 </footer>
+
 </body>
 </html>

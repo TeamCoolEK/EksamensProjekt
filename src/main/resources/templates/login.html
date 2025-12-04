@@ -6,26 +6,30 @@
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<div class="formPage">
-    <h1>Login</h1>
-    <p class="subtitle">Log ind for at se dine projekter</p>
+<main class="page">
+    <section class="glass form-card">
+        <h1>Login</h1>
+        <p class="meta-text">Log ind for at se dine projekter</p>
 
-    <form th:action="@{/employee/login}" method="post">
-        <label for="email">Email:</label>
-        <input id="email" type="email" name="email" required>
+        <form th:action="@{/employee/login}" method="post">
 
-        <label for="password">Adgangskode:</label>
-        <input id="password" type="password" name="password" required>
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" placeholder="Indtast din email" required>
 
-        <button type="submit">Log ind</button>
+            <label for="password">Adgangskode</label>
+            <input id="password" type="password" name="password" placeholder="Indtast din adgangskode" required>
 
-        <p th:if="${wrongCredentials}" class="error">
-            Forkert email eller adgangskode. Prøv igen.
-        </p>
-    </form>
-</div>
+            <button type="submit" class="btn-primary">Log ind</button>
+
+            <p th:if="${wrongCredentials}" class="error" style="margin-top: 10px; color: #fca5a5;">
+                Forkert email eller adgangskode. Prøv igen.
+            </p>
+        </form>
+    </section>
+</main>
 
 </body>
 </html>

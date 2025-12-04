@@ -2,68 +2,96 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CoolPlanner | Dine Subtasks</title>
+    <title>CoolPlanner | Delopgave</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1 th:text="${subTask.subTaskName}">SubTask navn</h1>
+<main class="page">
 
-<ul th:each="subtasks : ${subTask}">
-    <li>
-        <div>
-            <p>Beskrivelse: <span th:text="${subTask.subTaskDetails}">Beskrivelse:</span></p>
+    <!-- Header for delopgave -->
+    <section class="glass project-detail-header">
+        <h1 th:text="${subTask.subTaskName}">Delopgavenavn</h1>
+
+        <p class="project-description" th:text="${subTask.subTaskDetails}">
+            Kort beskrivelse af delopgaven…
+        </p>
+
+        <p class="meta-text">
+            Detaljer for delopgaven og ansvarlig medarbejder.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">Startdato</div>
+                <div class="stat-value" th:text="${subTask.subTaskStartDate}">
+                    2025-01-10
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Deadline</div>
+                <div class="stat-value" th:text="${subTask.subTaskDeadLine}">
+                    2025-01-20
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Estimeret tid</div>
+                <div class="stat-value">
+                    <span th:text="${subTask.subTaskTimeEstimate}">4</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Faktisk tid</div>
+                <div class="stat-value">
+                    <span th:text="${subTask.subTaskActualTime}">2</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <div class="stat-card stat-status">
+                <div class="stat-label">Status</div>
+                <div class="stat-value" th:text="${subTask.subTaskStatus}">
+                    Aktiv
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Ansvarlig</div>
+                <div class="stat-value">
+                    <span th:if="${responsibleEmployee != null}"
+                          th:text="${responsibleEmployee.firstName + ' ' + responsibleEmployee.lastName}">
+                        Navn Navnesen
+                    </span>
+                    <span th:if="${responsibleEmployee == null}">
+                        Ingen tildelt
+                    </span>
+                </div>
+            </div>
 
         </div>
-    </li>
-    <li>
-        <div>
-            <p>Start Dato: <span th:text="${subTask.subTaskStartDate}">Start dato</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Deadline: <span th:text="${subTask.subTaskDeadLine}">Deadline</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Estimeret tid: <span th:text="${subTask.subTaskTimeEstimate}">Tidsestimat</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Faktiske tid: <span th:text="${subTask.subTaskActualTime}">Faktisk tid</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Status: <span th:text="${subTask.subTaskStatus}">Status</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Ansvarlig:
-                <span th:if="${responsibleEmployee != null}"
-                      th:text="${responsibleEmployee.firstName + ' ' + responsibleEmployee.lastName}">
-                </span>
-                <span th:if="${responsibleEmployee == null}">
-                    Ingen tildelt
-                </span>
-            </p>
-        </div>
-    </li>
-</ul>
 
-<a class="rediger-projekt-knap" th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}">
-    <p>Rediger delopgave</p>
-</a>
+        <div class="button-row button-row-tight">
+            <a class="btn-ghost"
+               th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}">
+                Rediger delopgave
+            </a>
 
-<a class="rediger-projekt-knap" th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}">
-    <p>Luk delopgave</p>
-</a>
+            <a class="btn-ghost btn-danger"
+               th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}">
+                Luk delopgave
+            </a>
+        </div>
+
+    </section>
+
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 

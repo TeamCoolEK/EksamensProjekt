@@ -2,47 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Opret ny medarbejder</title>
+  <title>CoolPlanner | Opret ny medarbejder</title>
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
+<main class="page">
+  <section class="glass form-card">
 
-<div class="formPage">
-  <h1>Opret ny medarbejder</h1>
-  <p class="subtitle">Udfyld informationerne for at oprette en ny employee</p>
+    <h1>Opret ny medarbejder</h1>
+    <p class="meta-text">Udfyld informationerne for at oprette en ny employee.</p>
 
-  <form th:action="@{/employee/saveEmployee}" th:object="${employee}" method="post">
+    <form th:action="@{/employee/saveEmployee}" th:object="${employee}" method="post">
 
-    <input type="hidden" th:field="*{employeeId}"/>
+      <!-- skjult ID -->
+      <input type="hidden" th:field="*{employeeId}"/>
 
-    <label for="firstName">Fornavn:</label>
-    <input id="firstName" type="text" th:field="*{firstName}" required>
+      <label for="firstName">Fornavn</label>
+      <input id="firstName" type="text" th:field="*{firstName}" placeholder="Fornavn" required>
 
-    <label for="lastName">Efternavn:</label>
-    <input id="lastName" type="text" th:field="*{lastName}" required>
+      <label for="lastName">Efternavn</label>
+      <input id="lastName" type="text" th:field="*{lastName}" placeholder="Efternavn" required>
 
-    <label for="email">E-mail:</label>
-    <input id="email" type="email" th:field="*{email}" required>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" th:field="*{email}" placeholder="E-mail" required>
 
-    <label for="password">Adgangskode:</label>
-    <input id="password" type="password" th:field="*{password}" required>
+      <label for="password">Adgangskode</label>
+      <input id="password" type="password" th:field="*{password}" placeholder="Adgangskode" required>
 
-    <label for="role">Rolle:</label>
-    <select id="role" th:field="*{role}" required>
-      <option value="" disabled selected>Vælg rolle</option>
+      <label for="role">Rolle</label>
+      <select id="role" th:field="*{role}" required>
+        <option value="" disabled selected>Vælg rolle</option>
+        <option th:value="Manager">Manager</option>
+        <option th:value="Team_Member">Team member</option>
+      </select>
 
-      <option th:value="Manager">Manager</option>
-      <option th:value="Team_Member">Team member</option>
-    </select>
+      <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
-    <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
+      <div class="button-row">
+        <button type="submit" class="btn-primary">Opret bruger</button>
+        <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
+      </div>
 
-    <button type="submit">Opret bruger</button>
-  </form>
-</div>
+    </form>
+
+  </section>
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
+
 </body>
 </html>

@@ -2,17 +2,26 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> CoolPlanner | Forside </title>
-    <link rel="stylesheet" href="/style.css">
+    <title>CoolPlanner | Forside</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
-<body>
+<body class="frontpage">
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1>Velkommen til CoolPlanner</h1>
-<p>Dit simple projektkalkuleringsværktøj.</p>
+<main class="page">
+    <section class="glass hero hero-galaxy">
+        <div class="hero-content">
+            <h1>Velkommen til CoolPlanner</h1>
+            <p>Dit simple projektkalkuleringsværktøj.</p>
 
-<a href="/employee/login">Log ind</a><br>
-<a href="/employee/createEmployee">Opret medarbejder</a>
+            <div class="button-row">
+                <a href="/employee/login" class="btn-primary">Log ind</a>
+                <a href="/employee/createEmployee" class="btn-ghost">Opret medarbejder</a>
+            </div>
+        </div>
+    </section>
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 
