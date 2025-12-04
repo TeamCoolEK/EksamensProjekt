@@ -137,27 +137,8 @@ public class CoolPlannerWriteService {
             deadline = today;
         }
 
-        int remainingHours = 0;
+        int remainingHours = calculateProjectRemainingTimeEstimateFromSubProjects(project.getProjectId());
 
-        // Find alle subProjects for projektet
-        List<SubProject> subProjects = readRepository.findSubProjectByProjectId(project.getProjectId());
-        for (SubProject subProject : subProjects) {
-
-            //Find alle tasks under hvert subProject
-            List<Task> tasks = readRepository.findTasksBySubProjectId(subProject.getSubProjectId());
-            for (Task task : tasks) {
-
-                // Find alle subTasks under hver task
-                List<SubTask> subTasks = readRepository.findSubTasksByTaskId(task.getTaskID());
-                for (SubTask subTask : subTasks) {
-
-                    // Medtag kun IKKE-lukkede subTasks
-                    if (!subTask.getSubTaskStatus().equals(Status.Lukket)) {
-                        remainingHours += subTask.getSubTaskTimeEstimate();
-                    }
-                }
-            }
-        }
         // Beregn antal arbejdsdage (man-fre) frem til deadline
         int workingDays = calculateWorkingDays(today, deadline);
         if (workingDays <= 0) {
@@ -220,6 +201,37 @@ public class CoolPlannerWriteService {
         writeRepository.updateProjectActualTime(project);
     }
 
+    public int calculateTaskRemainingTimeEstimateFromSubTasks(int taskId) {
+        List<SubTask> subTasks = readRepository.findSubTasksByTaskId(taskId);
+
+        int sum = 0;
+        for (SubTask subTask : subTasks) {
+            if (!subTask.getSubTaskStatus().equals(Status.Lukket)){
+                sum += subTask.getSubTaskTimeEstimate();
+            }
+        }
+        return sum;
+    }
+
+    public int calculateSubProjectRemainingTimeEstimateFromTasks(int subProjectId){
+        List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
+
+        int sum = 0;
+        for(Task task :tasks){
+            sum += calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskID());
+        }
+        return sum;
+    }
+
+    public int calculateProjectRemainingTimeEstimateFromSubProjects(int projectId){
+        List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
+
+        int sum = 0;
+        for (SubProject subProject : subProjects){
+            sum += calculateSubProjectRemainingTimeEstimateFromTasks(subProject.getSubProjectId());
+        }
+        return sum;
+    }
 }
 
 
