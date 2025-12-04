@@ -1,0 +1,768 @@
+/* =========
+   GLOBALT
+   ========= */
+
+:root {
+    --bg-gradient-start: #0f172a;
+    --bg-gradient-end: #1e293b;
+    --accent: #38bdf8;          /* lys blå */
+    --accent-soft: rgba(56, 189, 248, 0.2);
+    --accent-strong: #0ea5e9;
+    --text-main: #e5e7eb;
+    --text-muted: #9ca3af;
+    --danger: #f97373;
+    --success: #4ade80;
+    --card-radius: 16px;
+    --transition-fast: 0.18s ease-out;
+    --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.55);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+/* Baggrund + base layout */
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top left, #1d4ed8 0, transparent 45%),
+    radial-gradient(circle at bottom right, #22c55e 0, transparent 45%),
+    linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Simpel reset til links og lister */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+/* =========
+   NAVBAR (fragment)
+   ========= */
+
+.navbar-container {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.75));
+    border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+}
+
+.navbar-container .navbar-venstre a.logo {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    display: inline-block;
+    color: var(--accent);
+}
+
+.navbar-højre {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding-right: 18px;
+}
+
+.navbar-container .btn {
+    border-radius: 999px;
+    padding: 6px 16px;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+}
+
+/* =========
+   PAGE LAYOUT
+   ========= */
+
+.page {
+    max-width: 1100px;
+    width: 100%;
+    margin: 32px auto 40px;
+    padding: 0 16px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* =========
+   GLASSMORPHISM PANELER
+   ========= */
+
+.glass {
+    background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.25), transparent 55%),
+    rgba(15, 23, 42, 0.68);
+    border-radius: var(--card-radius);
+    padding: 20px 22px;
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass::before {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    background: radial-gradient(circle at 20% 0, rgba(56, 189, 248, 0.25), transparent 55%);
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+/* Sørg for at tekst ikke bliver mystisk gennemsigtig */
+.glass > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* =========
+   HEADERS
+   ========= */
+
+.dashboard-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dashboard-header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+.dashboard-header span.highlight-name {
+    color: var(--accent);
+}
+
+.dashboard-header h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Lille meta-tekst */
+
+.meta-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* =========
+   PROJEKT-SEKTION
+   ========= */
+
+.projects-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.projects-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 0 2px;
+}
+
+.projects-header-line h3 {
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #cbd5f5;
+}
+
+.projects-header-line span.count-pill {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.55);
+}
+
+/* Liste med projekter */
+
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.project-card {
+    cursor: pointer;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    border-color var(--transition-fast), background var(--transition-fast);
+}
+
+/* Hover effekt */
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 40px rgba(15, 23, 42, 0.95);
+    border-color: rgba(56, 189, 248, 0.7);
+    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+    rgba(15, 23, 42, 0.85);
+}
+
+.project-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.project-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.project-deadline {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Lidt “status-bar” i bunden af kortet */
+
+.project-card-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.status-pill {
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: rgba(15, 23, 42, 0.85);
+}
+
+/* =========
+   KNAPPER & LINKS
+   ========= */
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.btn-primary,
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Primær knap: “Tilføj projekt” */
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+    color: #0b1120;
+    font-weight: 600;
+    box-shadow: 0 14px 30px rgba(56, 189, 248, 0.45);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px rgba(56, 189, 248, 0.6);
+}
+
+/* Ghost link-knap: “Lukkede projekter” */
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-main);
+    border-color: rgba(148, 163, 184, 0.7);
+}
+
+.btn-ghost:hover {
+    background: rgba(15, 23, 42, 0.8);
+    border-color: var(--accent);
+}
+
+/* =========
+   FOOTER (fragment)
+   ========= */
+
+.site-footer {
+    margin-top: auto;
+    padding: 18px 0 22px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: linear-gradient(0deg, rgba(15, 23, 42, 0.9), transparent);
+    border-top: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+/* =========
+   PROJECT DETAIL-SIDE
+   ========= */
+
+.project-detail-header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+.project-detail-header .project-description {
+    margin-top: 4px;
+    margin-bottom: 10px;
+    font-size: 0.98rem;
+    color: var(--text-main);
+}
+
+.project-detail-header .meta-text {
+    margin-top: 2px;
+}
+
+/* Stats grid (datoer og tider) */
+
+.stats-grid {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+}
+
+.stat-card {
+    background: rgba(15, 23, 42, 0.88);
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.55);
+    padding: 10px 12px;
+    font-size: 0.9rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    margin-top: 4px;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.stat-unit {
+    font-size: 0.8rem;
+    margin-left: 4px;
+    color: var(--text-muted);
+}
+
+.stat-helper-text {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Status-kortet kan få lidt farve */
+
+.stat-status .stat-value {
+    color: var(--success);
+}
+
+/* Sektion-overskrift (Delprojekter) */
+
+.section-heading {
+    margin-top: 26px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-heading h2 {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Subproject cards kan få lidt ekstra spacing */
+
+.subproject-card {
+    min-height: 100px;
+}
+
+/* Knappen "Luk projekt" som rød ghost button */
+
+.inline-form {
+    display: inline;
+}
+
+.btn-danger {
+    border-color: rgba(248, 113, 113, 0.9);
+    color: #fecaca;
+}
+
+.btn-danger:hover {
+    background: rgba(248, 113, 113, 0.16);
+    box-shadow: 0 16px 36px rgba(248, 113, 113, 0.55);
+}
+
+/* =========
+   HIERARKI-FINPUDSNING (SubProject / Task / SubTask)
+   ========= */
+
+/* Lidt ekstra luft mellem header og knapper på detaljer-siderne */
+.project-detail-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Bruges på SubTask-siden, så knaprækken ikke fylder for meget */
+.button-row-tight {
+    margin-top: 16px;
+    gap: 8px;
+}
+
+/* Mindre variation til kort-typer, hvis du vil tweake senere */
+.subproject-card {
+    min-height: 95px;
+}
+
+/* Lille responsiv justering, så grid ikke bliver alt for smalt */
+@media (max-width: 700px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========
+   FORM PAGES (CREATE / EDIT)
+   ========= */
+
+.form-card {
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-card h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+}
+
+.form-card .meta-text {
+    margin-bottom: 4px;
+}
+
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.form-card label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.form-card input,
+.form-card select {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.8);
+}
+
+.form-card input::placeholder {
+    color: rgba(148, 163, 184, 0.9);
+}
+
+.form-card input:focus,
+.form-card select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
+}
+
+.form-card button.btn-primary,
+.form-card button[type="submit"] {
+    margin-top: 10px;
+    align-self: flex-start;
+}
+
+/* =========
+   FORSIDE – GALAXY THEME
+   ========= */
+
+body.frontpage {
+    background:
+            radial-gradient(circle at 10% 20%, rgba(129, 140, 248, 0.45), transparent 55%),
+            radial-gradient(circle at 80% 10%, rgba(244, 114, 182, 0.40), transparent 55%),
+            radial-gradient(circle at 10% 90%, rgba(45, 212, 191, 0.40), transparent 55%),
+            radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.30), transparent 55%),
+            radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.95), rgba(2, 6, 23, 1));
+    color: var(--text-main);
+}
+
+/* Hero-sektion kun på forsiden */
+.hero {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-galaxy h1 {
+    font-size: 2.4rem;
+    letter-spacing: 0.04em;
+}
+
+.hero-galaxy p {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+/* Stjerne-effekt over hero */
+.hero-galaxy::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background-image:
+            radial-gradient(2px 2px at 10% 20%, rgba(248, 250, 252, 0.8), transparent),
+            radial-gradient(2px 2px at 80% 30%, rgba(248, 250, 252, 0.9), transparent),
+            radial-gradient(1.5px 1.5px at 30% 70%, rgba(248, 250, 252, 0.7), transparent),
+            radial-gradient(2px 2px at 70% 80%, rgba(248, 250, 252, 0.85), transparent);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* =========
+   NAVBAR TWEAKS
+   ========= */
+
+.navbar-højre form {
+    margin: 0;
+}
+
+.navbar-højre button {
+    border: none;
+}
+
+/* =========
+   FOOTER LAYOUT
+   ========= */
+
+.footerInner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.footerTitle {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.site-footer a {
+    color: var(--accent);
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}
+
+.navbar-container {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 18px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.75));
+    border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+}
+
+/* ==== FORM CARDS (CREATE + EDIT) ==== */
+
+.form-card {
+    max-width: 520px;
+    margin: 30px auto;
+    padding: 24px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(18px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Form tekst */
+.form-card h1 {
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+}
+
+.meta-text {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+/* Labels */
+.form-card label {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Inputs og textarea */
+.form-card input,
+.form-card select,
+.form-card textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 4px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.9);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4);
+}
+
+/* Textarea højde */
+.form-card textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* Knappesektion */
+.button-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+/* Ghost button */
+.btn-ghost {
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    color: var(--text-main);
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.btn-ghost:hover {
+    background: rgba(148, 163, 184, 0.15);
+}
+
+/* Primary knap */
+.btn-primary {
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: var(--accent);
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: rgba(56, 189, 248, 0.8);
+}
+.info-block {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.info-block strong {
+    color: var(--accent);
+}

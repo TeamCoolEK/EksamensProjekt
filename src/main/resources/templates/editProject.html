@@ -2,63 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Rediger projekt</title>
+  <title>CoolPlanner | Rediger projekt</title>
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
+<main class="page">
+  <section class="glass form-card">
+    <h1>Rediger projekt</h1>
+    <p class="meta-text">Opdater oplysninger for projektet.</p>
 
-<div class="formPage">
-  <h1>Rediger projekt</h1>
-  <p class="subtitle">Opdater oplysninger for projektet</p>
+    <form th:action="@{/project/update/{id}(id=${project.projectId})}"
+          th:object="${project}"
+          method="post">
 
-  <form th:action="@{/project/update/{id}(id=${project.projectId})}"
-        th:object="${project}"
-        method="post">
+      <!-- Skjult id så vi ved hvilket projekt der skal opdateres -->
+      <input type="hidden" th:field="*{projectId}"/>
 
-    <!-- Skjult id så vi ved hvilket projekt der skal opdateres -->
-    <input type="hidden" th:field="*{projectId}"/>
+      <label for="projectName">Projektnavn</label>
+      <input id="projectName" type="text" th:field="*{projectName}" required/>
 
-    <li>
-      <div>
-        <p>Start Dato: <span th:text="${project.projectStartDate}">Start dato</span></p>
+      <label for="projectDetails">Beskrivelse</label>
+      <textarea id="projectDetails" th:field="*{projectDetails}"></textarea>
+
+      <label for="projectStartDate">Startdato</label>
+      <input id="projectStartDate" type="date" th:field="*{projectStartDate}" required/>
+
+      <label for="projectDeadLine">Deadline</label>
+      <input id="projectDeadLine" type="date" th:field="*{projectDeadLine}" required/>
+
+      <!-- Tider holdes skjulte, da de styres af beregninger -->
+      <input id="projectTimeEstimate" type="hidden" step="0.5" th:field="*{projectTimeEstimate}"/>
+      <input id="projectActualTime" type="hidden" step="0.5" th:field="*{projectActualTime}"/>
+
+      <label for="status">Status</label>
+      <select id="status" th:field="*{status}">
+        <option th:value="Ikke_startet">Ikke startet</option>
+        <option th:value="I_gang">I gang</option>
+        <option th:value="Lukket">Lukket</option>
+      </select>
+
+      <div class="button-row">
+        <button type="submit" class="btn-primary">Gem ændringer</button>
+        <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
       </div>
-    </li>
-    <li>
-      <div>
-        <p>Deadline: <span th:text="${project.projectDeadLine}">Deadline</span></p>
-      </div>
-    </li>
-
-    <label for="projectName">Projektnavn:</label>
-    <input id="projectName" type="text" th:field="*{projectName}" required/>
-
-    <label for="projectDetails">Beskrivelse:</label>
-    <textarea id="projectDetails" th:field="*{projectDetails}"></textarea>
-
-    <label for="projectStartDate">Startdato:</label>
-    <input id="projectStartDate" type="date" th:field="*{projectStartDate}" required/>
-
-    <label for="projectDeadline">Deadline:</label>
-    <input id="projectDeadline" type="date" th:field="*{projectDeadLine}" required/>
-
-    <input id="projectTimeEstimate" type="hidden" step="0.5" th:field="*{projectTimeEstimate}"/>
-    <input id="projectActualTime" type="hidden" step="0.5" th:field="*{projectActualTime}"/>
-
-    <label for="status">Status:</label>
-    <select id="status" th:field="*{status}">
-      <option th:value="Ikke_startet">Ikke startet</option>
-      <option th:value="I_gang">I gang</option>
-      <option th:value="Lukket">Lukket</option>
-    </select>
-
-    <div class="buttonGroup">
-      <button type="submit">Gem ændringer</button>
-      <a th:href="@{/}" class="btn-secondary">Annuller</a>
-    </div>
-  </form>
-</div>
+    </form>
+  </section>
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>

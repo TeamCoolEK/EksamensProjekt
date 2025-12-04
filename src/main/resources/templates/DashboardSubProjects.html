@@ -2,77 +2,131 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CoolPlanner | Dine del-projekter</title>
+    <title>CoolPlanner | Del-projekt</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<h1 th:text="${subProject.subProjectName}">Projektnavn</h1>
+<main class="page">
 
-<ul th:each="subProjects : ${subProject}">
-    <li>
-        <div>
-            <p>Beskrivelse: <span th:text="${subProject.subProjectDetails}">Beskrivelse:</span></p>
+    <!-- Header for del-projekt -->
+    <section class="glass project-detail-header">
+        <h1 th:text="${subProject.subProjectName}">Del-projektnavn</h1>
+
+        <p class="project-description" th:text="${subProject.subProjectDetails}">
+            Kort beskrivelse af del-projektet…
+        </p>
+
+        <p class="meta-text">
+            Overblik over nøgletal og opgaver for dette del-projekt.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">Startdato</div>
+                <div class="stat-value" th:text="${subProject.subProjectStartDate}">
+                    2025-01-01
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Deadline</div>
+                <div class="stat-value" th:text="${subProject.subProjectDeadLine}">
+                    2025-03-01
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Estimeret tid i alt</div>
+                <div class="stat-value">
+                    <span th:text="${subProject.subProjectTimeEstimate}">40</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Resterende estimeret tid</div>
+                <div class="stat-value">
+                    <span th:text="${remainingEstimate}">20</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Faktisk tid</div>
+                <div class="stat-value">
+                    <span th:text="${subProject.subProjectActualTime}">10</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <div class="stat-card stat-status">
+                <div class="stat-label">Status</div>
+                <div class="stat-value" th:text="${subProject.status}">
+                    Aktiv
+                </div>
+            </div>
 
         </div>
-    </li>
-    <li>
-        <div>
-            <p>Start Dato: <span th:text="${subProject.subProjectStartDate}">Start dato</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Deadline: <span th:text="${subProject.subProjectDeadLine}">Deadline</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Estimeret tid i alt:
-                <span th:text="${subProject.subProjectTimeEstimate}">Tidsestimat</span> timer
-            </p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Resterende estimeret tid:
-                <span th:text="${remainingEstimate}">Resterende tidsestimat</span> timer
-            </p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Faktiske tid: <span th:text="${subProject.subProjectActualTime}">Faktisk tid</span></p>
-        </div>
-    </li>
-    <li>
-        <div>
-            <p>Status: <span th:text="${subProject.status}">Status</span></p>
-        </div>
-    </li>
-</ul>
+    </section>
 
-<h2>Opgaver: </h2>
+    <!-- Opgaver -->
+    <section class="projects-section">
 
-<ul>
-    <li th:each="task : ${tasks}">
-        <div>
-            <a th:href="@{'/dashboard/tasks/' + ${task.taskID}}">
-                <p><span th:text="${task.taskName}">Task navn</span></p>
+        <div class="section-heading">
+            <h2>Opgaver</h2>
+            <span class="count-pill"
+                  th:text="${#lists.size(tasks)} + ' opgave(r)'">
+                0 opgave(r)
+            </span>
+        </div>
+
+        <ul class="project-list">
+            <li th:each="task : ${tasks}">
+                <a th:href="@{'/dashboard/tasks/' + ${task.taskID}}">
+                    <div class="project-card glass subproject-card">
+
+                        <div class="project-card-top">
+                            <p class="project-name"
+                               th:text="${task.taskName}">
+                                Opgavenavn
+                            </p>
+                        </div>
+
+                        <div class="project-card-footer">
+                            <span class="status-pill">
+                                Se delopgaver
+                            </span>
+                            <span>
+                                Klik for detaljer
+                            </span>
+                        </div>
+
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <div class="button-row">
+            <a class="btn-primary"
+               th:href="@{/createTask/{id}(id=${subProject.subProjectId})}">
+                + Tilføj ny opgave
+            </a>
+
+            <a class="btn-ghost"
+               th:href="@{/subProject/{id}/edit(id=${subProject.subProjectId})}">
+                Rediger del-projekt
             </a>
         </div>
-    </li>
-</ul>
 
-<a class="button" th:href="@{/createTask/{id}(id=${subProject.subProjectId})}">
-    <p>+ Tilføj ny opgave</p>
-</a>
+    </section>
 
-<a class="rediger-projekt-knap" th:href="@{/subProject/{id}/edit(id=${subProject.subProjectId})}">
-    <p>Rediger del-projekt</p>
-</a>
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
+
 </body>
 </html>

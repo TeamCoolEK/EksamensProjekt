@@ -1,33 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Opret del-projekt</title>
+  <title>CoolPlanner | Opret del-projekt</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
+<main class="page">
+  <section class="glass form-card">
+    <h1>Opret del-projekt</h1>
 
-<h1>Opret del-projekt</h1>
+    <p class="meta-text">
+      Tilføj et del-projekt til det valgte projekt.
+    </p>
 
-<form th:action="@{/saveSubProject/{id}(id=${projectId})}"
-      th:object="${subProject}"
-      method="post">
+    <form th:action="@{/saveSubProject/{id}(id=${projectId})}"
+          th:object="${subProject}"
+          method="post">
 
-  <label>Del-projektets navn:</label>
-  <input type="text" placeholder="Navn" th:field="*{subProjectName}" required>
+      <label for="subProjectName">Del-projektets navn</label>
+      <input id="subProjectName"
+             type="text"
+             placeholder="Navn"
+             th:field="*{subProjectName}"
+             required>
 
-  <label>Del-projektets beskrivelse:</label>
-  <input type="text" placeholder="Beskrivelse" th:field="*{subProjectDetails}" required>
+      <label for="subProjectDetails">Del-projektets beskrivelse</label>
+      <input id="subProjectDetails"
+             type="text"
+             placeholder="Beskrivelse"
+             th:field="*{subProjectDetails}"
+             required>
 
-  <label>Start dato for del-projekt:</label>
-  <input type ="date" th:field="*{subProjectStartDate}" required>
+      <label for="subProjectStartDate">Startdato for del-projekt</label>
+      <input id="subProjectStartDate"
+             type="date"
+             th:field="*{subProjectStartDate}"
+             required>
 
-  <label>Deadline for del-projekt:</label>
-  <input type="date" th:field="*{subProjectDeadLine}" required>
+      <label for="subProjectDeadLine">Deadline for del-projekt</label>
+      <input id="subProjectDeadLine"
+             type="date"
+             th:field="*{subProjectDeadLine}"
+             required>
 
-  <button type="submit">Opret del-projekt</button>
-</form>
+      <button type="submit" class="btn-primary">
+        Opret del-projekt
+      </button>
+    </form>
+  </section>
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
