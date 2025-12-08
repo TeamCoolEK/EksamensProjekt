@@ -43,10 +43,10 @@ public class CoolPlannerWriteServiceTest {
 
         // Tasks under SubProjectsne
         Task t1 = new Task();
-        t1.setTaskID(100);
+        t1.setTaskId(100);
 
         Task t2 = new Task();
-        t2.setTaskID(200);
+        t2.setTaskId(200);
 
         when(coolPlannerReadRepository.findTasksBySubProjectId(10))
                 .thenReturn(List.of(t1));
@@ -99,7 +99,7 @@ public class CoolPlannerWriteServiceTest {
 
         //Mock Tasks
         Task t = new Task();
-        t.setTaskID(100);
+        t.setTaskId(100);
         when(coolPlannerReadRepository.findTasksBySubProjectId(10))
                 .thenReturn(List.of(t));
 
