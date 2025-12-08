@@ -87,6 +87,10 @@
                th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}">
                 Luk delopgave
             </a>
+            <a class="btn-ghost"
+               th:href="@{'/dashboard/tasks/' + ${subTask.taskId}}">
+                Tilbage til opgave
+            </a>
         </div>
 
     </section>

@@ -34,6 +34,7 @@ public class CoolPlannerWriteService {
 
     public void updateSubTask(SubTask subTask) {
         writeRepository.updateSubTask(subTask);
+        updateTaskStatusFromSubTasks(subTask.getTaskId());
     }
 
     public void createEmployee(Employee employee) {
@@ -151,6 +152,8 @@ public class CoolPlannerWriteService {
 
     public void completeSubTask(int subTaskId, int actualTime) {
         writeRepository.completeSubTask(subTaskId, actualTime);
+        updateSubTaskStatus(subTaskId, Status.Lukket);
+
         SubTask subTask = readRepository.findSubTaskById(subTaskId);
         int taskId = subTask.getTaskId();
 
@@ -206,32 +209,135 @@ public class CoolPlannerWriteService {
 
         int sum = 0;
         for (SubTask subTask : subTasks) {
-            if (!subTask.getSubTaskStatus().equals(Status.Lukket)){
+            if (!subTask.getSubTaskStatus().equals(Status.Lukket)) {
                 sum += subTask.getSubTaskTimeEstimate();
             }
         }
         return sum;
     }
 
-    public int calculateSubProjectRemainingTimeEstimateFromTasks(int subProjectId){
+    public int calculateSubProjectRemainingTimeEstimateFromTasks(int subProjectId) {
         List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
 
         int sum = 0;
-        for(Task task :tasks){
-            sum += calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskID());
+        for (Task task : tasks) {
+            sum += calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskId());
         }
         return sum;
     }
 
-    public int calculateProjectRemainingTimeEstimateFromSubProjects(int projectId){
+    public int calculateProjectRemainingTimeEstimateFromSubProjects(int projectId) {
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
 
         int sum = 0;
-        for (SubProject subProject : subProjects){
+        for (SubProject subProject : subProjects) {
             sum += calculateSubProjectRemainingTimeEstimateFromTasks(subProject.getSubProjectId());
         }
         return sum;
     }
+
+    public void updateSubTaskStatus(int subTaskId, Status newStatus) {
+        writeRepository.updateSubTaskStatus(subTaskId, newStatus);
+
+        SubTask subTask = readRepository.findSubTaskById(subTaskId);
+        int taskId = subTask.getTaskId();
+
+        updateTaskStatusFromSubTasks(taskId);
+    }
+
+    public void updateTaskStatusFromSubTasks(int taskId) {
+        List<SubTask> subTasks = readRepository.findSubTasksByTaskId(taskId);
+
+        boolean allNotStarted = true;
+        boolean allClosed = true;
+
+        for (SubTask st : subTasks) {
+            Status s = st.getSubTaskStatus();
+
+            if (s != Status.Ikke_startet) {
+                allNotStarted = false;
+            }
+            if (s != Status.Lukket) {
+                allClosed = false;
+            }
+        }
+
+        Status newStatus;
+        if (allNotStarted) {
+            newStatus = Status.Ikke_startet;
+        } else if (allClosed) {
+            newStatus = Status.Lukket;
+        } else {
+            newStatus = Status.I_gang;
+        }
+
+        Task task = readRepository.findTaskById(taskId);
+        task.setTaskStatus(newStatus);
+
+        writeRepository.updateTaskStatus(taskId, newStatus);
+        updateSubProjectStatusFromTasks(task.getSubprojectID());
+    }
+
+    public void updateSubProjectStatusFromTasks(int subProjectId) {
+        List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
+
+        boolean allNotStarted = true;
+        boolean allClosed = true;
+
+        for (Task t : tasks) {
+            Status s = t.getTaskStatus();
+            if (s != Status.Ikke_startet) {
+                allNotStarted = false;
+            }
+            if (s != Status.Lukket) {
+                allClosed = false;
+            }
+        }
+
+        Status newStatus;
+        if (allNotStarted) {
+            newStatus = Status.Ikke_startet;
+        } else if (allClosed) {
+            newStatus = Status.Lukket;
+        } else {
+            newStatus = Status.I_gang;
+        }
+        SubProject subProject = readRepository.findSubProjectById(subProjectId);
+        subProject.setStatus(newStatus);
+        writeRepository.updateSubProjectStatus(subProjectId, newStatus);
+        updateProjectStatusFromSubProjects(subProject.getProjectId());
+    }
+
+    public void updateProjectStatusFromSubProjects(int projectId){
+        List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
+
+        boolean allNotStarted = true;
+        boolean allClosed = true;
+
+        for(SubProject sp : subProjects){
+            Status s = sp.getStatus();
+            if (s != Status.Ikke_startet){
+                allNotStarted = false;
+            }
+            if (s != Status.Lukket){
+                allClosed = false;
+            }
+        }
+
+        Status newStatus;
+        if (allNotStarted) {
+            newStatus = Status.Ikke_startet;
+        } else if (allClosed) {
+            newStatus = Status.Lukket;
+        } else {
+            newStatus = Status.I_gang;
+        }
+
+        Project project = readRepository.findProjectById(projectId);
+        project.setStatus(newStatus);
+        writeRepository.updateProjectStatus(projectId, newStatus);
+    }
 }
+
 
 

@@ -86,7 +86,7 @@
 
         <ul class="project-list">
             <li th:each="task : ${tasks}">
-                <a th:href="@{'/dashboard/tasks/' + ${task.taskID}}">
+                <a th:href="@{'/dashboard/tasks/' + ${task.taskId}}">
                     <div class="project-card glass subproject-card">
 
                         <div class="project-card-top">
@@ -119,6 +119,11 @@
             <a class="btn-ghost"
                th:href="@{/subProject/{id}/edit(id=${subProject.subProjectId})}">
                 Rediger del-projekt
+            </a>
+
+            <a class="btn-ghost"
+               th:href="@{'/dashboard/projects/' + ${subProject.projectId}}">
+                Tilbage til projekt
             </a>
         </div>
 

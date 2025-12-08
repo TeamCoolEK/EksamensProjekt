@@ -20,7 +20,7 @@ public class CoolPlannerController {
     private final CoolPlannerReadService coolPlannerReadService;
 
     public CoolPlannerController(CoolPlannerWriteService coolPlannerWriteService, CoolPlannerReadService coolPlannerReadService) {
-        this.coolPlannerWriteService = coolPlannerWriteService; // dependencies injection !!
+        this.coolPlannerWriteService = coolPlannerWriteService; // dependencies injection
         this.coolPlannerReadService = coolPlannerReadService;
     }
 
@@ -158,7 +158,7 @@ public class CoolPlannerController {
     @PostMapping("/updateTask")
     public String updateTask(@ModelAttribute Task task) {
         coolPlannerWriteService.updateTask(task);
-        return "redirect:/dashboard/tasks/" + task.getTaskID();
+        return "redirect:/dashboard/tasks/" + task.getTaskId();
     }
 
     @GetMapping("/subTask/{id}/edit")
