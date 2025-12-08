@@ -106,7 +106,7 @@ public class CoolPlannerWriteRepository {
                 task.getTaskTimeEstimate(),
                 task.getTaskActualTime(),
                 task.getTaskStatus().name(),
-                task.getTaskID());
+                task.getTaskId());
     }
 // Metode til at oprette SubTask.
     public SubTask createSubTask(SubTask subTask, Task task) {
@@ -123,7 +123,7 @@ public class CoolPlannerWriteRepository {
                 subTask.getSubTaskTimeEstimate(),
                 subTask.getSubTaskActualTime(),
                 subTask.getSubTaskStatus().name(),
-                task.getTaskID(),
+                task.getTaskId(),
                 subTask.getEmployeeId()
         );
 
@@ -181,7 +181,7 @@ public class CoolPlannerWriteRepository {
 // Metode som opdatere den estimerede tid på en Task.
     public void updateTaskTimeEstimate(Task task) {
         String sql = "UPDATE task SET taskTimeEstimate = ? WHERE taskId = ?";
-        jdbcTemplate.update(sql, task.getTaskTimeEstimate(), task.getTaskID());
+        jdbcTemplate.update(sql, task.getTaskTimeEstimate(), task.getTaskId());
     }
 
     public void closeProject(int projectId) {
@@ -207,7 +207,7 @@ public class CoolPlannerWriteRepository {
 // Sætter Tasks faktiske tid.
     public void updateTaskActualTime(Task task) {
         String sql = "UPDATE task SET taskActualTime = ? WHERE taskId = ?";
-        jdbcTemplate.update(sql, task.getTaskActualTime(), task.getTaskID());
+        jdbcTemplate.update(sql, task.getTaskActualTime(), task.getTaskId());
     }
 // Sætter SubProjects faktiske tid.
     public void updateSubProjectActualTime(SubProject subProject){
@@ -218,5 +218,25 @@ public class CoolPlannerWriteRepository {
     public void updateProjectActualTime(Project project){
         String sql = "UPDATE project SET projectActualTime = ? WHERE projectId = ?";
         jdbcTemplate.update(sql, project.getProjectActualTime(), project.getProjectId());
+    }
+
+    public void updateSubTaskStatus(int subTaskId, Status status) {
+        String sql = "UPDATE subTask SET subTaskStatus = ? WHERE subTaskId = ?";
+        jdbcTemplate.update(sql, status.name(), subTaskId);
+    }
+
+    public void updateTaskStatus(int taskId, Status status){
+        String sql = "UPDATE task SET taskStatus = ? WHERE taskId = ?";
+        jdbcTemplate.update(sql, status.name(), taskId);
+    }
+
+    public void updateSubProjectStatus(int subProjectId, Status status){
+        String sql = "UPDATE subProject SET subProjectStatus = ? WHERE subProjectId = ?";
+        jdbcTemplate.update(sql, status.name(), subProjectId);
+    }
+
+    public void updateProjectStatus(int projectId, Status status){
+        String sql = "UPDATE project SET projectStatus = ? WHERE projectId = ?";
+        jdbcTemplate.update(sql, status.name(), projectId);
     }
 }

@@ -111,7 +111,7 @@ public class DashboardController {
         List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(id);
 
         int remainingEstimate = coolPlannerWriteService.
-                calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskID());
+                calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskId());
 
         model.addAttribute("employee", employee);
         model.addAttribute("task", task);

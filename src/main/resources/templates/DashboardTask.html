@@ -112,14 +112,20 @@
 
         <div class="button-row">
             <a class="btn-primary"
-               th:href="@{/createSubTask/{id}(id=${task.taskID})}">
+               th:href="@{/createSubTask/{id}(id=${task.taskId})}">
                 + Tilføj ny delopgave
             </a>
 
             <a class="btn-ghost"
-               th:href="@{/task/{id}/edit(id=${task.taskID})}">
+               th:href="@{/task/{id}/edit(id=${task.taskId})}">
                 Rediger opgave
             </a>
+
+            <a class="btn-ghost"
+               th:href="@{'/dashboard/subprojects/' + ${task.subprojectID}}">
+                Tilbage til del-projekt
+            </a>
+
         </div>
 
     </section>

@@ -16,7 +16,7 @@
 
         <form th:action="@{/updateTask}" th:object="${task}" method="post">
 
-            <input type="hidden" th:field="*{taskID}" />
+            <input type="hidden" th:field="*{taskId}" />
 
             <label for="taskName">Navn på opgave</label>
             <input id="taskName" type="text" th:field="*{taskName}" required/>
