@@ -77,7 +77,8 @@
 
         <!-- Knapper under listen -->
         <div class="button-row">
-            <a class="btn-primary" th:href="@{/createProject}">
+            <a class="btn-primary" th:href="@{/createProject}"
+            th:if="${employee.role != T(org.example.coolplanner.model.EmployeeRole).Team_Member}">
                 + Tilføj nyt projekt
             </a>
 
