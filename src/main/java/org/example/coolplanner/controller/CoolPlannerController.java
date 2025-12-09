@@ -31,6 +31,9 @@ public class CoolPlannerController {
         if (employee == null) {
             return "redirect:/employee/login";
         }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("project", new Project());
         return "createProject";
     }
@@ -45,7 +48,14 @@ public class CoolPlannerController {
 
     //ENDPOINT til createSubProject
     @GetMapping("/createSubProject/{id}") //{id bruges til at tildele projectId}
-    public String createSubProject(@PathVariable int id, Model model) {
+    public String createSubProject(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("subProject", new SubProject());
         model.addAttribute("projectId", id);
         return "createSubProject";
@@ -62,7 +72,14 @@ public class CoolPlannerController {
 
     //ENDPOINT til createSubTask
     @GetMapping("/createSubTask/{id}")
-    public String createSubTask(@PathVariable int id, Model model) {
+    public String createSubTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("subTask", new SubTask());
         model.addAttribute("taskId", id);
         model.addAttribute("employees",coolPlannerReadService.getAllEmployees());
@@ -81,7 +98,14 @@ public class CoolPlannerController {
 
     //ENDPOINT til createTask
     @GetMapping("/createTask/{id}")
-    public String createTask(@PathVariable int id, Model model) {
+    public String createTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("task", new Task());
         model.addAttribute("subProjectId", id);
         return "createTask";
@@ -97,10 +121,17 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/project/{id}/edit")
-    public String editProject(@PathVariable int id, Model model) {
+    public String editProject(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         Project project = coolPlannerReadService.findProjectById(id);
         if (project == null) {
-            return "redirect:/";
+            return "redirect:/dashboard/show";
         }
         model.addAttribute("project", project);
         return "editProject";
@@ -123,7 +154,14 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/subProject/{id}/edit")
-    public String editSubProject(@PathVariable int id, Model model) {
+    public String editSubProject(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         SubProject subProject = coolPlannerReadService.findSubProjectById(id);
         if (subProject == null) {
             return "redirect:/dashboard/show";
@@ -149,8 +187,18 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/task/{id}/edit")
-    public String editTask(@PathVariable int id, Model model) {
+    public String editTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         Task task = coolPlannerReadService.getTaskById(id);
+        if (task == null) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("task", task);
         return "editTask";
     }
@@ -162,10 +210,17 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/subTask/{id}/edit")
-    public String editSubTask(@PathVariable int id, Model model) {
+    public String editSubTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
         if (subTask == null) {
-            return "redirect:/";
+            return "redirect:/dashboard/show";
         }
         model.addAttribute("subTask", subTask);
         model.addAttribute("employees", coolPlannerReadService.getAllEmployees());
@@ -179,7 +234,14 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/subTask/{id}/complete")
-    public String showCompleteSubTaskFrom(@PathVariable int id, Model model) {
+    public String showCompleteSubTaskFrom(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         SubTask subTask = coolPlannerReadService.getSubTaskById(id);
         if (subTask == null) {
             return "redirect:/dashboard/show";
