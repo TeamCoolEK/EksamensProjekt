@@ -79,12 +79,14 @@
 
         <div class="button-row button-row-tight">
             <a class="btn-ghost"
-               th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}">
+               th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Rediger delopgave
             </a>
 
             <a class="btn-ghost btn-danger"
-               th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}">
+               th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Luk delopgave
             </a>
             <a class="btn-ghost"

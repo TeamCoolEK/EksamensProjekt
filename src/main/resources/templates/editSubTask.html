@@ -47,8 +47,8 @@
             <select id="employee" th:field="*{employeeId}" required>
                 <option th:value="0" disabled>Vælg medarbejder</option>
                 <option th:each="emp : ${employees}"
-                        th:value="${emp.employeeId}"
-                        th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName}">
+                        th:value="${emp.getEmployeeId()}"
+                        th:text="${emp.getEmployeeId() + ' - ' + emp.getFirstName() + ' ' + emp.getLastName()}">
                 </option>
             </select>
 

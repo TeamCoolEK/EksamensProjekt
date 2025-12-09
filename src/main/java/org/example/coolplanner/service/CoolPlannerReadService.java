@@ -10,9 +10,11 @@ import java.util.List;
 public class CoolPlannerReadService {
 
     private final CoolPlannerReadRepository readRepository;
+    private final CoolPlannerReadRepository coolPlannerReadRepository;
 
-    public CoolPlannerReadService(CoolPlannerReadRepository readRepository) {
+    public CoolPlannerReadService(CoolPlannerReadRepository readRepository, CoolPlannerReadRepository coolPlannerReadRepository) {
         this.readRepository = readRepository;
+        this.coolPlannerReadRepository = coolPlannerReadRepository;
     }
 
     public List<Project> getActiveProjects(int employeeId) {
@@ -65,5 +67,9 @@ public class CoolPlannerReadService {
 
     public List<Employee> getAllEmployees(){
         return readRepository.findAllEmployees();
+    }
+
+    public List<Project> findProjectsForTeamMember (int employeeId) {
+        return coolPlannerReadRepository.findProjectsForTeamMember(employeeId);
     }
 }

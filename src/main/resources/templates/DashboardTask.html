@@ -112,12 +112,14 @@
 
         <div class="button-row">
             <a class="btn-primary"
-               th:href="@{/createSubTask/{id}(id=${task.taskId})}">
-                + Tilføj ny delopgave
+               th:href="@{/createSubTask/{id}(id=${task.taskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
+                + Tilføj ny opgave
             </a>
 
             <a class="btn-ghost"
-               th:href="@{/task/{id}/edit(id=${task.taskId})}">
+               th:href="@{/task/{id}/edit(id=${task.taskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Rediger opgave
             </a>
 
