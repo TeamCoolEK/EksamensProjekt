@@ -29,7 +29,7 @@ public class SubTask {
     }
 
     public SubTask() {
-    } //tom konstuktør <3
+    }
 
     public int getSubTaskId() {
         return subTaskId;
