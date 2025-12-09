@@ -75,10 +75,10 @@
             </li>
         </ul>
 
-        <!-- Knapper under listen -->
+        <!-- Knapper under listen / if statement til at gemme tilføj knap for team_member -->
         <div class="button-row">
             <a class="btn-primary" th:href="@{/createProject}"
-            th:if="${employee.role != T(org.example.coolplanner.model.EmployeeRole).Team_Member}">
+            th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 + Tilføj nyt projekt
             </a>
 

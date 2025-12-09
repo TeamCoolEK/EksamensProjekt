@@ -8,6 +8,7 @@ import org.example.coolplanner.service.CoolPlannerReadService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,9 +23,9 @@ public class DashboardController {
         this.coolPlannerReadService = coolPlannerReadService;// dependencies injection
     }
 
-    //Hoveddashboard til at vise knapper videre til projects,sub-projects osv.
+    //Hoved dashboard til at vise knapper videre til projects, sub-projects osv.
     //Bruger HttpSession og session.getAttribute "employee" for at sikre det er den rigtige bruger, hvis oplysninger vi henter.
-    //Model model bruges til at sende data til HTML-siden.
+    //Model, model bruges til at sende data til HTML-siden.
     @GetMapping("/show")
     public String showDashboard(Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee"); // Henter bruger fra session
@@ -34,12 +35,17 @@ public class DashboardController {
         //Tjekker om der rent faktisk ligger en bruger i sessionen (altså at brugeren er logget ind).
         int employeeId = employee.getEmployeeId(); // Henter brugerens ID fra employee-objektet.
 
-        // Henter alle aktive objekter for den medarbejder, der er logget ind
-        List<Project> projects = coolPlannerReadService.getActiveProjects(employeeId);
+        List<Project> projects = new ArrayList<>();
 
+        if (employee.role == EmployeeRole.Manager) {
+            // Henter alle aktive objekter for den medarbejder, der er logget ind
+            projects = coolPlannerReadService.getActiveProjects(employeeId);
+        } else if (employee.role == EmployeeRole.Team_Member) {
+            projects = coolPlannerReadService.findProjectsForTeamMember(employeeId);
+        }
         /* Lægger employee og alle lister på modellen, så vi i HTML kan
          sige "Velkommen 'firstname'" ved at skrive ${employee.firstname}
-         samt vise et overblik af projekter, delprojekter, user stories og tasks */
+         samt vise et overblik af projekter */
         model.addAttribute("employee", employee);
         model.addAttribute("projects", projects);
 
@@ -52,7 +58,7 @@ public class DashboardController {
         //henter employee session og tildeler dens id
         Employee employee = (Employee) session.getAttribute("employee");
 
-        //Redirecter til login hvis sessionen er tom/udløbet
+        //Redirect til login hvis sessionen er tom/udløbet
         if (employee == null) {
             return "redirect:/employee/login";
         }

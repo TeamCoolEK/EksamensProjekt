@@ -128,19 +128,22 @@
         <div class="button-row">
             <!-- opret delprojekt knap -->
             <a class="btn-primary"
-               th:href="@{/createSubProject/{id}(id=${project.projectId})}">
+               th:href="@{/createSubProject/{id}(id=${project.projectId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 + Tilføj nyt delprojekt
             </a>
 
             <!-- rediger projekt knap -->
             <a class="btn-ghost"
-               th:href="@{/project/{id}/edit(id=${project.projectId})}">
+               th:href="@{/project/{id}/edit(id=${project.projectId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Rediger projekt
             </a>
 
             <!-- luk projekt knap -->
             <form class="inline-form"
                   th:action="@{/dashboard/projects/{id}/close(id=${project.projectId})}"
+                  th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}"
                   method="post"
                   onsubmit="return confirm('Er du sikker på at du vil lukke projektet?')">
                 <button type="submit" class="btn-ghost btn-danger">
