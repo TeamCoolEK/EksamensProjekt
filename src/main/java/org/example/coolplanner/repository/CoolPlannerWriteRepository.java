@@ -239,4 +239,10 @@ public class CoolPlannerWriteRepository {
         String sql = "UPDATE project SET projectStatus = ? WHERE projectId = ?";
         jdbcTemplate.update(sql, status.name(), projectId);
     }
+
+//    public int countSubTasksByProjectId(int projectId){
+//        String sql = ""
+//    return jdbcTemplate.queryForObject(sql, Integer.class, projectId);
+//    }
+
 }

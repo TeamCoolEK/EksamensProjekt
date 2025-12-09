@@ -337,6 +337,8 @@ public class CoolPlannerWriteService {
         project.setStatus(newStatus);
         writeRepository.updateProjectStatus(projectId, newStatus);
     }
+
+
 }
 
 
