@@ -75,9 +75,11 @@
                 </p>
             </div>
 
+            <!-- gør at der står mellemrum frem for _ -->
             <div class="stat-card stat-status">
                 <div class="stat-label">Status</div>
-                <div class="stat-value" th:text="${project.status}">
+                <div class="stat-value" th:text="${#strings.replace(project.status, '_', ' ')}">
+
                     Aktiv
                 </div>
             </div>
@@ -149,7 +151,7 @@
             <a class="btn-ghost"
                th:href="@{/dashboard/show}">
                 Tilbage til dashboard
-                </a>
+            </a>
         </div>
 
     </section>
