@@ -76,11 +76,20 @@
             </div>
 
             <!-- gør at der står mellemrum frem for _ -->
+            <!-- skifter farve ud fra enum -->
             <div class="stat-card stat-status">
                 <div class="stat-label">Status</div>
-                <div class="stat-value" th:text="${#strings.replace(project.status, '_', ' ')}">
-
-                    Aktiv
+                <div th:text="${#strings.replace(project.status, '_', ' ')}"
+                     th:if="${project.status.name() == 'Ikke_startet'}">
+                    Ikke startet
+                </div>
+                <div class="stat-igang" th:text="${#strings.replace(project.status, '_', ' ')}"
+                     th:if="${project.status.name() == 'I_gang'}">
+                    I gang
+                </div>
+                <div class="stat-lukket" th:text="${#strings.replace(project.status, '_', ' ')}"
+                     th:if="${project.status.name() == 'Lukket'}">
+                    Lukket
                 </div>
             </div>
 
@@ -112,10 +121,16 @@
 
                         <div class="project-card-footer">
                             <span class="status-pill">
-                                Se tasks og subtasks
+                                Se opgaver og delopgaver
                             </span>
                             <span>
                                 Klik for detaljer
+                            </span>
+                        </div>
+                        <!-- Hviser status for hvert delproject -->
+                        <div class="project-card-footer">
+                            <span class="status-pill" th:text="${#strings.replace(subProject.status, '_', ' ')}">
+                                Status
                             </span>
                         </div>
 

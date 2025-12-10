@@ -15,6 +15,8 @@ public class SubTask {
     private int employeeId;
 
     private int taskId;
+    //Tildeler en employee til subTask objekt i Dashboard controlleren
+    private Employee responsibleEmployee;
 
     public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status subTaskStatus, int taskId) {
         this.subTaskId = subTaskId;
@@ -109,6 +111,14 @@ public class SubTask {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public Employee getResponsibleEmployee () {
+        return responsibleEmployee;
+    }
+
+    public void setResponsibleEmployee (Employee responsibleEmployee) {
+        this.responsibleEmployee = responsibleEmployee;
     }
 
 }
