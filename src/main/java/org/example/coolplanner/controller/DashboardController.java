@@ -116,6 +116,14 @@ public class DashboardController {
         Task task = coolPlannerReadService.getTaskById(id);
         List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(id);
 
+        for (SubTask s : subTasks) {
+            if (s.getEmployeeId() != 0) {
+                Employee responsibleEmployee =
+                        coolPlannerReadService.findEmployeeById(s.getEmployeeId());
+                s.setResponsibleEmployee(responsibleEmployee);
+            }
+        }
+
         int remainingEstimate = coolPlannerWriteService.
                 calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskId());
 
