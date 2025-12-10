@@ -255,6 +255,7 @@ public class CoolPlannerController {
                                   @RequestParam("actualTime")
                                   int actualTime) {
         coolPlannerWriteService.completeSubTask(id, actualTime);
-        return "redirect:/dashboard/show/";
+        SubTask subTask = coolPlannerReadService.getSubTaskById(id);
+        return "redirect:/dashboard/subTasks/" + id;
     }
 }
