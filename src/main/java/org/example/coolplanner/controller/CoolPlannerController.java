@@ -67,7 +67,7 @@ public class CoolPlannerController {
         Project project = coolPlannerReadService.findProjectById(id);
         coolPlannerWriteService.createSubProject(subProject, project);
         coolPlannerWriteService.updateProjectTimeEstimateFromSubProjects(id);
-        return "redirect:/dashboard/show";
+        return "redirect:/dashboard/projects/" + project.getProjectId();
     }
 
     //ENDPOINT til createSubTask
@@ -93,7 +93,7 @@ public class CoolPlannerController {
         Task task = coolPlannerReadService.getTaskById(id);
         coolPlannerWriteService.createSubTask(subTask, task);
         coolPlannerWriteService.updateTaskTimeEstimateFromSubTasks(id);
-        return "redirect:/dashboard/show";
+        return "redirect:/dashboard/tasks/" + task.getTaskId();
     }
 
     //ENDPOINT til createTask
@@ -117,7 +117,7 @@ public class CoolPlannerController {
         SubProject subProject = coolPlannerReadService.findSubProjectById(id);
         coolPlannerWriteService.createTask(task, subProject);
         coolPlannerWriteService.updateSubProjectTimeEstimateFromTasks(id);
-        return "redirect:/dashboard/show";
+        return "redirect:/dashboard/subprojects/" + subProject.getSubProjectId();
     }
 
     @GetMapping("/project/{id}/edit")
@@ -145,7 +145,7 @@ public class CoolPlannerController {
 
         try {
             coolPlannerWriteService.updateProject(form);
-            return "redirect:/dashboard/show";
+            return "redirect:/dashboard/projects/" + form.getProjectId();
         } catch (IllegalArgumentException e) {
             model.addAttribute("project", form);
             model.addAttribute("errorMessage", e.getMessage());
@@ -255,6 +255,6 @@ public class CoolPlannerController {
                                   @RequestParam("actualTime")
                                   int actualTime) {
         coolPlannerWriteService.completeSubTask(id, actualTime);
-        return "redirect:/dashboard/show";
+        return "redirect:/dashboard/show/";
     }
 }

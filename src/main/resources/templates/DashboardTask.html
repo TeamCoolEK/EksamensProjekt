@@ -116,10 +116,14 @@
                             </span>
                         </div>
                         <!-- Boks til ansvarlig for subtask -->
-                        <div class="project-card-footer">
+                        <div class="project-card-footer" th:if="${subTask.responsibleEmployee != null}">
                             <span class="status-pill"
                                   th:text="${subTask.getResponsibleEmployee().getFirstName()} + ' ' + ${subTask.getResponsibleEmployee().getLastName()}">
                             </span>
+                        </div>
+
+                        <div class="project-card-footer" th:if="${subTask.responsibleEmployee == null}">
+                            <span class="status-pill status-danger">Ingen ansvarlig</span>
                         </div>
 
                         <!-- Hviser status for hvert subTask -->
