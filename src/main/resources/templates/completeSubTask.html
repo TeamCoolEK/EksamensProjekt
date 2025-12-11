@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>CoolPlanner | Afslut delopgave</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
+
+<main class="page">
+  <section class="glass form-card">
+
+    <h1>Afslut delopgave</h1>
+    <p class="meta-text">Indtast den faktiske tid der blev brugt.</p>
+
+    <div class="info-block">
+      <p><strong>Navn:</strong> <span th:text="${subTask.subTaskName}"></span></p>
+      <p><strong>Detaljer:</strong> <span th:text="${subTask.subTaskDetails}"></span></p>
+      <p><strong>Deadline:</strong> <span th:text="${subTask.subTaskDeadLine}"></span></p>
+      <p><strong>Tidsestimat:</strong> <span th:text="${subTask.subTaskTimeEstimate}"></span> timer</p>
+    </div>
+
+    <form th:action="@{'/subTask/' + ${subTask.subTaskId} + '/complete'}" method="post">
+
+      <label for="actualTime">Faktisk tid brugt (timer)</label>
+      <input id="actualTime" type="number" min="0" step="0.5" name="actualTime" placeholder="Timer" required>
+
+      <div class="button-row">
+        <button type="submit" class="btn-primary">Afslut delopgave</button>
+        <a th:href="@{/dashboard/subTasks/{id}(id=${subTask.subTaskId})}" class="btn-ghost">Tilbage</a>
+      </div>
+
+    </form>
+
+  </section>
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
+
+</body>
+</html>

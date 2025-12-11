@@ -2,43 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Rediger medarbejder</title>
+  <title>CoolPlanner | Rediger medarbejder</title>
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
-<div class="formPage">
-  <h1>Rediger medarbejder</h1>
-  <p class="subtitle">Opdater oplysninger for medarbejderen</p>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-  <form th:action="@{/employee/update}" th:object="${employee}" method="post">
+<main class="page">
+  <section class="glass form-card">
+    <h1>Rediger medarbejder</h1>
+    <p class="meta-text">Opdater oplysninger for medarbejderen.</p>
 
-    <!-- Skjult id så vi ved hvem der skal opdateres -->
-    <input type="hidden" th:field="*{employeeId}"/>
+    <form th:action="@{/employee/update}" th:object="${employee}" method="post">
 
-    <label for="firstName">Fornavn:</label>
-    <input id="firstName" type="text" th:field="*{firstName}" required/>
+      <!-- Skjult id så vi ved hvem der skal opdateres -->
+      <input type="hidden" th:field="*{employeeId}"/>
 
-    <label for="lastName">Efternavn:</label>
-    <input id="lastName" type="text" th:field="*{lastName}" required/>
+      <label for="firstName">Fornavn</label>
+      <input id="firstName" type="text" th:field="*{firstName}" required/>
 
-    <label for="email">Email:</label>
-    <input id="email" type="email" th:field="*{email}" required/>
+      <label for="lastName">Efternavn</label>
+      <input id="lastName" type="text" th:field="*{lastName}" required/>
 
-    <label for="password">Adgangskode:</label>
-    <input id="password" type="password" th:field="*{password}" required/>
+      <label for="email">Email</label>
+      <input id="email" type="email" th:field="*{email}" required/>
 
-    <label for="role">Rolle:</label>
-    <select id="role" th:field="*{role}">
-      <option th:value="Manager">Manager</option>
-      <option th:value="Team_Member">Team member</option>
-    </select>
+      <label for="password">Adgangskode</label>
+      <input id="password" type="password" th:field="*{password}" required/>
 
-    <div class="buttonGroup">
-      <button type="submit">Gem ændringer</button>
-    </div>
-  </form>
-</div>
+      <label for="role">Rolle</label>
+      <select id="role" th:field="*{role}">
+        <option th:value="Manager">Manager</option>
+        <option th:value="Team_Member">Team member</option>
+      </select>
 
+      <div class="button-row">
+        <button type="submit" class="btn-primary">Gem ændringer</button>
+        <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
+      </div>
+    </form>
+  </section>
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

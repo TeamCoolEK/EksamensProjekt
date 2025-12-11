@@ -2,8 +2,8 @@ package org.example.coolplanner.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.model.Employee;
-import org.example.coolplanner.repository.CoolPlannerRepository;
-import org.example.coolplanner.service.CoolPlannerService;
+import org.example.coolplanner.service.CoolPlannerReadService;
+import org.example.coolplanner.service.CoolPlannerWriteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    private final CoolPlannerService service;
-    private final CoolPlannerRepository repository;
+    private final CoolPlannerWriteService service;
+    private final CoolPlannerReadService readService;
 
-    public EmployeeController(CoolPlannerService service, CoolPlannerRepository repository) {
-        this.service = service;
-        this.repository = repository;
+    public EmployeeController(CoolPlannerWriteService service, CoolPlannerReadService readService) {
+        this.service = service; // dependencies injection
+        this.readService = readService;
     }
 
     @GetMapping("/createEmployee")
@@ -38,9 +38,9 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/{id}/")
     public String editEmployee(@PathVariable int id, Model model) {
-        Employee employee = service.findEmployeeById(id);
+        Employee employee = readService.findEmployeeById(id);
         model.addAttribute("employee", employee);
         return "editEmployee";
     }
@@ -48,7 +48,7 @@ public class EmployeeController {
     @PostMapping("/update")
     public String updateEmployee(@ModelAttribute Employee employee) {
         service.updateEmployee(employee);
-        return "redirect:/";
+        return "redirect:/dashboard/show";
     }
 
     @GetMapping("/login")
@@ -58,15 +58,21 @@ public class EmployeeController {
 
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password, HttpSession session, Model model){
-        Employee employee = service.login(email, password);
+        Employee employee = readService.login(email, password);
 
         if (employee != null){
             session.setAttribute("employee", employee);
             session.setMaxInactiveInterval(900);
-            return "redirect:/dashboard";
+            return "redirect:/dashboard/show";
         }
 
         model.addAttribute("wrongCredentials", true);
         return "login";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session ){
+        session.removeAttribute("employee");
+    return "redirect:/";
     }
 }

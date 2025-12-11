@@ -1,32 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Opret task</title>
+    <title>CoolPlanner | Opret delopgave</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-<h1>Opret task</h1>
 
-<form th:action="@{/saveSubTask/{id}(id=${taskId})}"
-      th:object="${subTask}"
-      method="post">
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-    <label>Del-projektets navn:</label>
-    <input type="text" placeholder="Navn" th:field="*{subTaskName}" required>
+<main class="page">
+    <section class="glass form-card">
+        <h1>Opret delopgave</h1>
 
-    <label>Del-projekts beskrivelse:</label>
-    <input type="text" placeholder="Beskrivelse" th:field="*{subTaskDetails}" required>
+        <p class="meta-text">
+            Opret en delopgave, angiv tidsestimat og tildel en ansvarlig medarbejder.
+        </p>
 
-    <label>Start dato for del-projekt:</label>
-    <input type="date" th:field="*{subTaskStartDate}" required>
+        <form th:action="@{/saveSubTask/{id}(id=${taskId})}"
+              th:object="${subTask}"
+              method="post">
 
-    <label>Deadline for del-projekt:</label>
-    <input type="date" th:field="*{subTaskDeadLine}" required>
+            <label for="subTaskName">Delopgavens navn</label>
+            <input id="subTaskName"
+                   type="text"
+                   placeholder="Navn"
+                   th:field="*{subTaskName}"
+                   required>
 
-    <label>Tidsestimat:</label>
-    <input type="number" placeholder="Timer" th:field="*{subTaskTimeEstimate}" required>
+            <label for="subTaskDetails">Delopgavens beskrivelse</label>
+            <input id="subTaskDetails"
+                   type="text"
+                   placeholder="Beskrivelse"
+                   th:field="*{subTaskDetails}"
+                   required>
 
-    <button type="submit">Opret subtask</button>
-</form>
+            <label for="subTaskStartDate">Startdato for delopgave</label>
+            <input id="subTaskStartDate"
+                   type="date"
+                   th:field="*{subTaskStartDate}"
+                   required>
+
+            <label for="subTaskDeadLine">Deadline for delopgave</label>
+            <input id="subTaskDeadLine"
+                   type="date"
+                   th:field="*{subTaskDeadLine}"
+                   required>
+
+            <label for="subTaskTimeEstimate">Tidsestimat (timer)</label>
+            <input id="subTaskTimeEstimate"
+                   type="number"
+                   placeholder="Timer"
+                   th:field="*{subTaskTimeEstimate}"
+                   required>
+
+            <label for="employee">Ansvarlig</label>
+            <select id="employee" th:field="*{employeeId}" required>
+                <option value="0" disabled selected>Vælg medarbejder</option>
+                <option th:each="emp : ${employees}"
+                        th:value="${emp.employeeId}"
+                        th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName + ' ' + emp.getRole()}">
+                </option>
+            </select>
+
+            <button type="submit" class="btn-primary">
+                Opret delopgave
+            </button>
+        </form>
+    </section>
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

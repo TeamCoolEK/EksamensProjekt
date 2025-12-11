@@ -1,31 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Opret Task</title>
+    <title>CoolPlanner | Opret opgave</title>
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
-<h1>Opret Task</h1>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<form th:action="@{/saveTask/{id}(id=${subProjectId})}"
-      th:object="${task}"
-      method="post">
+<main class="page">
+    <section class="glass form-card">
+        <h1>Opret opgave</h1>
 
-    <label>Navn på Task:</label>
-    <input type="text" th:field="*{taskName}" required>
+        <p class="meta-text">
+            Opret en opgave under det valgte del-projekt.
+        </p>
 
-    <label>Beskrivelse:</label>
-    <input type="text" th:field="*{taskDetails}" required>
+        <form th:action="@{/saveTask/{id}(id=${subProjectId})}"
+              th:object="${task}"
+              method="post">
 
-    <label>Start dato:</label>
-    <input type="date" th:field="*{taskStartDate}" required>
+            <label for="taskName">Navn på opgave</label>
+            <input id="taskName"
+                   type="text"
+                   th:field="*{taskName}"
+                   placeholder="Navn"
+                   required>
 
-    <label>Deadline:</label>
-    <input type="date" th:field="*{taskDeadline}" required>
+            <label for="taskDetails">Beskrivelse</label>
+            <input id="taskDetails"
+                   type="text"
+                   th:field="*{taskDetails}"
+                   placeholder="Beskrivelse"
+                   required>
 
-    <button type="submit">Opret Task</button>
-</form>
+            <label for="taskStartDate">Startdato</label>
+            <input id="taskStartDate"
+                   type="date"
+                   th:field="*{taskStartDate}"
+                   required>
+
+            <label for="taskDeadline">Deadline</label>
+            <input id="taskDeadline"
+                   type="date"
+                   th:field="*{taskDeadline}"
+                   required>
+
+            <button type="submit" class="btn-primary">
+                Opret opgave
+            </button>
+        </form>
+    </section>
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

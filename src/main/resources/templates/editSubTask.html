@@ -2,49 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Rediger SubTask</title>
+    <title>CoolPlanner | Rediger delopgave</title>
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-<div class="formPage">
-    <h1>Rediger SubTask</h1>
-    <p class="subtitle">Opdater oplysninger for SubTask</p>
 
-    <form th:action="@{/updateSubTask}" th:object="${subTask}" method="post">
-        <!-- Hidden fields -->
-        <input type="hidden" th:field="*{subTaskId}" />
-        <input type="hidden" th:field="*{taskId}" />
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-        <label for="subTaskName">Navn:</label>
-        <input id="subTaskName" type="text" th:field="*{subTaskName}" required />
+<main class="page">
+    <section class="glass form-card">
+        <h1>Rediger delopgave</h1>
+        <p class="meta-text">Opdater oplysninger for delopgaven.</p>
 
-        <label for="subTaskDetails">Beskrivelse:</label>
-        <textarea id="subTaskDetails" th:field="*{subTaskDetails}"></textarea>
+        <form th:action="@{/updateSubTask}" th:object="${subTask}" method="post">
 
-        <label for="subTaskStartDate">Startdato:</label>
-        <input id="subTaskStartDate" type="date" th:field="*{subTaskStartDate}" />
+            <input type="hidden" th:field="*{subTaskId}" />
+            <input type="hidden" th:field="*{taskId}" />
 
-        <label for="subTaskDeadLine">Deadline:</label>
-        <input id="subTaskDeadLine" type="date" th:field="*{subTaskDeadLine}" />
+            <label for="subTaskName">Navn på delopgave</label>
+            <input id="subTaskName" type="text" th:field="*{subTaskName}" required/>
 
-        <label for="subTaskTimeEstimate">Tidsestimat (timer):</label>
-        <input id="subTaskTimeEstimate" type="number" step="0.5" th:field="*{subTaskTimeEstimate}" />
+            <label for="subTaskDetails">Beskrivelse</label>
+            <textarea id="subTaskDetails" th:field="*{subTaskDetails}"></textarea>
 
-        <label for="subTaskActualTime">Faktisk tid (timer):</label>
-        <input id="subTaskActualTime" type="number" step="0.5" th:field="*{subTaskActualTime}" />
+            <label for="subTaskStartDate">Startdato</label>
+            <input id="subTaskStartDate" type="date" th:field="*{subTaskStartDate}" required/>
 
-        <label for="status">Status:</label>
-        <select id="status" th:field="*{status}">
-            <option th:value="Ikke_startet">Ikke startet</option>
-            <option th:value="I_gang">I gang</option>
-            <option th:value="Afsluttet">Afsluttet</option>
-        </select>
+            <label for="subTaskDeadLine">Deadline</label>
+            <input id="subTaskDeadLine" type="date" th:field="*{subTaskDeadLine}" required/>
 
-        <div class="buttonGroup">
-            <button type="submit">Gem ændringer</button>
-            <a th:href="@{/task/{id}(id=${subTask.taskId})}" class="btn-secondary">Annuller</a>
-        </div>
-    </form>
-</div>
+            <label for="subTaskTimeEstimate">Tidsestimat (timer)</label>
+            <input id="subTaskTimeEstimate" type="number" step="0.5" th:field="*{subTaskTimeEstimate}"/>
+
+            <input id="subTaskActualTime" type="hidden" step="0.5" th:field="*{subTaskActualTime}"/>
+
+            <label for="subTaskStatus">Status</label>
+            <select id="subTaskStatus" th:field="*{subTaskStatus}">
+                <option th:value="Ikke_startet">Ikke startet</option>
+                <option th:value="I_gang">I gang</option>
+                <option th:value="Lukket">Lukket</option>
+            </select>
+
+            <label for="employee">Ansvarlig</label>
+            <select id="employee" th:field="*{employeeId}" required>
+                <option th:value="0" disabled>Vælg medarbejder</option>
+                <option th:each="emp : ${employees}"
+                        th:value="${emp.getEmployeeId()}"
+                        th:text="${emp.getEmployeeId() + ' - ' + emp.getFirstName() + ' ' + emp.getLastName()}">
+                </option>
+            </select>
+
+            <div class="button-row">
+                <button type="submit" class="btn-primary">Gem ændringer</button>
+                <a th:href="@{/dashboard/subTasks/{id}(id=${subTask.subTaskId})}" class="btn-ghost">Tilbage</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

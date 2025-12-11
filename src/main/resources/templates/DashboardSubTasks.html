@@ -2,21 +2,113 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>CoolPlanner | Dine Subtasks</title>
+    <title>CoolPlanner | Delopgave</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<h1>Dine subtasks</h1>
-<p>Her kan du se dine subtasks og oprette nye.</p>
 
-<ul>
-    <li th:each="subTask : ${subTask}">
-        <span th:text="${subtask.subTaskName}">Subtask navn</span>
-    </li>
-</ul>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<a class="button" th:href="@{/dashboard/subprojects/createSubTask}">+ Tilføj ny subtask</a>
+<main class="page">
 
+    <!-- Header for delopgave -->
+    <section class="glass project-detail-header">
+        <h1 th:text="${subTask.subTaskName}">Delopgavenavn</h1>
+
+        <p class="project-description" th:text="${subTask.subTaskDetails}">
+            Kort beskrivelse af delopgaven…
+        </p>
+
+        <p class="meta-text">
+            Detaljer for delopgaven og ansvarlig medarbejder.
+        </p>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">Startdato</div>
+                <div class="stat-value" th:text="${subTask.subTaskStartDate}">
+                    2025-01-10
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Deadline</div>
+                <div class="stat-value" th:text="${subTask.subTaskDeadLine}">
+                    2025-01-20
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Estimeret tid</div>
+                <div class="stat-value">
+                    <span th:text="${subTask.subTaskTimeEstimate}">4</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Faktisk tid</div>
+                <div class="stat-value">
+                    <span th:text="${subTask.subTaskActualTime}">2</span>
+                    <span class="stat-unit">timer</span>
+                </div>
+            </div>
+
+            <!-- gør at der står mellemrum frem for _ -->
+            <!-- skifter farve ud fra enum -->
+            <div class="stat-card stat-status">
+                <div class="stat-label">Status</div>
+                <div th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}"
+                     th:if="${subTask.subTaskStatus.name() == 'Ikke_startet'}">
+                    Ikke startet
+                </div>
+                <div class="stat-igang" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}"
+                     th:if="${subTask.subTaskStatus.name() == 'I_gang'}">
+                    I gang
+                </div>
+                <div class="stat-lukket" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}"
+                     th:if="${subTask.subTaskStatus.name() == 'Lukket'}">
+                    Lukket
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Ansvarlig</div>
+                <div class="stat-value">
+                    <span th:if="${responsibleEmployee != null}"
+                          th:text="${responsibleEmployee.firstName + ' ' + responsibleEmployee.lastName}">
+                        Navn Navnesen
+                    </span>
+                    <span th:if="${responsibleEmployee == null}">
+                        Ingen tildelt
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="button-row button-row-tight">
+            <a class="btn-ghost"
+               th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
+                Rediger delopgave
+            </a>
+
+            <a class="btn-ghost btn-danger"
+               th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
+                Luk delopgave
+            </a>
+            <a class="btn-ghost"
+               th:href="@{'/dashboard/tasks/' + ${subTask.taskId}}">
+                Tilbage til opgave
+            </a>
+        </div>
+
+    </section>
+
+</main>
 
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 

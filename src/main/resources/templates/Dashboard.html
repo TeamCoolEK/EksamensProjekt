@@ -2,23 +2,96 @@
 <html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> CoolPlanner | Din profil</title>
+    <title>CoolPlanner | Din profil</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<h1> Velkommen, <span th:text="${employee.firstName}">Bruger</span> </h1>
-<h2> På denne side har du dit Dashboard med overblik over alle aktive projekter <br>
-        Du kan også tilgå delprojekter, user stories samt task. God arbejdslyst.
-</h2>
 
-<ul>
-    <li><a th:href="@{/dashboard/projects}">Se projekter</a></li>
-    <li><a th:href="@{/dashboard/subprojects}">Se delprojekter</a></li>
-    <li><a th:href="@{/dashboard/tasks}">Se tasks</a></li>
-    <li><a th:href="@{/dashboard/subTasks}">Se sub tasks</a></li>
-</ul>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-<a th:href="@{/dashboard/projects/closed}">Lukkede projekter</a>
+<main class="page">
+
+    <!-- Header / velkomst-boks -->
+    <section class="dashboard-header glass">
+        <h1>
+            Velkommen,
+            <span class="highlight-name" th:text="${employee.firstName}">Bruger</span>
+        </h1>
+
+        <h2>
+            På denne side har du dit Dashboard med overblik over alle aktive projekter.<br>
+            Tilgå delprojekter ved at vælge et projekt. God arbejdslyst.
+        </h2>
+
+        <p class="meta-text">
+            Projekter for
+            <span th:text="${employee.firstName}">Bruger</span> – her kan du se alle dine aktive projekter.
+        </p>
+    </section>
+
+    <!-- Projekter -->
+    <section class="projects-section">
+
+        <div class="projects-header-line">
+            <h3>Aktive projekter</h3>
+            <!-- Hvis du har en størrelse på listen, kan du sætte den her -->
+            <span class="count-pill"
+                  th:text="${#lists.size(projects)} + ' projekt(er)'">
+                0 projekt(er)
+            </span>
+        </div>
+
+        <ul class="project-list">
+            <li th:each="project : ${projects}">
+                <a th:href="@{'/dashboard/projects/' + ${project.projectId}}">
+                    <div class="project-card glass">
+
+                        <div class="project-card-top">
+                            <p class="project-name"
+                               th:text="${project.projectName}">
+                                Projektnavn
+                            </p>
+
+                            <p class="project-deadline">
+                                Deadline:
+                                <span th:text="${project.projectDeadLine}">
+                                    2025-12-31
+                                </span>
+                            </p>
+                        </div>
+
+                        <div class="project-card-footer">
+                            <span class="status-pill">
+                                Aktivt projekt
+                            </span>
+                            <!-- Du kan senere udskifte disse med fx estimeret tid osv. -->
+                            <span>
+                                Klik for at se delprojekter
+                            </span>
+                        </div>
+
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Knapper under listen / if statement til at gemme tilføj knap for team_member -->
+        <div class="button-row">
+            <a class="btn-primary" th:href="@{/createProject}"
+            th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
+                + Tilføj nyt projekt
+            </a>
+
+            <a class="btn-ghost" th:href="@{/dashboard/projects/closedProjects}">
+                Lukkede projekter
+            </a>
+        </div>
+
+    </section>
+
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 
 </body>
 </html>

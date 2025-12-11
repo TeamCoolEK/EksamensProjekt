@@ -11,12 +11,14 @@ public class SubTask {
     private LocalDate subTaskDeadLine;
     private int subTaskTimeEstimate;
     private int subTaskActualTime;
-    private Status status;
+    private Status subTaskStatus;
     private int employeeId;
 
     private int taskId;
+    //Tildeler en employee til subTask objekt i Dashboard controlleren
+    private Employee responsibleEmployee;
 
-    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status status, int taskId) {
+    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status subTaskStatus, int taskId) {
         this.subTaskId = subTaskId;
         this.subTaskName = subTaskName;
         this.subTaskDetails = subTaskDetails;
@@ -24,12 +26,12 @@ public class SubTask {
         this.subTaskDeadLine = subTaskDeadLine;
         this.subTaskTimeEstimate = subTaskTimeEstimate;
         this.subTaskActualTime = subTaskActualTime;
-        this.status = status;
+        this.subTaskStatus = subTaskStatus;
         this.taskId = taskId;
     }
 
     public SubTask() {
-    } //tom konstuktør <3
+    }
 
     public int getSubTaskId() {
         return subTaskId;
@@ -87,12 +89,12 @@ public class SubTask {
         this.subTaskActualTime = subTaskActualTime;
     }
 
-    public Status getStatus() {
-        return status;
+    public Status getSubTaskStatus() {
+        return subTaskStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setSubTaskStatus(Status subTaskStatus) {
+        this.subTaskStatus = subTaskStatus;
     }
 
     public int getEmployeeId() {
@@ -109,6 +111,14 @@ public class SubTask {
 
     public void setTaskId(int taskId) {
         this.taskId = taskId;
+    }
+
+    public Employee getResponsibleEmployee () {
+        return responsibleEmployee;
+    }
+
+    public void setResponsibleEmployee (Employee responsibleEmployee) {
+        this.responsibleEmployee = responsibleEmployee;
     }
 
 }

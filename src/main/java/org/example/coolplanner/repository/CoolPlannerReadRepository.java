@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CoolplannerRepositoryFind {
+public class CoolPlannerReadRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public CoolplannerRepositoryFind(JdbcTemplate jdbcTemplate) {
+    public CoolPlannerReadRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -26,38 +26,32 @@ public class CoolplannerRepositoryFind {
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), email);
     }
 
-    public boolean emailExists(String email) {
-        String sql = "SELECT COUNT(*) FROM employee WHERE email =?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
-        return count != null && count > 0;
-    }
-
-    public List<SubTask> findActiveSubTasks(int employeeId) {
-        String sql = "SELECT * FROM subTask WHERE employeeId = ?";
-        List<SubTask> SubTask = jdbcTemplate.query(sql, new SubTaskRowMapper(), employeeId);
+    public List<SubTask> findActiveSubTasks(int taskId) {
+        String sql = "SELECT * FROM subTask WHERE taskId = ?";
+        List<SubTask> SubTask = jdbcTemplate.query(sql, new SubTaskRowMapper(), taskId);
         return SubTask;
     }
 
     public List<Project> findActiveProjects(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ?";
+        String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus <> 'Lukket'";
         List<Project> project = jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
         return project;
     }
 
-    public List<SubProject> findActiveSubProjects(int employeeId) {
+    public List<SubProject> findActiveSubProjects(int projectId) {
         String sql = "SELECT * FROM subProject WHERE projectId = ?";
-        List<SubProject> SubProjects = jdbcTemplate.query(sql, new SubProjectRowMapper(), employeeId);
+        List<SubProject> SubProjects = jdbcTemplate.query(sql, new SubProjectRowMapper(), projectId);
         return SubProjects;
     }
 
-    public List<Task> findActiveTasks(int employeeId) {
+    public List<Task> findActiveTasks(int subProjectId) {
         String sql = "SELECT * FROM task WHERE subProjectId = ?";
-        List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), employeeId);
+        List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), subProjectId);
         return Task;
     }
 
     public Task findTaskById(int taskID) {
-        String sql = "SELECT * FROM Task WHERE TaskID = ?";
+        String sql = "SELECT * FROM task WHERE taskId = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
@@ -78,7 +72,7 @@ public class CoolplannerRepositoryFind {
     }
 
     public List<Project> findClosedProjects(int employeeId) {
-        String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus = 'LUKKET'";
+        String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus = 'Lukket'";
         return jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
     }
 
@@ -96,4 +90,24 @@ public class CoolplannerRepositoryFind {
         String sql = "SELECT * FROM subTask WHERE subTaskId = ?";
         return jdbcTemplate.queryForObject(sql, new SubTaskRowMapper(), subTaskId);
     }
+
+    public List<Employee> findAllEmployees(){
+        String sql = "SELECT * FROM employee";
+        return jdbcTemplate.query(sql, new EmployeeRowMapper());
+    }
+
+    public List<Project> findProjectsForTeamMember(int employeeId){
+        String sql =
+                "SELECT DISTINCT p.* " +
+                "FROM project p " +
+                "JOIN subproject sp ON sp.projectId = p.projectId " +
+                "JOIN task t ON t.subProjectId = sp.subProjectId " +
+                "JOIN subtask st ON st.taskId = t.taskId " +
+                "WHERE st.employeeId = ? " +
+                "AND p.projectStatus <> 'Lukket'";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
+    }
+
+
+
 }

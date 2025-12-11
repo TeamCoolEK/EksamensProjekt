@@ -1,50 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Rediger Task</title>
+    <title>CoolPlanner | Rediger opgave</title>
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
-<div class="formPage">
-    <h1>Rediger Task</h1>
-    <p class="subtitle">Opdater oplysninger for Task</p>
+<div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
-    <form th:action="@{/updateTask}" th:object="${task}" method="post">
+<main class="page">
+    <section class="glass form-card">
+        <h1>Rediger opgave</h1>
+        <p class="meta-text">Opdater oplysninger for opgaven.</p>
 
-        <input type="hidden" th:feld="*{taskID}" />
+        <form th:action="@{/updateTask}" th:object="${task}" method="post">
 
-        <label for="taskName" >Navn på Task:</label>
-        <input id="taskName" type="text" th:field="*{taskName}" required/>
+            <input type="hidden" th:field="*{taskId}" />
 
-        <label for="taskDetails">Beskrivelse:</label>
-        <textarea id="taskDetails" th:field="*{taskDetails}"></textarea>
+            <label for="taskName">Navn på opgave</label>
+            <input id="taskName" type="text" th:field="*{taskName}" required/>
 
-        <label for="taskStartDate">Startdato:</label>
-        <input id="taskStartDate"> type="date" th:field="*{taskStartDate}"/>
+            <label for="taskDetails">Beskrivelse</label>
+            <textarea id="taskDetails" th:field="*{taskDetails}"></textarea>
 
-        <label for="taskDeadline">Deadline:</label>
-        <input id="taskDeadline" type="date" th:field="{taskDeadline}"/>
+            <label for="taskStartDate">Startdato</label>
+            <input id="taskStartDate" type="date" th:field="*{taskStartDate}" required/>
 
-        <label for="taskTimeEstimate">Tidsestimat:</label>
-        <input id="taskTimeEstimate"> type="number" step="0.5" th:field="*{taskTimeEstimate}"/>
+            <label for="taskDeadline">Deadline</label>
+            <input id="taskDeadline" type="date" th:field="*{taskDeadline}" required/>
 
-        <label for="TaskActualTime">Reel tid brugt:</label>
-        <input id="taskActualTime" type="number" step="0.5" th:field="*{taskActualTime}"/>
+            <input id="taskTimeEstimate" type="hidden" step="0.5" th:field="*{taskTimeEstimate}" required />
+            <input id="taskActualTime" type="hidden" step="0.5" th:field="*{taskActualTime}" required />
 
-        <label for="taskStatus">Status:</label>
-        <select id="taskStatus" th:field="{taskStatus}">
-            <option th:value="ikke_startet">Ikke startet</option>
-            <option th:value="I_gang">I gang</option>
-            <option th:value="Afsluttet">Afsluttet</option>
-        </select>
+            <label for="taskStatus">Status</label>
+            <select id="taskStatus" th:field="*{taskStatus}">
+                <option th:value="Ikke_startet">Ikke startet</option>
+                <option th:value="I_gang">I gang</option>
+                <option th:value="Lukket">Lukket</option>
+            </select>
 
-        <div class="buttonGroup">
-            <button type="submit">Gem ændringer</button>
-            <a th:href="@{/dashboard}" class="btn-secondary">Annuller</a>
-        </div>
-    </form>
-</div>
+            <div class="button-row">
+                <button type="submit" class="btn-primary">Gem ændringer</button>
+                <a th:href="@{/dashboard/tasks/{id}(id=${task.taskId})}" class="btn-ghost">Tilbage</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>

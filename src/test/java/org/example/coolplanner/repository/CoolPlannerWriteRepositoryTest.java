@@ -18,11 +18,14 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
 @ActiveProfiles("test")
 //Bruger h2.sql script til oprettelse af h2 database
 @Sql(scripts = "classpath:h2.sql", executionPhase = BEFORE_TEST_METHOD)
-public class CoolPlannerRepositoryTest {
+public class CoolPlannerWriteRepositoryTest {
 
     //injecter repo dependencies
     @Autowired
-    CoolPlannerRepository coolPlannerRepository;
+    CoolPlannerWriteRepository coolPlannerWriteRepository;
+
+    @Autowired
+    CoolPlannerReadRepository coolplannerReadRepository;
 
     //tilføjer employee til databasen, og henter den igen
 //    @Test
@@ -34,13 +37,33 @@ public class CoolPlannerRepositoryTest {
 //        assertEquals("John", result.getFirstName());
 //    }
 
-    //Test employee (Kan genbruges :D)
+    @Test
+    void CreateUpdateAndFindEmployee () {
+        coolPlannerWriteRepository.createEmployee(employee);
+
+        coolPlannerWriteRepository.updateEmployee(updateEmployee);
+
+        Employee result = coolplannerReadRepository.findEmployeeById(1);
+
+        assertEquals("password", result.getPassword());
+    }
+
+    //Test objekter (Kan genbruges :D)
     Employee employee = new Employee(
             1,
             "John",
             "Doe",
             "john.doe@example.com",
             "password123",
+            EmployeeRole.Manager
+    );
+
+    Employee updateEmployee = new Employee(
+            1,
+            "Johnny",
+            "Doeson",
+            "john.doe@example.com",
+            "password",
             EmployeeRole.Manager
     );
 }

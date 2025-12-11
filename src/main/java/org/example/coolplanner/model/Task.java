@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Task {
 
-    private int taskID;
+    private int taskId;
     private String taskName;
     private String taskDetails;
     private LocalDate taskStartDate;
@@ -14,12 +14,27 @@ public class Task {
     private Status taskStatus;
     private int subprojectID;
 
-    public int getTaskID() {
-        return taskID;
+    public Task(int taskId, String taskName, String taskDetails, LocalDate taskStartDate, LocalDate taskDeadline, int taskTimeEstimate, int taskActualTime, Status taskStatus, int subprojectID) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskDetails = taskDetails;
+        this.taskStartDate = taskStartDate;
+        this.taskDeadline = taskDeadline;
+        this.taskTimeEstimate = taskTimeEstimate;
+        this.taskActualTime = taskActualTime;
+        this.taskStatus = taskStatus;
+        this.subprojectID = subprojectID;
     }
 
-    public void setTaskID(int taskID) {
-        this.taskID = taskID;
+    public Task(){
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     public String getTaskName() {

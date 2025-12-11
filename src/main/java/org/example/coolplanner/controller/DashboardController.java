@@ -3,152 +3,180 @@ package org.example.coolplanner.controller;
 import org.example.coolplanner.model.*;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpSession;
-import org.example.coolplanner.service.CoolPlannerService;
+import org.example.coolplanner.service.CoolPlannerWriteService;
+import org.example.coolplanner.service.CoolPlannerReadService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/dashboard")
 public class DashboardController {
 
-    private final CoolPlannerService coolPlannerService;
+    private final CoolPlannerWriteService coolPlannerWriteService;
+    private final CoolPlannerReadService coolPlannerReadService;
 
-    public DashboardController(CoolPlannerService coolPlannerService) {
-        this.coolPlannerService = coolPlannerService;
+    public DashboardController(CoolPlannerWriteService coolPlannerWriteService, CoolPlannerReadService coolPlannerReadService) {
+        this.coolPlannerWriteService = coolPlannerWriteService;
+        this.coolPlannerReadService = coolPlannerReadService;// dependencies injection
     }
 
-    //Hoveddashboard til at vise knapper videre til projects,sub-projects osv.
+    //Hoved dashboard til at vise knapper videre til projects, sub-projects osv.
     //Bruger HttpSession og session.getAttribute "employee" for at sikre det er den rigtige bruger, hvis oplysninger vi henter.
-    //Model model bruges til at sende data til HTML-siden.
-    @GetMapping("/dashboard")
+    //Model, model bruges til at sende data til HTML-siden.
+    @GetMapping("/show")
     public String showDashboard(Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee"); // Henter bruger fra session
         if (employee == null) {
-            return "redirect:/login"; // Sender bruger videre til login-side, hvis bruger ikke er logget ind
+            return "redirect:/employee/login"; // Sender bruger videre til login-side, hvis bruger ikke er logget ind
         }
         //Tjekker om der rent faktisk ligger en bruger i sessionen (altså at brugeren er logget ind).
         int employeeId = employee.getEmployeeId(); // Henter brugerens ID fra employee-objektet.
 
-        // Henter alle aktive objekter for den medarbejder, der er logget ind
-        List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
-        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
-        List<Task> userStories = coolPlannerService.getActiveTasks(employeeId);
-        List<SubTask> tasks = coolPlannerService.getActiveSubTasks(employeeId);
+        List<Project> projects = new ArrayList<>();
 
+        if (employee.role == EmployeeRole.Manager) {
+            // Henter alle aktive objekter for den medarbejder, der er logget ind
+            projects = coolPlannerReadService.getActiveProjects(employeeId);
+        } else if (employee.role == EmployeeRole.Team_Member) {
+            projects = coolPlannerReadService.findProjectsForTeamMember(employeeId);
+        }
         /* Lægger employee og alle lister på modellen, så vi i HTML kan
          sige "Velkommen 'firstname'" ved at skrive ${employee.firstname}
-         samt vise et overblik af projekter, delprojekter, user stories og tasks */
+         samt vise et overblik af projekter */
         model.addAttribute("employee", employee);
         model.addAttribute("projects", projects);
-        model.addAttribute("subProjects", subProjects);
-        model.addAttribute("userStories", userStories);
-        model.addAttribute("tasks", tasks);
+
         return "Dashboard";
     }
 
     // 1) Side med projekter
-    @GetMapping("/dashboard/projects")
-    public String showProjects(HttpSession session, Model model) {
+    @GetMapping("/projects/{id}")
+    public String showProjects(@PathVariable int id, HttpSession session, Model model) {
+        //henter employee session og tildeler dens id
         Employee employee = (Employee) session.getAttribute("employee");
-        if (employee == null) {
-            return "redirect:/login";
-        }
 
-        int employeeId = employee.getEmployeeId();
-        List<Project> projects = coolPlannerService.getActiveProjects(employeeId);
+        //Redirect til login hvis sessionen er tom/udløbet
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        //Henter projektet
+        Project project = coolPlannerReadService.findProjectById(id);
+        //Henter liste af projektets delprojekter
+        List<SubProject> subProjects = coolPlannerReadService.getActiveSubProjects(project.getProjectId());
+
+        double dailyHours = coolPlannerWriteService.calculateDailyHours(project);
+
+        int remainingEstimate = coolPlannerWriteService.
+                calculateProjectRemainingTimeEstimateFromSubProjects(project.getProjectId());
+
 
         model.addAttribute("employee", employee);
-        model.addAttribute("projects", projects);
+        model.addAttribute("project", project);
+        model.addAttribute("subProjects", subProjects);
+        model.addAttribute("dailyHours", dailyHours);
+        model.addAttribute("remainingEstimate", remainingEstimate);
 
         return "DashboardProjects";
     }
 
     // 2) Side med delprojekter
-    @GetMapping("/dashboard/subprojects")
-    public String showSubProjects(HttpSession session, Model model) {
+    @GetMapping("/subprojects/{id}")
+    public String showSubProjects(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
 
-        int employeeId = employee.getEmployeeId();
-        List<SubProject> subProjects = coolPlannerService.getActiveSubProjects(employeeId);
+        SubProject subProject = coolPlannerReadService.findSubProjectById(id);
+        List<Task> tasks = coolPlannerReadService.getActiveTasks(id);
+
+        int remainingEstimate = coolPlannerWriteService.
+                calculateSubProjectRemainingTimeEstimateFromTasks(subProject.getSubProjectId());
 
         model.addAttribute("employee", employee);
-        model.addAttribute("subProjects", subProjects);
+        model.addAttribute("subProject", subProject);
+        model.addAttribute("tasks", tasks);
+        model.addAttribute("remainingEstimate", remainingEstimate);
 
         // viser filen: src/main/resources/template/dashboardSubProjects.html
         return "DashboardSubProjects";
     }
 
     // 3) Side med task
-    @GetMapping("/dashboard/task")
-    public String showTask(HttpSession session, Model model) {
+    @GetMapping("/tasks/{id}")
+    public String showTask(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
 
-        int employeeId = employee.getEmployeeId();
-        List<Task> tasks = coolPlannerService.getActiveTasks(employeeId);
+        Task task = coolPlannerReadService.getTaskById(id);
+        List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(id);
+
+        for (SubTask s : subTasks) {
+            if (s.getEmployeeId() != 0) {
+                Employee responsibleEmployee =
+                        coolPlannerReadService.findEmployeeById(s.getEmployeeId());
+                s.setResponsibleEmployee(responsibleEmployee);
+            }
+        }
+
+        int remainingEstimate = coolPlannerWriteService.
+                calculateTaskRemainingTimeEstimateFromSubTasks(task.getTaskId());
 
         model.addAttribute("employee", employee);
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("task", task);
+        model.addAttribute("subTasks", subTasks);
+        model.addAttribute("remainingEstimate", remainingEstimate);
 
         // viser filen: src/main/resources/template/dashboardTasks.html
         return "DashboardTask";
     }
 
-    // 4) Side med tasks
-    @GetMapping("/dashboard/subTasks")
-    public String showTasks(HttpSession session, Model model) {
+    // 4) Side med subtasks
+    @GetMapping("/subTasks/{id}")
+    public String showTasks(@PathVariable int id, HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) {
-            return "redirect:/login";
+            return "redirect:/employee/login";
         }
 
-        int employeeId = employee.getEmployeeId();
-        List<SubTask> subTasks = coolPlannerService.getActiveSubTasks(employeeId);
+        SubTask subTask = coolPlannerReadService.getSubTaskById(id);
+
+        Employee responsibleEmployee = null;
+        if(subTask.getEmployeeId() != 0) {
+            responsibleEmployee = coolPlannerReadService.findEmployeeById(subTask.getEmployeeId());
+        }
 
         model.addAttribute("employee", employee);
-        model.addAttribute("subTasks", subTasks);
+        model.addAttribute("subTask", subTask);
+        model.addAttribute("responsibleEmployee", responsibleEmployee);
 
         return "DashboardSubTasks";
     }
 
     //Side med lukkede projekter
-    @GetMapping("/dashboard/projects/closed")
+    @GetMapping("/projects/closedProjects")
     public String showClosedProjects(HttpSession session, Model model) {
         Employee employee = (Employee) session.getAttribute("employee");
         if (employee == null) return "redirect:/login";
 
-        List<Project> closedProjects = coolPlannerService.getClosedProjects(employee.getEmployeeId());
+        List<Project> closedProjects = coolPlannerReadService.getClosedProjects(employee.getEmployeeId());
         model.addAttribute("employee", employee);
         model.addAttribute("closedProjects", closedProjects);
         return "closedProjects";
     }
 
-    //Side til ét projekt ved at bruge navn.
-    @GetMapping("/projects/{projectName}")
-    public String showProject(@PathVariable int projectId, Model model) {
-        Project project = coolPlannerService.findProjectById(projectId);
-        model.addAttribute("project", project);
-        return "projectDetails";
-    }
+    @PostMapping("/projects/{id}/close")
+    public String closeProject(@PathVariable int id, @RequestParam(required = false) String confirm) {
 
-    @PostMapping("/projects/{projectId}/close")
-    public String closeProject(@PathVariable int projectId, @RequestParam(required = false) String confirm) {
-
-        // Checkbox sender fx value="on"
-        if (confirm != null) {
-            coolPlannerService.closeProject(projectId); // sætter status til LUKKET
+            coolPlannerWriteService.closeProject(id); // sætter status til LUKKET
+            return "redirect:/dashboard/show";
         }
-        return "redirect:/projects/" + projectId;
-    }
+
     }
 
 

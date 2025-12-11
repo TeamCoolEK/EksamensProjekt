@@ -13,15 +13,15 @@ public class TaskRowMapper implements RowMapper<Task> {
     public Task mapRow(ResultSet rs, int rowNum) throws SQLException {
         Task task = new Task();
 
-        task.setTaskID(rs.getInt("TaskID"));
-        task.setTaskName(rs.getString("TaskName"));
-        task.setTaskDetails(rs.getString("TaskDetails"));
-        task.setTaskStartDate(rs.getDate("TaskStartDate").toLocalDate());
-        task.setTaskDeadline(rs.getDate("TaskDeadline").toLocalDate());
-        task.setTaskTimeEstimate(rs.getInt("TaskTimeEstimate"));
-        task.setTaskActualTime(rs.getInt("TaskActualTime"));
+        task.setTaskId(rs.getInt("taskID"));
+        task.setTaskName(rs.getString("taskName"));
+        task.setTaskDetails(rs.getString("taskDetails"));
+        task.setTaskStartDate(rs.getDate("taskStartDate").toLocalDate());
+        task.setTaskDeadline(rs.getDate("taskDeadline").toLocalDate());
+        task.setTaskTimeEstimate(rs.getInt("taskTimeEstimate"));
+        task.setTaskActualTime(rs.getInt("taskActualTime"));
         task.setTaskStatus(Status.valueOf(rs.getString("taskStatus")));
-        task.setSubprojectID(rs.getInt("SubprojectID"));
+        task.setSubprojectID(rs.getInt("subProjectID"));
 
 
         return task;

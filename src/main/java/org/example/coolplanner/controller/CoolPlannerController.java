@@ -7,7 +7,8 @@ import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
 import org.example.coolplanner.model.SubTask;
 import org.example.coolplanner.model.Task;
-import org.example.coolplanner.service.CoolPlannerService;
+import org.example.coolplanner.service.CoolPlannerReadService;
+import org.example.coolplanner.service.CoolPlannerWriteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping()
 public class CoolPlannerController {
 
-    private final CoolPlannerService coolPlannerService;
+    private final CoolPlannerWriteService coolPlannerWriteService;
+    private final CoolPlannerReadService coolPlannerReadService;
 
-    public CoolPlannerController(CoolPlannerService coolPlannerService) {
-        this.coolPlannerService = coolPlannerService;
+    public CoolPlannerController(CoolPlannerWriteService coolPlannerWriteService, CoolPlannerReadService coolPlannerReadService) {
+        this.coolPlannerWriteService = coolPlannerWriteService; // dependencies injection
+        this.coolPlannerReadService = coolPlannerReadService;
     }
     //ENDPOINT til createProject
     @GetMapping("/createProject")
-    public String createProject(Model model) {
+    public String createProject(Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("project", new Project());
         return "createProject";
     }
@@ -31,15 +41,19 @@ public class CoolPlannerController {
     @PostMapping("/saveProject")
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
-        //sætter employee ID til 0 for test
-        Employee employeeTest = new Employee();
-        employeeTest.setEmployeeId(1);
-        coolPlannerService.createProject(project, employeeTest);
-        return "redirect:/XYZ";
+        coolPlannerWriteService.createProject(project, employee);
+        return "redirect:/dashboard/show";
     }
     //ENDPOINT til createSubProject
     @GetMapping("/createSubProject/{id}") //{id bruges til at tildele projectId}
-    public String createSubProject(@PathVariable int id, Model model) {
+    public String createSubProject(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("subProject", new SubProject());
         model.addAttribute("projectId", id);
         return "createSubProject";
@@ -47,14 +61,21 @@ public class CoolPlannerController {
     //ENDPOINT til at gemme subProject i databasen
     @PostMapping("/saveSubProject/{id}")
     public String saveSubProject(@PathVariable int id, @ModelAttribute SubProject subProject) {
-        Project project = coolPlannerService.findProjectById(id);
-        coolPlannerService.createSubProject(subProject, project);
-        coolPlannerService.updateProjectTimeEstimateFromSubProjects(id);
-        return "redirect:/dashboard";
+        Project project = coolPlannerReadService.findProjectById(id);
+        coolPlannerWriteService.createSubProject(subProject, project);
+        coolPlannerWriteService.updateProjectTimeEstimateFromSubProjects(id);
+        return "redirect:/dashboard/projects/" + project.getProjectId();
     }
     //ENDPOINT til createSubTask
     @GetMapping("/createSubTask/{id}")
-    public String createSubTask(@PathVariable int id, Model model) {
+    public String createSubTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("subTask", new SubTask());
         model.addAttribute("taskId", id);
         return "createSubTask";
@@ -70,7 +91,14 @@ public class CoolPlannerController {
     }
     //ENDPOINT til createTask
     @GetMapping("/createTask/{id}")
-    public String createTask(@PathVariable int id, Model model) {
+    public String createTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("task", new Task());
         model.addAttribute("subProjectId", id);
         return "createTask";
@@ -78,18 +106,24 @@ public class CoolPlannerController {
     //ENDPOINT til at gemme task i databasen
     @PostMapping("/saveTask/{id}")
     public String saveTask(@PathVariable int id, @ModelAttribute Task task) {
-        SubProject subProject = coolPlannerService.findSubProjectById(id);
-        coolPlannerService.createTask(task, subProject);
-        coolPlannerService.updateSubProjectTimeEstimateFromTasks(id);
-
-        return "redirect:/dashboard";
+        SubProject subProject = coolPlannerReadService.findSubProjectById(id);
+        coolPlannerWriteService.createTask(task, subProject);
+        coolPlannerWriteService.updateSubProjectTimeEstimateFromTasks(id);
+        return "redirect:/dashboard/subprojects/" + subProject.getSubProjectId();
     }
 
     @GetMapping("/project/{id}/edit")
-    public String editProject(@PathVariable int id, Model model) {
-        Project project = coolPlannerService.findProjectById(id);
+    public String editProject(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
+        Project project = coolPlannerReadService.findProjectById(id);
         if (project == null) {
-            return "redirect:/";
+            return "redirect:/dashboard/show";
         }
         model.addAttribute("project", project);
         return "editProject";
@@ -102,8 +136,8 @@ public class CoolPlannerController {
         form.setProjectId(id);
 
         try {
-            coolPlannerService.updateProject(form);
-            return "redirect:";
+            coolPlannerWriteService.updateProject(form);
+            return "redirect:/dashboard/projects/" + form.getProjectId();
         } catch (IllegalArgumentException e) {
             model.addAttribute("project", form);
             model.addAttribute("errorMessage", e.getMessage());
@@ -112,14 +146,31 @@ public class CoolPlannerController {
     }
 
     @GetMapping("/subProject/{id}/edit")
+    public String editSubProject(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
+        SubProject subProject = coolPlannerReadService.findSubProjectById(id);
+        if (subProject == null) {
+            return "redirect:/dashboard/show";
+        }
+        model.addAttribute("subProject", subProject);
+        return "editSubProject";
+    }
+
+    @PostMapping("/subproject/update/{id}")
     public String updateSubProject(@PathVariable int id,
                                    @ModelAttribute SubProject form,
                                    Model model) {
         form.setSubProjectId(id);
 
         try {
-            coolPlannerService.updateSubProject(form);
-            return "redirect:";
+            coolPlannerWriteService.updateSubProject(form);
+            return "redirect:/dashboard/subprojects/" + form.getSubProjectId();
         } catch (IllegalArgumentException e) {
             model.addAttribute("subProject", form);
             model.addAttribute("errorMessage", e.getMessage());
@@ -127,26 +178,44 @@ public class CoolPlannerController {
         }
     }
 
-    @GetMapping("/editTask/{id}")
-    public String editTask(@PathVariable int id, Model model) {
-        Task task = coolPlannerService.getTaskById(id);
+    @GetMapping("/task/{id}/edit")
+    public String editTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
+        Task task = coolPlannerReadService.getTaskById(id);
+        if (task == null) {
+            return "redirect:/dashboard/show";
+        }
         model.addAttribute("task", task);
         return "editTask";
     }
 
     @PostMapping("/updateTask")
     public String updateTask(@ModelAttribute Task task) {
-        coolPlannerService.updateTask(task);
-        return "redirect:/XYZ";
+        coolPlannerWriteService.updateTask(task);
+        return "redirect:/dashboard/tasks/" + task.getTaskId();
     }
 
-    @GetMapping("/editSubTask/{id}")
-    public String editSubTask(@PathVariable("id") int id, Model model) {
-        SubTask subTask = coolPlannerService.getSubTaskById(id);
+    @GetMapping("/subTask/{id}/edit")
+    public String editSubTask(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
+        SubTask subTask = coolPlannerReadService.getSubTaskById(id);
         if (subTask == null) {
-            return "redirect:/";
+            return "redirect:/dashboard/show";
         }
         model.addAttribute("subTask", subTask);
+        model.addAttribute("employees", coolPlannerReadService.getAllEmployees());
         return "editSubTask";
     }
 
