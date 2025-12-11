@@ -230,6 +230,10 @@ public class CoolPlannerController {
     @PostMapping("/updateSubTask")
     public String updateSubTask(@ModelAttribute SubTask subTask) {
         coolPlannerWriteService.updateSubTask(subTask);
+
+        SubTask updatedSubTask = coolPlannerReadService.getSubTaskById(subTask.getSubTaskId());
+        coolPlannerWriteService.updateTaskTimeEstimateFromSubTasks(updatedSubTask.getTaskId());
+
         return "redirect:/dashboard/subTasks/" + subTask.getSubTaskId();
     }
 

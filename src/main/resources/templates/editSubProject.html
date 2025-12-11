@@ -32,15 +32,10 @@
       <label for="subProjectDeadLine">Deadline</label>
       <input id="subProjectDeadLine" type="date" th:field="*{subProjectDeadLine}" required/>
 
+      <!-- Tider og Status holdes gemte, dee de skal laves på baggrund af Tasks -->
       <input id="subProjectTimeEstimate" type="hidden" step="0.5" th:field="*{subProjectTimeEstimate}"/>
       <input id="subProjectActualTime" type="hidden" step="0.5" th:field="*{subProjectActualTime}"/>
-
-      <label for="subProjectStatus">Status</label>
-      <select id="subProjectStatus" th:field="*{status}">
-        <option th:value="Ikke_startet">Ikke startet</option>
-        <option th:value="I_gang">I gang</option>
-        <option th:value="Lukket">Lukket</option>
-      </select>
+      <input type="hidden" id="status" th:field="*{status}" />
 
       <div class="button-row">
         <button type="submit" class="btn-primary">Gem ændringer</button>

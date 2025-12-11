@@ -30,15 +30,10 @@
             <label for="taskDeadline">Deadline</label>
             <input id="taskDeadline" type="date" th:field="*{taskDeadline}" required/>
 
+            <!-- Status og tider holdes gemt, da de laves ud fra subTasks -->
             <input id="taskTimeEstimate" type="hidden" step="0.5" th:field="*{taskTimeEstimate}" required />
             <input id="taskActualTime" type="hidden" step="0.5" th:field="*{taskActualTime}" required />
-
-            <label for="taskStatus">Status</label>
-            <select id="taskStatus" th:field="*{taskStatus}">
-                <option th:value="Ikke_startet">Ikke startet</option>
-                <option th:value="I_gang">I gang</option>
-                <option th:value="Lukket">Lukket</option>
-            </select>
+            <input type="hidden" id="status" th:field="*{taskStatus}" />
 
             <div class="button-row">
                 <button type="submit" class="btn-primary">Gem ændringer</button>

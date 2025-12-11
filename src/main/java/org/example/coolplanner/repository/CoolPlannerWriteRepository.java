@@ -113,7 +113,7 @@ public class CoolPlannerWriteRepository {
         String sql = "INSERT INTO subTask (subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, taskId, employeeId) VALUES (?,?,?,?,?,?,?,?,?)";
 
         subTask.setSubTaskActualTime(0);
-        subTask.setSubTaskStatus(Status.I_gang);
+        subTask.setSubTaskStatus(Status.Ikke_startet);
 
         jdbcTemplate.update(sql,
                 subTask.getSubTaskName(),

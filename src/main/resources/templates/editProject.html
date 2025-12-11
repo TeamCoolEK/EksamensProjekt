@@ -33,16 +33,10 @@
       <label for="projectDeadLine">Deadline</label>
       <input id="projectDeadLine" type="date" th:field="*{projectDeadLine}" required/>
 
-      <!-- Tider holdes skjulte, da de styres af beregninger -->
+      <!-- Tider og Status holdes skjulte, da de styres af beregninger -->
       <input id="projectTimeEstimate" type="hidden" step="0.5" th:field="*{projectTimeEstimate}"/>
       <input id="projectActualTime" type="hidden" step="0.5" th:field="*{projectActualTime}"/>
-
-      <label for="status">Status</label>
-      <select id="status" th:field="*{status}">
-        <option th:value="Ikke_startet">Ikke startet</option>
-        <option th:value="I_gang">I gang</option>
-        <option th:value="Lukket">Lukket</option>
-      </select>
+      <input type="hidden" id="status" th:field="*{status}" />
 
       <div class="button-row">
         <button type="submit" class="btn-primary">Gem ændringer</button>
