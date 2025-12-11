@@ -65,14 +65,11 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-label">Gns. timer pr. arbejdsdag</div>
+                <div class="stat-label">Gns. timer pr. arbejdsdag for at nå deadline, fra dags dato.</div>
                 <div class="stat-value">
                     <span th:text="${#numbers.formatDecimal(dailyHours, 1, 2)}">3,50</span>
                     <span class="stat-unit">timer</span>
                 </div>
-                <p class="stat-helper-text">
-                    For at nå deadline, fra dags dato.
-                </p>
             </div>
 
             <!-- gør at der står mellemrum frem for _ -->
