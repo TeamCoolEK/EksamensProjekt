@@ -6,3 +6,6 @@ profile:
   name: qodana.starter
 exclude:
   - name: SpringMVCViewInspection
+include:
+  - name: UnnecessarySemicolon
+  - name: UNUSED_IMPORT

@@ -44,7 +44,7 @@
 
       <div class="button-row">
         <button type="submit" class="btn-primary">Gem ændringer</button>
-        <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
+        <a th:href="@{/dashboard/subprojects/{id}(id=${subProject.subProjectId})}" class="btn-ghost">Tilbage</a>
       </div>
 
     </form>

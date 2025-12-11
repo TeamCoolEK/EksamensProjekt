@@ -132,7 +132,7 @@ public class CoolPlannerWriteRepository {
 
     public void updateSubTask(SubTask subTask) {
         String sql = "UPDATE subTask SET subTaskName = ?, subTaskDetails = ?, subTaskStartDate = ?, " +
-                "subTaskDeadline = ?, subTaskTimeEstimate = ?, subTaskActualTime = ?, subTaskStatus = ? " +
+                "subTaskDeadline = ?, subTaskTimeEstimate = ?, subTaskActualTime = ?, subTaskStatus = ?, employeeId = ? " +
                 "WHERE subTaskId = ?";
 
         jdbcTemplate.update(sql,
@@ -143,6 +143,7 @@ public class CoolPlannerWriteRepository {
                 subTask.getSubTaskTimeEstimate(),
                 subTask.getSubTaskActualTime(),
                 subTask.getSubTaskStatus().name(),
+                subTask.getEmployeeId(),
                 subTask.getSubTaskId());
 
     }

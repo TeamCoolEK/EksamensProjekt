@@ -54,11 +54,22 @@
                     <span class="stat-unit">timer</span>
                 </div>
             </div>
+
             <!-- gør at der står mellemrum frem for _ -->
+            <!-- skifter farve ud fra enum -->
             <div class="stat-card stat-status">
                 <div class="stat-label">Status</div>
-                <div class="stat-value" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}">
-                    Aktiv
+                <div th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}"
+                     th:if="${subTask.subTaskStatus.name() == 'Ikke_startet'}">
+                    Ikke startet
+                </div>
+                <div class="stat-igang" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}"
+                     th:if="${subTask.subTaskStatus.name() == 'I_gang'}">
+                    I gang
+                </div>
+                <div class="stat-lukket" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}"
+                     th:if="${subTask.subTaskStatus.name() == 'Lukket'}">
+                    Lukket
                 </div>
             </div>
 
@@ -79,12 +90,14 @@
 
         <div class="button-row button-row-tight">
             <a class="btn-ghost"
-               th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}">
+               th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Rediger delopgave
             </a>
 
             <a class="btn-ghost btn-danger"
-               th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}">
+               th:href="@{/subTask/{id}/complete(id=${subTask.subTaskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Luk delopgave
             </a>
             <a class="btn-ghost"

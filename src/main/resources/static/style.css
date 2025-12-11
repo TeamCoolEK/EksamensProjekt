@@ -39,6 +39,7 @@ body {
     color: var(--text-main);
     display: flex;
     flex-direction: column;
+    background-attachment: fixed;
 }
 
 /* Simpel reset til links og lister */
@@ -269,6 +270,10 @@ ul {
     background: rgba(15, 23, 42, 0.85);
 }
 
+.status-danger {
+    color: var(--danger);
+}
+
 /* =========
    KNAPPER & LINKS
    ========= */
@@ -405,8 +410,12 @@ ul {
 
 /* Status-kortet kan få lidt farve */
 
-.stat-status .stat-value {
+.stat-status .stat-igang {
     color: var(--success);
+}
+
+.stat-status .stat-lukket {
+    color: var(--danger);
 }
 
 /* Sektion-overskrift (Delprojekter) */

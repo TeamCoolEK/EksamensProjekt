@@ -62,11 +62,22 @@
                     <span class="stat-unit">timer</span>
                 </div>
             </div>
+
             <!-- gør at der står mellemrum frem for _ -->
+            <!-- skifter farve ud fra enum -->
             <div class="stat-card stat-status">
                 <div class="stat-label">Status</div>
-                <div class="stat-value" th:text="${#strings.replace(task.taskStatus, '_', ' ')}">
-                    Aktiv
+                <div th:text="${#strings.replace(task.taskStatus, '_', ' ')}"
+                     th:if="${task.taskStatus.name() == 'Ikke_startet'}">
+                    Ikke startet
+                </div>
+                <div class="stat-igang" th:text="${#strings.replace(task.taskStatus, '_', ' ')}"
+                     th:if="${task.taskStatus.name() == 'I_gang'}">
+                    I gang
+                </div>
+                <div class="stat-lukket" th:text="${#strings.replace(task.taskStatus, '_', ' ')}"
+                     th:if="${task.taskStatus.name() == 'Lukket'}">
+                    Lukket
                 </div>
             </div>
 
@@ -76,7 +87,7 @@
     <!-- Delopgaver -->
     <section class="projects-section">
 
-        <div class="section-heading">
+        <div class="projects-header-line">
             <h2>Delopgaver</h2>
             <span class="count-pill"
                   th:text="${#lists.size(subTasks)} + ' delopgave(r)'">
@@ -104,6 +115,23 @@
                                 Klik for at åbne
                             </span>
                         </div>
+                        <!-- Boks til ansvarlig for subtask -->
+                        <div class="project-card-footer" th:if="${subTask.responsibleEmployee != null}">
+                            <span class="status-pill"
+                                  th:text="${subTask.getResponsibleEmployee().getFirstName()} + ' ' + ${subTask.getResponsibleEmployee().getLastName()}">
+                            </span>
+                        </div>
+
+                        <div class="project-card-footer" th:if="${subTask.responsibleEmployee == null}">
+                            <span class="status-pill status-danger">Ingen ansvarlig</span>
+                        </div>
+
+                        <!-- Hviser status for hvert subTask -->
+                        <div class="project-card-footer">
+                            <span class="status-pill" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}">
+                                Status
+                            </span>
+                        </div>
 
                     </div>
                 </a>
@@ -112,12 +140,14 @@
 
         <div class="button-row">
             <a class="btn-primary"
-               th:href="@{/createSubTask/{id}(id=${task.taskId})}">
+               th:href="@{/createSubTask/{id}(id=${task.taskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 + Tilføj ny delopgave
             </a>
 
             <a class="btn-ghost"
-               th:href="@{/task/{id}/edit(id=${task.taskId})}">
+               th:href="@{/task/{id}/edit(id=${task.taskId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Rediger opgave
             </a>
 

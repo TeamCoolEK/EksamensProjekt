@@ -40,21 +40,21 @@
             <select id="subTaskStatus" th:field="*{subTaskStatus}">
                 <option th:value="Ikke_startet">Ikke startet</option>
                 <option th:value="I_gang">I gang</option>
-                <option th:value="Afsluttet">Afsluttet</option>
+                <option th:value="Lukket">Lukket</option>
             </select>
 
             <label for="employee">Ansvarlig</label>
             <select id="employee" th:field="*{employeeId}" required>
                 <option th:value="0" disabled>Vælg medarbejder</option>
                 <option th:each="emp : ${employees}"
-                        th:value="${emp.employeeId}"
-                        th:text="${emp.employeeId + ' - ' + emp.firstName + ' ' + emp.lastName}">
+                        th:value="${emp.getEmployeeId()}"
+                        th:text="${emp.getEmployeeId() + ' - ' + emp.getFirstName() + ' ' + emp.getLastName()}">
                 </option>
             </select>
 
             <div class="button-row">
                 <button type="submit" class="btn-primary">Gem ændringer</button>
-                <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
+                <a th:href="@{/dashboard/subTasks/{id}(id=${subTask.subTaskId})}" class="btn-ghost">Tilbage</a>
             </div>
         </form>
     </section>

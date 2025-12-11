@@ -65,22 +65,28 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-label">Gns. timer pr. arbejdsdag</div>
+                <div class="stat-label">Gns. timer pr. arbejdsdag for at nå deadline, fra dags dato.</div>
                 <div class="stat-value">
                     <span th:text="${#numbers.formatDecimal(dailyHours, 1, 2)}">3,50</span>
                     <span class="stat-unit">timer</span>
                 </div>
-                <p class="stat-helper-text">
-                    For at nå deadline, fra dags dato.
-                </p>
             </div>
 
             <!-- gør at der står mellemrum frem for _ -->
+            <!-- skifter farve ud fra enum -->
             <div class="stat-card stat-status">
                 <div class="stat-label">Status</div>
-                <div class="stat-value" th:text="${#strings.replace(project.status, '_', ' ')}">
-
-                    Aktiv
+                <div th:text="${#strings.replace(project.status, '_', ' ')}"
+                     th:if="${project.status.name() == 'Ikke_startet'}">
+                    Ikke startet
+                </div>
+                <div class="stat-igang" th:text="${#strings.replace(project.status, '_', ' ')}"
+                     th:if="${project.status.name() == 'I_gang'}">
+                    I gang
+                </div>
+                <div class="stat-lukket" th:text="${#strings.replace(project.status, '_', ' ')}"
+                     th:if="${project.status.name() == 'Lukket'}">
+                    Lukket
                 </div>
             </div>
 
@@ -90,7 +96,7 @@
     <!-- Delprojekter -->
     <section class="projects-section">
 
-        <div class="section-heading">
+        <div class="projects-header-line">
             <h2>Delprojekter</h2>
             <span class="count-pill"
                   th:text="${#lists.size(subProjects)} + ' delprojekt(er)'">
@@ -112,10 +118,16 @@
 
                         <div class="project-card-footer">
                             <span class="status-pill">
-                                Se tasks og subtasks
+                                Se opgaver og delopgaver
                             </span>
                             <span>
                                 Klik for detaljer
+                            </span>
+                        </div>
+                        <!-- Hviser status for hvert delproject -->
+                        <div class="project-card-footer">
+                            <span class="status-pill" th:text="${#strings.replace(subProject.status, '_', ' ')}">
+                                Status
                             </span>
                         </div>
 
@@ -128,19 +140,22 @@
         <div class="button-row">
             <!-- opret delprojekt knap -->
             <a class="btn-primary"
-               th:href="@{/createSubProject/{id}(id=${project.projectId})}">
+               th:href="@{/createSubProject/{id}(id=${project.projectId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 + Tilføj nyt delprojekt
             </a>
 
             <!-- rediger projekt knap -->
             <a class="btn-ghost"
-               th:href="@{/project/{id}/edit(id=${project.projectId})}">
+               th:href="@{/project/{id}/edit(id=${project.projectId})}"
+               th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
                 Rediger projekt
             </a>
 
             <!-- luk projekt knap -->
             <form class="inline-form"
                   th:action="@{/dashboard/projects/{id}/close(id=${project.projectId})}"
+                  th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}"
                   method="post"
                   onsubmit="return confirm('Er du sikker på at du vil lukke projektet?')">
                 <button type="submit" class="btn-ghost btn-danger">

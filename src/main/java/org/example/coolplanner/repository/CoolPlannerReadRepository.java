@@ -95,4 +95,18 @@ public class CoolPlannerReadRepository {
         return jdbcTemplate.query(sql, new EmployeeRowMapper());
     }
 
+    public List<Project> findProjectsForTeamMember(int employeeId){
+        String sql =
+                "SELECT DISTINCT p.* " +
+                "FROM project p " +
+                "JOIN subproject sp ON sp.projectId = p.projectId " +
+                "JOIN task t ON t.subProjectId = sp.subProjectId " +
+                "JOIN subtask st ON st.taskId = t.taskId " +
+                "WHERE st.employeeId = ? " +
+                "AND p.projectStatus <> 'Lukket'";
+        return jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
+    }
+
+
+
 }
