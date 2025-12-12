@@ -14,11 +14,4 @@ public class CoolplannerApplication {
         SpringApplication.run(CoolplannerApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner logDbUrl(DataSource dataSource) {
-        return args -> {
-            System.out.println("DB URL: " + dataSource.getConnection().getMetaData().getURL());
-        };
-    }
-
 }
