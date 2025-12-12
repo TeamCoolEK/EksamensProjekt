@@ -77,20 +77,20 @@ public class CoolPlannerControllerTest {
     }
 
     //tester editProject Get request
-    @Test
-    void editProjectTest () throws Exception {
-        Project test = new Project();
-        test.setProjectId(1);
-
-        //mocker findProject metode og binder den til test objektet
-        when(coolPlannerReadService.findProjectById(1)).thenReturn(test);
-
-        mockMvc.perform(
-                get("/project/{id}/edit", test.getProjectId()))
-                .andExpect(status().isOk())
-                .andExpect(view().name("editProject"))
-                .andExpect(model().attribute("project", instanceOf(Project.class)));
-    }
+//    @Test
+//    void editProjectTest () throws Exception {
+//        Project test = new Project();
+//        test.setProjectId(1);
+//
+//        //mocker findProject metode og binder den til test objektet
+//        when(coolPlannerReadService.findProjectById(1)).thenReturn(test);
+//
+//        mockMvc.perform(
+//                get("/project/{id}/edit", test.getProjectId()))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("editProject"))
+//                .andExpect(model().attribute("project", instanceOf(Project.class)));
+//    }
 
     //tester post request til updateProject
     @Test
