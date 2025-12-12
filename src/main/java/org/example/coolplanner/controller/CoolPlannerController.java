@@ -237,6 +237,7 @@ public class CoolPlannerController {
         return "redirect:/dashboard/subTasks/" + subTask.getSubTaskId();
     }
 
+
     @GetMapping("/subTask/{id}/complete")
     public String showCompleteSubTaskFrom(@PathVariable int id, Model model, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
