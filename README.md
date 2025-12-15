@@ -22,7 +22,6 @@ For at køre eller videreudvikle projektet lokalt kræves følgende:
 - **Maven**
 - **MySQL 8.0**
 - **MySQL Workbench (valgfrit – til databaseadministration)**
-- **Git**
 
 
 ## 🛠 Teknologier anvendt
