@@ -9,7 +9,7 @@ _**Alpha Solutions** ønsker et kompakt værktøj, der gør det nemt for interne
 
 ## ➡ Coolplanner projektkalkulationsværktøj 
 
-[Klik her for at komme CoolPlanner](https://coolplanner.azurewebsites.net)
+[Klik her for at komme til CoolPlanner](https://coolplanner.azurewebsites.net)
 
 
 ## 💻 Softwaremæssige forudsætninger
