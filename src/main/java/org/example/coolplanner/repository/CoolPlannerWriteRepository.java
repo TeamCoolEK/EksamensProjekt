@@ -232,22 +232,22 @@ public class CoolPlannerWriteRepository {
         String sql = "UPDATE project SET projectActualTime = ? WHERE projectId = ?";
         jdbcTemplate.update(sql, project.getProjectActualTime(), project.getProjectId());
     }
-
+// opdatere SubTasks status
     public void updateSubTaskStatus(int subTaskId, Status status) {
         String sql = "UPDATE subTask SET subTaskStatus = ? WHERE subTaskId = ?";
         jdbcTemplate.update(sql, status.name(), subTaskId);
     }
-
+    // opdatere Tasks status
     public void updateTaskStatus(int taskId, Status status) {
         String sql = "UPDATE task SET taskStatus = ? WHERE taskId = ?";
         jdbcTemplate.update(sql, status.name(), taskId);
     }
-
+    // opdatere SubProjects status
     public void updateSubProjectStatus(int subProjectId, Status status) {
         String sql = "UPDATE subProject SET subProjectStatus = ? WHERE subProjectId = ?";
         jdbcTemplate.update(sql, status.name(), subProjectId);
     }
-
+    // opdatere Projects status
     public void updateProjectStatus(int projectId, Status status) {
         String sql = "UPDATE project SET projectStatus = ? WHERE projectId = ?";
         jdbcTemplate.update(sql, status.name(), projectId);

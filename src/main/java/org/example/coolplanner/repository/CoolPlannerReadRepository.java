@@ -15,56 +15,56 @@ public class CoolPlannerReadRepository {
     public CoolPlannerReadRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+// Finder employee på ID
     public Employee findEmployeeById(int employeeId) {
         String sql = "SELECT * FROM employee WHERE employeeId = ?";
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), employeeId);
     }
-
+    // Finder employee på Email
     public Employee findEmployeeByEmail(String email) {
         String sql = "SELECT * FROM employee WHERE email = ?";
         return jdbcTemplate.queryForObject(sql, new EmployeeRowMapper(), email);
     }
-
+// Finder ikke lukkede subtasks på task ID
     public List<SubTask> findActiveSubTasks(int taskId) {
         String sql = "SELECT * FROM subTask WHERE taskId = ?";
         List<SubTask> SubTask = jdbcTemplate.query(sql, new SubTaskRowMapper(), taskId);
         return SubTask;
     }
-
+// Finder ikke lukkede projekter på employee ID
     public List<Project> findActiveProjects(int employeeId) {
         String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus <> 'Lukket'";
         List<Project> project = jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
         return project;
     }
-
+    // Finder ikke lukkede subProjekter på projekt ID
     public List<SubProject> findActiveSubProjects(int projectId) {
         String sql = "SELECT * FROM subProject WHERE projectId = ?";
         List<SubProject> SubProjects = jdbcTemplate.query(sql, new SubProjectRowMapper(), projectId);
         return SubProjects;
     }
-
+    // Finder ikke lukkede Tasks på sub projekt ID
     public List<Task> findActiveTasks(int subProjectId) {
         String sql = "SELECT * FROM task WHERE subProjectId = ?";
         List<Task> Task = jdbcTemplate.query(sql, new TaskRowMapper(), subProjectId);
         return Task;
     }
-
+// Finder task på ID
     public Task findTaskById(int taskID) {
         String sql = "SELECT * FROM task WHERE taskId = ?";
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
-
+    // Finder projekt på ID
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
         return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
     }
-
+// finder sub projekt på ID
     public SubProject findSubProjectById(int subProjectId) {
         String sql = "SELECT * FROM subProject WHERE subProjectId = ?";
         return jdbcTemplate.queryForObject(sql, new SubProjectRowMapper(), subProjectId);
     }
-
+    // finder sub task på ID
     public List<SubTask> findSubTasksByTaskId(int taskId){
         String sql = "SELECT * FROM subTask WHERE taskId = ?";
         return jdbcTemplate.query(sql, new SubTaskRowMapper(), taskId);
@@ -74,12 +74,12 @@ public class CoolPlannerReadRepository {
         String sql = "SELECT * FROM project WHERE employeeId = ? AND projectStatus = 'Lukket'";
         return jdbcTemplate.query(sql, new ProjectRowMapper(), employeeId);
     }
-
+// // Finder tasks på sub projekt ID
     public List<Task> findTasksBySubProjectId(int subProjectId) {
         String sql = "SELECT * FROM task WHERE subProjectId = ?";
         return jdbcTemplate.query(sql, new TaskRowMapper(), subProjectId);
     }
-
+    // Finder subProjekter på projekt ID
     public List<SubProject> findSubProjectByProjectId(int projectId){
         String sql = "SELECT * FROM subProject WHERE projectId = ?";
         return jdbcTemplate.query(sql, new SubProjectRowMapper(), projectId);
@@ -89,7 +89,7 @@ public class CoolPlannerReadRepository {
         String sql = "SELECT * FROM subTask WHERE subTaskId = ?";
         return jdbcTemplate.queryForObject(sql, new SubTaskRowMapper(), subTaskId);
     }
-
+// Finder alle employees
     public List<Employee> findAllEmployees(){
         String sql = "SELECT * FROM employee";
         return jdbcTemplate.query(sql, new EmployeeRowMapper());

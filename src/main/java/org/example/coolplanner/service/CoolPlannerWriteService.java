@@ -64,6 +64,7 @@ public class CoolPlannerWriteService {
         writeRepository.updateSubProject(subProject);
     }
 
+    // Opdatere en Tasks tids estimat fra SubTasks
     public void updateTaskTimeEstimateFromSubTasks(int taskId) {
         List<SubTask> subTasks = readRepository.findSubTasksByTaskId(taskId);
 
@@ -84,6 +85,7 @@ public class CoolPlannerWriteService {
         writeRepository.closeProject(projectId);
     }
 
+    // Opdatere en SubProjects tidsestimat fra Task
     public void updateSubProjectTimeEstimateFromTasks(int subProjectId) {
         List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
         int sum = 0;
@@ -98,6 +100,7 @@ public class CoolPlannerWriteService {
         updateProjectTimeEstimateFromSubProjects(projectId);
     }
 
+    // Opdatere en Projects tidsestimat fra SubProjects
     public void updateProjectTimeEstimateFromSubProjects(int projectId) {
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
 
@@ -110,6 +113,7 @@ public class CoolPlannerWriteService {
         writeRepository.updateProjectTimeEstimate(project);
     }
 
+    // Beregner arbejdsdage
     private int calculateWorkingDays(LocalDate startDate, LocalDate endDate) {
         if (endDate.isBefore(startDate)) {
             return 0;
@@ -129,6 +133,7 @@ public class CoolPlannerWriteService {
         return workingDays;
     }
 
+    // Beregner hvor mange timer man skal arbejde om dagen, for at nå deadline.
     public double calculateDailyHours(Project project) {
         LocalDate today = LocalDate.now();
         LocalDate deadline = project.getProjectDeadLine();
@@ -150,6 +155,7 @@ public class CoolPlannerWriteService {
         return (double) remainingHours / workingDays;
     }
 
+    //Metode til at kunne lukke en SubTask
     public void completeSubTask(int subTaskId, int actualTime) {
         writeRepository.completeSubTask(subTaskId, actualTime);
         updateSubTaskStatus(subTaskId, Status.Lukket);
@@ -160,6 +166,7 @@ public class CoolPlannerWriteService {
         updateTaskActualTimeFromSubTask(taskId);
     }
 
+    // Beregner Tasks faktiske tid, far SubTasks faktiske tid.
     public void updateTaskActualTimeFromSubTask(int taskId) {
         List<SubTask> subTasks = readRepository.findSubTasksByTaskId(taskId);
 
@@ -176,6 +183,7 @@ public class CoolPlannerWriteService {
         updateSubProjectActualTimeFromTasks(subProjectId);
     }
 
+    // Beregner SubProjects faktiske tid, far Tasks faktiske tid.
     public void updateSubProjectActualTimeFromTasks(int subProjectId) {
         List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
 
@@ -191,6 +199,7 @@ public class CoolPlannerWriteService {
         updateProjectActualTimeFromSubProject(projectId);
     }
 
+    // Beregner Projects faktiske tid, far SubProjects faktiske tid.
     public void updateProjectActualTimeFromSubProject(int projectId) {
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
 
@@ -204,6 +213,7 @@ public class CoolPlannerWriteService {
         writeRepository.updateProjectActualTime(project);
     }
 
+    // Beregner hvor meget estimeret tid der er tilbage på en Task ud fra dens SubTask
     public int calculateTaskRemainingTimeEstimateFromSubTasks(int taskId) {
         List<SubTask> subTasks = readRepository.findSubTasksByTaskId(taskId);
 
@@ -216,6 +226,7 @@ public class CoolPlannerWriteService {
         return sum;
     }
 
+    // Beregner hvor meget estimeret tid der er tilbage på en SubProject ud fra dens Tasks
     public int calculateSubProjectRemainingTimeEstimateFromTasks(int subProjectId) {
         List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
 
@@ -226,6 +237,7 @@ public class CoolPlannerWriteService {
         return sum;
     }
 
+    // Beregner hvor meget estimeret tid der er tilbage på en Project ud fra dens SubProject
     public int calculateProjectRemainingTimeEstimateFromSubProjects(int projectId) {
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
 
@@ -236,6 +248,7 @@ public class CoolPlannerWriteService {
         return sum;
     }
 
+    // Opdatere SubTasks status
     public void updateSubTaskStatus(int subTaskId, Status newStatus) {
         writeRepository.updateSubTaskStatus(subTaskId, newStatus);
 
@@ -245,6 +258,7 @@ public class CoolPlannerWriteService {
         updateTaskStatusFromSubTasks(taskId);
     }
 
+    // Opdatere Tasks status ud fra SubTasks
     public void updateTaskStatusFromSubTasks(int taskId) {
         List<SubTask> subTasks = readRepository.findSubTasksByTaskId(taskId);
 
@@ -278,6 +292,7 @@ public class CoolPlannerWriteService {
         updateSubProjectStatusFromTasks(task.getSubprojectID());
     }
 
+    // Opdatere SubProjects status ud fra Tasks status
     public void updateSubProjectStatusFromTasks(int subProjectId) {
         List<Task> tasks = readRepository.findTasksBySubProjectId(subProjectId);
 
@@ -293,7 +308,9 @@ public class CoolPlannerWriteService {
                 allClosed = false;
             }
         }
-
+        //Hvis alle subtasks ikke er startet vises 'Ikke_startet'
+        // Hvis alle subtasks er lukket vises 'Lukket'
+        // Ellers 'I_gang'
         Status newStatus;
         if (allNotStarted) {
             newStatus = Status.Ikke_startet;
@@ -308,6 +325,7 @@ public class CoolPlannerWriteService {
         updateProjectStatusFromSubProjects(subProject.getProjectId());
     }
 
+    // Opdatere Projects status ud fra SubProjects status
     public void updateProjectStatusFromSubProjects(int projectId) {
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
 
