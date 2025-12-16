@@ -6,13 +6,17 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
+<!-- Placeholder for navigationsbaren som er indsat på alle vores HTML-sider heraf DRY-princip. -->
+<!-- ~{fragments/commonfragments :: navbar} betyder at vi henter filen commonfragments.html og indsætter
+        fragmentet der hedder navbar.-->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
 
     <!-- Header for opgave -->
     <section class="glass project-detail-header">
+        <!-- Vi indsætter task.taskname som tekst i header1 og bruger "Opgavenavn" som placeholder,
+         hvis vi åbner HTML uden Thymeleaf eller hvis der mangler værdi ved taskname.-->
         <h1 th:text="${task.taskName}">Opgavenavn</h1>
 
         <p class="project-description" th:text="${task.taskDetails}">
@@ -50,8 +54,10 @@
             <div class="stat-card">
                 <div class="stat-label">Resterende estimeret tid</div>
                 <div class="stat-value">
+                    <!-- Seperat model-attribut - metoden til udregningen kan findes under CoolPlannerWriteService
+                     calculateTaskRemainingTimeEstimateFromSubTasks -->
                     <span th:text="${remainingEstimate}">8</span>
-                    <span class="stat-unit">timer</span>
+                    <span class="stat-unit">timer</span> <!-- Fast tekst -->
                 </div>
             </div>
 
@@ -63,10 +69,11 @@
                 </div>
             </div>
 
-            <!-- gør at der står mellemrum frem for _ -->
             <!-- skifter farve ud fra enum -->
             <div class="stat-card stat-status">
                 <div class="stat-label">Status</div>
+
+                <!-- gør at der står mellemrum frem for _ -->
                 <div th:text="${#strings.replace(task.taskStatus, '_', ' ')}"
                      th:if="${task.taskStatus.name() == 'Ikke_startet'}">
                     Ikke startet
@@ -89,6 +96,8 @@
 
         <div class="projects-header-line">
             <h2>Delopgaver</h2>
+            <!-- '#lists.size' er en del af Thymeleaf's egen værktøjskasse = Utility Objects
+                  Så den tager antallet af elementer i listen subTasks og returnerer  -->
             <span class="count-pill"
                   th:text="${#lists.size(subTasks)} + ' delopgave(r)'">
                 0 delopgave(r)
@@ -97,6 +106,8 @@
 
         <ul class="project-list">
             <li th:each="subTask : ${subTasks}">
+                <!-- For each loop der for hver subTask der bliver tilføjet, opretter Thymeleaf et nyt <li>-element.
+                     URL-en bliver bygget dynamisk med subTaskId.   -->
                 <a th:href="@{'/dashboard/subTasks/' + ${subTask.subTaskId}}">
                     <div class="project-card glass subproject-card">
 
@@ -115,18 +126,25 @@
                                 Klik for at åbne
                             </span>
                         </div>
-                        <!-- Boks til ansvarlig for subtask -->
+                        <!-- Boks til ansvarlig for subtask
+                            != null = vises kun hvis der ER en ansvarlig.
+                            Henter derfor Firstname + Lastname fra SubTask.
+                        -->
                         <div class="project-card-footer" th:if="${subTask.responsibleEmployee != null}">
                             <span class="status-pill"
                                   th:text="${subTask.getResponsibleEmployee().getFirstName()} + ' ' + ${subTask.getResponsibleEmployee().getLastName()}">
                             </span>
                         </div>
 
+                        <!-- == null = vises kun hvis der ikke er tildelt en ansvarlig. -->
                         <div class="project-card-footer" th:if="${subTask.responsibleEmployee == null}">
                             <span class="status-pill status-danger">Ingen ansvarlig</span>
                         </div>
 
-                        <!-- Hviser status for hvert subTask -->
+                        <!-- De to th:if er istedet for “if/else”. Thymeleaf har ikke “else” her, så vi laver to blokke.-->
+
+
+                        <!-- Viser status for hvert subTask -->
                         <div class="project-card-footer">
                             <span class="status-pill" th:text="${#strings.replace(subTask.subTaskStatus, '_', ' ')}">
                                 Status
@@ -139,6 +157,9 @@
         </ul>
 
         <div class="button-row">
+            <!-- Link til opret-subtask side
+                 if blokken begrænser knappen til managers.
+                 'T(...)' er Thymeleafs måde at referere til enumen EmployeeRole. -->
             <a class="btn-primary"
                th:href="@{/createSubTask/{id}(id=${task.taskId})}"
                th:if="${employee.role == T(org.example.coolplanner.model.EmployeeRole).Manager}">
