@@ -308,18 +308,18 @@ public class CoolPlannerWriteService {
         updateProjectStatusFromSubProjects(subProject.getProjectId());
     }
 
-    public void updateProjectStatusFromSubProjects(int projectId){
+    public void updateProjectStatusFromSubProjects(int projectId) {
         List<SubProject> subProjects = readRepository.findSubProjectByProjectId(projectId);
 
         boolean allNotStarted = true;
         boolean allClosed = true;
 
-        for(SubProject sp : subProjects){
+        for (SubProject sp : subProjects) {
             Status s = sp.getStatus();
-            if (s != Status.Ikke_startet){
+            if (s != Status.Ikke_startet) {
                 allNotStarted = false;
             }
-            if (s != Status.Lukket){
+            if (s != Status.Lukket) {
                 allClosed = false;
             }
         }

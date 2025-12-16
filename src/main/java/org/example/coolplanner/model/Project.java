@@ -1,7 +1,5 @@
 package org.example.coolplanner.model;
 
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDate;
 
 public class Project {
