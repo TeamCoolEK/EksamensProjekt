@@ -9,7 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -26,17 +26,6 @@ public class CoolPlannerReadServiceTest {
     @InjectMocks
     CoolPlannerReadService coolPlannerReadService;
 
-    //Tester metode til at finde EmployeeById
-    @Test
-    void findEmployeeById_returnsEmployee() {
-        //Fortæller at repo metoden skal retunere test employee, når den får employeeId 1 (Mocker databasen)
-        when(coolplannerReadRepository.findEmployeeById(1)).thenReturn(employee);
-        //Henter test employee med service metoden
-        Employee result = coolplannerReadRepository.findEmployeeById(1);
-        //Forventer "John", ud fra den employee vi har hentet med service metoden.
-        assertEquals("John", result.getFirstName());
-    }
-
     //Test employee (Kan genbruges :D)
     Employee employee = new Employee(
             1,
@@ -46,4 +35,42 @@ public class CoolPlannerReadServiceTest {
             "password123",
             EmployeeRole.Manager
     );
+
+    //Tester login success
+    @Test
+    void login_success () {
+        //setter employee med test employee (bliver sat øverst i klassen)
+        Employee e = employee;
+        //Når findEmployeeByEmail får john.doe@example.com, skal den retunere employee e (sat ovenover)
+        when(coolplannerReadRepository.findEmployeeByEmail("john.doe@example.com"))
+                .thenReturn(e);
+        //Employee bliver sat ud fra email og password (som er rigtig)
+        Employee result = coolPlannerReadService.login("john.doe@example.com", "password123");
+        //employee skal ikke være null
+        assertNotNull(result);
+    }
+
+    @Test
+    void login_wrongPassword () {
+        //samme som login
+        Employee e = employee;
+
+        when(coolplannerReadRepository.findEmployeeByEmail("john.doe@example.com"))
+                .thenReturn(e);
+        //Her bruger vi et password, der ikke matcher e
+        Employee result = coolPlannerReadService.login("john.doe@example.com", "wrongPassword");
+        //metoden skal retunere null
+        assertNull(result);
+    }
+
+    @Test
+    void login_employeeNotFound () {
+        //sætter email til null (employee ikke fundet)
+        when(coolplannerReadRepository.findEmployeeByEmail("dont@exist.com"))
+                .thenReturn(null);
+        //Bruger email
+        Employee result = coolPlannerReadService.login("dont@exist.com", "password123");
+        //metoden skal retunere null
+        assertNull(result);
+    }
 }

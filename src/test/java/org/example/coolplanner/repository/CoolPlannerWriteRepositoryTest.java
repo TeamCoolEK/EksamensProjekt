@@ -36,6 +36,25 @@ public class CoolPlannerWriteRepositoryTest {
 //
 //        assertEquals("John", result.getFirstName());
 //    }
+    //Tester om en email existere
+    @Test
+    void emailExists_ReturnsTrue () {
+        //laver employee midlertidligt i h2 databasen
+        coolPlannerWriteRepository.createEmployee(employee);
+        //Boolean bliver true, da "john.doe@example.com" er i h2 databasen
+        boolean exists = coolPlannerWriteRepository.emailExists("john.doe@example.com");
+        //Forventer at boolean er true
+        assertTrue(exists);
+    }
+
+    //Tester om email ikke existere
+    @Test
+    void emailExists_returnsFalse () {
+        //boolean bliver false, da "dont@exist.com" ikke existere i h2 databasen
+        boolean exists = coolPlannerWriteRepository.emailExists("dont@exist.com");
+        //forventer at boolean er false
+        assertFalse(exists);
+    }
 
     @Test
     void CreateUpdateAndFindEmployee () {

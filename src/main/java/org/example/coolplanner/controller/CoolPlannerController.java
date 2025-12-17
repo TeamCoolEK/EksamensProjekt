@@ -42,6 +42,9 @@ public class CoolPlannerController {
     @PostMapping("/saveProject")
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
         Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
+        }
         coolPlannerWriteService.createProject(project, employee);
         return "redirect:/dashboard/show";
     }
