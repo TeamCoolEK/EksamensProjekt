@@ -2,45 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <meta charset="UTF-8">
+  <!-- Titel der vises i browser-tabben -->
   <title>CoolPlanner | Opret ny medarbejder</title>
+
+  <!-- Loader fælles stylesheet via Thymeleaf, så path virker både lokalt og på server -->
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
+<!-- Indsætter navbar-fragmentet (genbrug af fælles layout) -->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
   <section class="glass form-card">
 
+    <!-- Sideoverskrift -->
     <h1>Opret ny medarbejder</h1>
+    <!-- Kort forklarende tekst -->
     <p class="meta-text">Udfyld informationerne for at oprette en ny employee.</p>
 
+    <!-- Formular der binder inputfelter til et Employee-objekt i modellen (th:object)
+         og sender data til /employee/saveEmployee med POST -->
     <form th:action="@{/employee/saveEmployee}" th:object="${employee}" method="post">
 
-      <!-- skjult ID -->
+      <!-- Skjult felt til employeeId (bruges typisk ved redigering, men kan også være med som standard) -->
       <input type="hidden" th:field="*{employeeId}"/>
 
+      <!-- Fornavn -->
       <label for="firstName">Fornavn</label>
       <input id="firstName" type="text" th:field="*{firstName}" placeholder="Fornavn" required>
 
+      <!-- Efternavn -->
       <label for="lastName">Efternavn</label>
       <input id="lastName" type="text" th:field="*{lastName}" placeholder="Efternavn" required>
 
+      <!-- Email (type=email giver browser-validering) -->
       <label for="email">E-mail</label>
       <input id="email" type="email" th:field="*{email}" placeholder="E-mail" required>
 
+      <!-- Adgangskode -->
       <label for="password">Adgangskode</label>
       <input id="password" type="password" th:field="*{password}" placeholder="Adgangskode" required>
 
+      <!-- Rolle vælges som enum-værdi og bindes til employee.role -->
       <label for="role">Rolle</label>
       <select id="role" th:field="*{role}" required>
+        <!-- Placeholder option: kan ikke vælges, men vises som standard -->
         <option value="" disabled selected>Vælg rolle</option>
+        <!-- Enum-værdier som sendes til backend via th:field -->
         <option th:value="Manager">Manager</option>
         <option th:value="Team_Member">Team member</option>
       </select>
 
+      <!-- Viser en fejlbesked hvis controlleren har lagt errorMessage i modellen -->
       <p th:if="${errorMessage}" th:text="${errorMessage}" class="error-message"></p>
 
+      <!-- Knapper: submit opretter brugeren, annuller går tilbage til dashboard -->
       <div class="button-row">
         <button type="submit" class="btn-primary">Opret bruger</button>
         <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
@@ -51,6 +68,7 @@
   </section>
 </main>
 
+<!-- Indsætter footer-fragmentet -->
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 
 </body>
