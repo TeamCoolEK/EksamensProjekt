@@ -2,32 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
+    <!-- Titel der vises i browserens fane -->
     <title>Login</title>
+
+    <!-- Fælles stylesheet indlæses via Thymeleaf -->
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
+<!-- Indsætter fælles navbar -->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
     <section class="glass form-card">
+
+        <!-- Sideoverskrift -->
         <h1>Login</h1>
+        <!-- Kort forklarende tekst -->
         <p class="meta-text">Log ind for at se dine projekter</p>
 
+        <!-- Login-formular der sender email og password til backend -->
         <form th:action="@{/employee/login}" method="post">
 
+            <!-- Email-input -->
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="Indtast din email" required>
+            <input id="email"
+                   type="email"
+                   name="email"
+                   placeholder="Indtast din email"
+                   required>
 
+            <!-- Password-input -->
             <label for="password">Adgangskode</label>
-            <input id="password" type="password" name="password" placeholder="Indtast din adgangskode" required>
+            <input id="password"
+                   type="password"
+                   name="password"
+                   placeholder="Indtast din adgangskode"
+                   required>
 
+            <!-- Submit-knap -->
             <button type="submit" class="btn-primary">Log ind</button>
 
-            <p th:if="${wrongCredentials}" class="error" style="margin-top: 10px; color: #fca5a5;">
+            <!-- Fejlbesked der kun vises hvis login fejler -->
+            <p th:if="${wrongCredentials}"
+               class="error"
+               style="margin-top: 10px; color: #fca5a5;">
                 Forkert email eller adgangskode. Prøv igen.
             </p>
         </form>
+
     </section>
 </main>
 
