@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <meta charset="UTF-8">
+  <!-- Titel der vises i browser-fanen -->
   <title>CoolPlanner | Rediger medarbejder</title>
+
+  <!-- Fælles stylesheet indlæses via Thymeleaf -->
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
@@ -13,40 +16,66 @@
 
 <main class="page">
   <section class="glass form-card">
+
+    <!-- Sideoverskrift -->
     <h1>Rediger medarbejder</h1>
+    <!-- Kort forklarende tekst -->
     <p class="meta-text">Opdater oplysninger for medarbejderen.</p>
 
+    <!-- Formular der binder inputfelter til et eksisterende Employee-objekt
+         og sender ændringerne til /employee/update med POST -->
     <form th:action="@{/employee/update}" th:object="${employee}" method="post">
 
-      <!-- Skjult id så vi ved hvem der skal opdateres -->
+      <!-- Skjult felt med employeeId, så backend ved hvilken medarbejder der opdateres -->
       <input type="hidden" th:field="*{employeeId}"/>
 
+      <!-- Fornavn -->
       <label for="firstName">Fornavn</label>
-      <input id="firstName" type="text" th:field="*{firstName}" required/>
+      <input id="firstName"
+             type="text"
+             th:field="*{firstName}"
+             required/>
 
+      <!-- Efternavn -->
       <label for="lastName">Efternavn</label>
-      <input id="lastName" type="text" th:field="*{lastName}" required/>
+      <input id="lastName"
+             type="text"
+             th:field="*{lastName}"
+             required/>
 
+      <!-- Email -->
       <label for="email">Email</label>
-      <input id="email" type="email" th:field="*{email}" required/>
+      <input id="email"
+             type="email"
+             th:field="*{email}"
+             required/>
 
+      <!-- Adgangskode -->
       <label for="password">Adgangskode</label>
-      <input id="password" type="password" th:field="*{password}" required/>
+      <input id="password"
+             type="password"
+             th:field="*{password}"
+             required/>
 
+      <!-- Rolle vælges som enum og bindes direkte til employee.role -->
       <label for="role">Rolle</label>
       <select id="role" th:field="*{role}">
         <option th:value="Manager">Manager</option>
         <option th:value="Team_Member">Team member</option>
       </select>
 
+      <!-- Knapper: gem ændringer eller annuller og gå tilbage til dashboard -->
       <div class="button-row">
         <button type="submit" class="btn-primary">Gem ændringer</button>
         <a th:href="@{/dashboard/show}" class="btn-ghost">Annuller</a>
       </div>
+
     </form>
   </section>
 </main>
 
+<!-- Indsætter fælles footer (fragment) -->
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
+
 </body>
 </html>

@@ -2,19 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <meta charset="UTF-8">
+  <!-- Titel der vises i browser-tabben -->
   <title>CoolPlanner | Afslut delopgave</title>
+
+  <!-- Loader fælles stylesheet via Thymeleaf -->
   <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
 
+<!-- Indsætter fælles navbar (fragment) -->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
   <section class="glass form-card">
 
+    <!-- Sideoverskrift -->
     <h1>Afslut delopgave</h1>
+    <!-- Kort instruktion til brugeren -->
     <p class="meta-text">Indtast den faktiske tid der blev brugt.</p>
 
+    <!-- Infoboks der viser SubTask-data (så brugeren kan se hvad der afsluttes) -->
     <div class="info-block">
       <p><strong>Navn:</strong> <span th:text="${subTask.subTaskName}"></span></p>
       <p><strong>Detaljer:</strong> <span th:text="${subTask.subTaskDetails}"></span></p>
@@ -22,13 +29,24 @@
       <p><strong>Tidsestimat:</strong> <span th:text="${subTask.subTaskTimeEstimate}"></span> timer</p>
     </div>
 
+    <!-- Formular der sender faktisk tid til backend for at afslutte SubTask -->
     <form th:action="@{'/subTask/' + ${subTask.subTaskId} + '/complete'}" method="post">
 
+      <!-- Inputfelt til faktisk tidsforbrug (tillader fx 0.5 timer pga. step=0.5) -->
       <label for="actualTime">Faktisk tid brugt (timer)</label>
-      <input id="actualTime" type="number" min="0" step="0.5" name="actualTime" placeholder="Timer" required>
+      <input id="actualTime"
+             type="number"
+             min="0"
+             step="0.5"
+             name="actualTime"
+             placeholder="Timer"
+             required>
 
+      <!-- Knapper: submit afslutter subtask, tilbage-link går tilbage til oversigten -->
       <div class="button-row">
         <button type="submit" class="btn-primary">Afslut delopgave</button>
+
+        <!-- Tilbage-link (Thymeleaf) til subtask-oversigten -->
         <a th:href="@{/dashboard/subTasks/{id}(id=${subTask.subTaskId})}" class="btn-ghost">Tilbage</a>
       </div>
 
@@ -37,6 +55,7 @@
   </section>
 </main>
 
+<!-- Indsætter fælles footer (fragment) -->
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 
 </body>
