@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
+<!-- Placeholder for navigationsbaren som er indsat på alle vores HTML-sider heraf DRY-princip. -->
+<!-- ~{fragments/commonfragments :: navbar} betyder at vi henter filen commonfragments.html og indsætter
+        fragmentet der hedder navbar.-->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
@@ -14,6 +16,8 @@
     <!-- Header for delopgave -->
     <section class="glass project-detail-header">
         <h1 th:text="${subTask.subTaskName}">Delopgavenavn</h1>
+        <!-- Vi indsætter subTask.subTaskname som tekst i header1 og bruger "Opgavenavn" som placeholder,
+         hvis vi åbner HTML uden Thymeleaf eller hvis der mangler værdi ved taskname.-->
 
         <p class="project-description" th:text="${subTask.subTaskDetails}">
             Kort beskrivelse af delopgaven…
@@ -87,7 +91,9 @@
             </div>
 
         </div>
-
+        <!-- Link til redigere-subtask side
+             if blokken begrænser knappen til managers.
+             'T(...)' er Thymeleafs måde at referere til enumen EmployeeRole. -->
         <div class="button-row button-row-tight">
             <a class="btn-ghost"
                th:href="@{/subTask/{id}/edit(id=${subTask.subTaskId})}"
