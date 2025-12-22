@@ -202,11 +202,12 @@ public class CoolPlannerController {
         model.addAttribute("task", task);
         return "editTask";
     }
-
+    // Denne metode håndterer POST-request fra editTask.html //
+    // Formularen i editTask.html sender data til /updateTask via th:action //
     @PostMapping("/updateTask")
-    public String updateTask(@ModelAttribute Task task) {
-        coolPlannerWriteService.updateTask(task);
-        return "redirect:/dashboard/tasks/" + task.getTaskId();
+    public String updateTask(@ModelAttribute Task task) { //@ModelAttribute binder felterne fra editTask.html til et Task-objekt //
+        coolPlannerWriteService.updateTask(task); // Task-objektet sendes videre til service-laget, som håndterer opdateringen af task i databasen //
+        return "redirect:/dashboard/tasks/" + task.getTaskId(); //Efter opdatering redirectes bruger til tasks //
     }
 
     @GetMapping("/subTask/{id}/edit")
