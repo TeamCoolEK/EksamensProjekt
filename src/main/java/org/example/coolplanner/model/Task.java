@@ -2,18 +2,26 @@ package org.example.coolplanner.model;
 
 import java.time.LocalDate;
 
+// Task-klassen fungerer som skabelon for Tasks.
+// Den bruges til at oprette og overfører task-objekter mellem HTML, controller, service og database //
+
+
 public class Task {
 
-    private int taskId;
+    private int taskId; //task ID bruges fx når en task skal opdateres //
+
+    // Oplysninger som brugeren indtaster i HTML formularen //
     private String taskName;
     private String taskDetails;
     private LocalDate taskStartDate;
     private LocalDate taskDeadline;
+    // tidsoplysninger som gemmes sammen med tasken //
     private int taskTimeEstimate;
     private int taskActualTime;
-    private Status taskStatus;
-    private int subprojectID;
+    private Status taskStatus; //Opgavens status via Status enum//
+    private int subprojectID; //Hvilket subProject Tasken hører til//
 
+    // Konstruktør, når man vil oprette en task og allerede kender alle værdierne //
     public Task(int taskId, String taskName, String taskDetails, LocalDate taskStartDate, LocalDate taskDeadline, int taskTimeEstimate, int taskActualTime, Status taskStatus, int subprojectID) {
         this.taskId = taskId;
         this.taskName = taskName;
@@ -26,9 +34,11 @@ public class Task {
         this.subprojectID = subprojectID;
     }
 
+    // Tom konstruktør, bruges af Spring og RowMapper automatisk oprettelse af en tom task, som derefter udfyldes med data //
     public Task(){
     }
 
+    // Getters og setters bruges til at læse og ændre værdierne i objektet //
     public int getTaskId() {
         return taskId;
     }

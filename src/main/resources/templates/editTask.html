@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CoolPlanner | Rediger opgave</title>
+    <!-- CSS til styling -->
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
@@ -16,19 +17,28 @@
         <h1>Rediger opgave</h1>
         <p class="meta-text">Opdater oplysninger for opgaven.</p>
 
+        <!-- Formularen bruges til at redigere en eksisterende task -->
+        <!-- th:object="${task}" binder formularen til Task klassen -->
+        <!-- Data sendes til controllerens /updateTask-metode -->
         <form th:action="@{/updateTask}" th:object="${task}" method="post">
 
+            <!-- Skjult felt som sender taskId med -->
+            <!-- Bruges i controlleren til at vide hvilken task der opdateres -->
             <input type="hidden" th:field="*{taskId}" />
 
+            <!-- Redigerbart felt bundet til taskName -->
             <label for="taskName">Navn på opgave</label>
             <input id="taskName" type="text" th:field="*{taskName}" required/>
 
+            <!-- Redigernart felt bundet til taskDetails -->
             <label for="taskDetails">Beskrivelse</label>
             <textarea id="taskDetails" th:field="*{taskDetails}"></textarea>
 
+            <!-- Redigerbart felt bundet til taskStartDate -->
             <label for="taskStartDate">Startdato</label>
             <input id="taskStartDate" type="date" th:field="*{taskStartDate}" required/>
 
+            <!-- Redigerbart felt bundet til taskDeadline -->
             <label for="taskDeadline">Deadline</label>
             <input id="taskDeadline" type="date" th:field="*{taskDeadline}" required/>
 
@@ -37,14 +47,17 @@
             <input id="taskActualTime" type="hidden" step="0.5" th:field="*{taskActualTime}" required />
             <input type="hidden" id="status" th:field="*{taskStatus}" />
 
+            <!-- Knapper -->
             <div class="button-row">
                 <button type="submit" class="btn-primary">Gem ændringer</button>
+                <!-- Link til at gå tilbage til task-detaljer -->
                 <a th:href="@{/dashboard/tasks/{id}(id=${task.taskId})}" class="btn-ghost">Tilbage</a>
             </div>
         </form>
     </section>
 </main>
 
+<!-- Footer indsættes fra fragment -->
 <div th:replace="~{fragments/commonfragments :: footer}"></div>
 </body>
 </html>
