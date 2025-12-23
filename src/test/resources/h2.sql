@@ -71,3 +71,15 @@ CREATE TABLE subTask (
 --init data--
 INSERT INTO employee (employeeId, firstName, lastName, employeeRole, email, employeePassword)
 VALUES (2, 'Sebastian', 'Munt', 'Manager', 'se@mu.dk', '1234');
+
+INSERT INTO project (projectId, projectName, projectDetails, projectStartDate, projectDeadline, projectTimeEstimate, projectActualTime, projectStatus, employeeId)
+VALUES (2, 'ProjectTest', 'Test', '2025-12-17', '2025-12-17', 5, 5, 'Ikke_startet', 2);
+
+INSERT INTO subProject (subProjectId, subProjectName, subProjectDetails, subProjectStartDate, subProjectDeadline, subProjectTimeEstimate, subProjectActualTime, subProjectStatus, projectId)
+VALUES (2, 'SubProjectTest', 'Test', '2025-12-17', '2025-12-17', 5, 5, 'Ikke_startet', 2);
+
+INSERT INTO task (taskId, taskName, taskDetails, taskStartDate, taskDeadline, taskTimeEstimate, taskActualTime, taskStatus, subProjectId)
+VALUES (2, 'TaskTest', 'Test', '2025-12-17', '2025-12-17', 5, 5, 'Ikke_startet', 2);
+
+INSERT INTO subTask (subTaskId, subTaskName, subTaskDetails, subTaskStartDate, subTaskDeadline, subTaskTimeEstimate, subTaskActualTime, subTaskStatus, taskId, employeeId)
+VALUES (2, 'SubTaskTest', 'Test', '2025-12-17', '2025-12-17', 5, 5, 'Ikke_startet', 2, 2);

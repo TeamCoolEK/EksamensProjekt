@@ -1,6 +1,7 @@
 package org.example.coolplanner.controller;
 
 import org.example.coolplanner.model.Employee;
+import org.example.coolplanner.model.EmployeeRole;
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.service.CoolPlannerReadService;
 import org.example.coolplanner.service.CoolPlannerWriteService;
@@ -13,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,7 +37,7 @@ public class CoolPlannerControllerTest {
     //tester om get endpoint retunere kode 200 (success) og siden kan vises
     //hvis der retuneres andet (404, 500, osv), fejler testen
     @Test
-    void createProjectTest() throws Exception { //mockMvc thrower exception
+    void createProject_isOk () throws Exception { //mockMvc thrower exception
         //mocker employee til session
         Employee employee = new Employee();
         //mocker HTTP request på /createProject endpoint og mocked employee session
@@ -48,6 +48,27 @@ public class CoolPlannerControllerTest {
                 .andExpect(view().name("createProject"))
                 //forventer project klasse som thymeleaf attribute
                 .andExpect(model().attribute("project", instanceOf(Project.class)));
+    }
+
+    //tester redirect til login, hvis brugeren ikke er logget ind
+    @Test
+    void createProject_redirectLogin () throws Exception {
+
+        mockMvc.perform(get("/createProject"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/employee/login"));
+    }
+
+    //tester redirect til dashboard, hvis brugeren er en team member
+    @Test
+    void createProject_redirectDashboardTeamMember () throws Exception {
+
+        Employee employee = new Employee();
+        employee.setRole(EmployeeRole.Team_Member);
+
+        mockMvc.perform(get("/createProject").sessionAttr("employee", employee))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/dashboard/show"));
     }
 
     //tester POST metoden
@@ -76,21 +97,70 @@ public class CoolPlannerControllerTest {
         );
     }
 
+    //
+    @Test
+    void saveProject_employeeNull () throws Exception {
+
+        mockMvc.perform(
+                post("/saveProject")
+                        .param("projectName", "test")
+                        .param("projectDetails", "test")
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/employee/login"));
+    }
+
+    //Tester redirect til login hvis employee = null
+    @Test
+    void editProject_redirectLogin () throws Exception {
+
+        mockMvc.perform(get("/project/{id}/edit", 1))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/employee/login"));
+    }
+
+    //tester redirect til dashboard, hvis team member er logget ind
+    @Test
+    void editProject_redirectDashboardTeamMember () throws Exception {
+
+        Employee employee = new Employee();
+        employee.setRole(EmployeeRole.Team_Member);
+
+        mockMvc.perform(get("/project/{id}/edit", 1).sessionAttr("employee", employee))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/dashboard/show"));
+    }
+
+    //tester redirect til dashboard, hvis project = null
+    @Test
+    void editProject_redirectDashboardProject () throws Exception {
+
+        Employee employee = new Employee();
+        employee.setRole(EmployeeRole.Manager);
+
+        when(coolPlannerReadService.findProjectById(1)).thenReturn(null);
+
+        mockMvc.perform(get("/project/{id}/edit", 1).sessionAttr("employee", employee))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/dashboard/show"));
+    }
+
     //tester editProject Get request
-//    @Test
-//    void editProjectTest () throws Exception {
-//        Project test = new Project();
-//        test.setProjectId(1);
-//
-//        //mocker findProject metode og binder den til test objektet
-//        when(coolPlannerReadService.findProjectById(1)).thenReturn(test);
-//
-//        mockMvc.perform(
-//                get("/project/{id}/edit", test.getProjectId()))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("editProject"))
-//                .andExpect(model().attribute("project", instanceOf(Project.class)));
-//    }
+    @Test
+    void editProject_isOk () throws Exception {
+        Employee employee = new Employee();
+        Project test = new Project();
+        test.setProjectId(1);
+
+        //mocker findProject metode og binder den til test objektet
+        when(coolPlannerReadService.findProjectById(1)).thenReturn(test);
+
+        mockMvc.perform(
+                get("/project/{id}/edit", test.getProjectId()).sessionAttr("employee", employee))
+                .andExpect(status().isOk())
+                .andExpect(view().name("editProject"))
+                .andExpect(model().attribute("project", instanceOf(Project.class)));
+    }
 
     //tester post request til updateProject
     @Test
@@ -115,5 +185,25 @@ public class CoolPlannerControllerTest {
                 // ellers fejler den.
                 argThat( f -> f.getProjectId() == 1)
         );
+    }
+
+    //tester at trycatch bliver ramt, når man skriver ulovlig argument
+    @Test
+    void updateProject_illegalArgument () throws Exception {
+        //Service kaster exception
+        doThrow(new IllegalArgumentException("Fejl i input"))
+                .when(coolPlannerWriteService)
+                .updateProject(any(Project.class));
+
+        //Forcenter at editProject view bliver retuneret, med error message.
+        mockMvc.perform(
+                post("/project/update/{id}", 1)
+                    .param("projectName", "test")
+                    .param("projectDetails", "test")
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name("editProject"))
+                .andExpect(model().attributeExists("errorMessage"))
+                .andExpect(model().attributeExists("project"));
     }
 }

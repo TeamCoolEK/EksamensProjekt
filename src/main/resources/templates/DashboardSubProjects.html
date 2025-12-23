@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
+<!-- Placeholder for navigationsbaren som er indsat på alle vores HTML-sider heraf DRY-princip. -->
+<!-- ~{fragments/commonfragments :: navbar} betyder at vi henter filen commonfragments.html og indsætter
+        fragmentet der hedder navbar.-->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
@@ -89,6 +91,8 @@
 
         <div class="projects-header-line">
             <h2>Opgaver</h2>
+            <!-- '#lists.size' er en del af Thymeleaf's egen værktøjskasse = Utility Objects
+                  Så den tager antallet af elementer i listen subTasks og returnerer  -->
             <span class="count-pill"
                   th:text="${#lists.size(tasks)} + ' opgave(r)'">
                 0 opgave(r)

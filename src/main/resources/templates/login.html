@@ -2,32 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
     <meta charset="UTF-8">
+    <!-- Titel der vises i browserens fane -->
     <title>Login</title>
+
+    <!-- Fælles stylesheet indlæses via Thymeleaf -->
     <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
-
+<!-- Placeholder for navigationsbaren som er indsat på alle vores HTML-sider heraf DRY-princip. -->
+<!-- ~{fragments/commonfragments :: navbar} betyder at vi henter filen commonfragments.html og indsætter
+        fragmentet der hedder navbar.-->
 <div th:replace="~{fragments/commonfragments :: navbar}"></div>
 
 <main class="page">
     <section class="glass form-card">
+
+        <!-- Sideoverskrift -->
         <h1>Login</h1>
+        <!-- Kort forklarende tekst -->
         <p class="meta-text">Log ind for at se dine projekter</p>
 
+        <!-- Form der gør det muligt at logge ind.
+             th:action der gør så Thymeleaf genererer korrekt URL og peger på controller-endpointet, som er
+             /login post metode. -->
+        <!-- Login-formular der sender email og password til backend -->
         <form th:action="@{/employee/login}" method="post">
 
+            <!-- Email-input -->
             <label for="email">Email</label>
+            <!-- først valideres der email format.
+                 Så bruges emailen i controlleren
+                 Placeholder i form af hjælpetekst til brugeren
+                 Required eftersom feltet ikke må være tomt. -->
             <input id="email" type="email" name="email" placeholder="Indtast din email" required>
 
-            <label for="password">Adgangskode</label>
-            <input id="password" type="password" name="password" placeholder="Indtast din adgangskode" required>
+            <!-- Samme princip som for email. -->
+            <input id="email"
+                   type="email"
+                   name="email"
+                   placeholder="Indtast din email"
+                   required>
 
+            <!-- Password-input -->
+            <label for="password">Adgangskode</label>
+            <input id="password"
+                   type="password"
+                   name="password"
+                   placeholder="Indtast din adgangskode"
+                   required>
+
+            <!-- Knap til at submitte og derved sende formularen. -->
             <button type="submit" class="btn-primary">Log ind</button>
 
+            <!-- Fejlbesked i rød tekst der kommer op hvis der ikke findes en medarbejder med indtastet
+                email og adgangskode i servicelageret. I dette tilfælde returnerer login-metoden null,
+                hvorefter EmployeeController tilføjer model-attributten 'wrongCredentials' med værdien true
+                 og viser fejlbesked. -->
             <p th:if="${wrongCredentials}" class="error" style="margin-top: 10px; color: #fca5a5;">
+            <!-- Submit-knap -->
+            <button type="submit" class="btn-primary">Log ind</button>
+
+            <!-- Fejlbesked der kun vises hvis login fejler -->
+            <p th:if="${wrongCredentials}"
+               class="error"
+               style="margin-top: 10px; color: #fca5a5;">
                 Forkert email eller adgangskode. Prøv igen.
             </p>
         </form>
+
     </section>
 </main>
 

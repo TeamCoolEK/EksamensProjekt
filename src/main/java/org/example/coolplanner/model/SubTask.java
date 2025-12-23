@@ -2,22 +2,45 @@ package org.example.coolplanner.model;
 
 import java.time.LocalDate;
 
+// Domæneklasse der repræsenterer en SubTask (delopgave) i systemet.
+// Klassen bruges som model mellem database, service- og controller-lag.
 public class SubTask {
+    // Unik identifikation af subtask (primærnøgle i databasen)
     private int subTaskId;
+    // Navn på delopgaven
     private String subTaskName;
+    // Beskrivelse af delopgaven
     private String subTaskDetails;
+    // Startdato for delopgaven
     private LocalDate subTaskStartDate;
+    // Deadline for delopgaven
     private LocalDate subTaskDeadLine;
+    // Estimeret tidsforbrug (i timer)
     private int subTaskTimeEstimate;
+    // Faktisk registreret tidsforbrug (i timer)
     private int subTaskActualTime;
+    // Status på delopgaven (Enum: Ikke_startet, I_gang, Lukket)
     private Status subTaskStatus;
+    // ID på den medarbejder der er ansvarlig for subtasken (FK)
     private int employeeId;
-
+    // ID på den Task som denne SubTask hører under (FK)
     private int taskId;
-    //Tildeler en employee til subTask objekt i Dashboard controlleren
+    // Objekt-reference til ansvarlig medarbejder
+    // Bruges primært i dashboard-controlleren til visning
+    // (ikke direkte gemt i databasen)
     private Employee responsibleEmployee;
 
-    public SubTask(int subTaskId, String subTaskName, String subTaskDetails, LocalDate subTaskStartDate, LocalDate subTaskDeadLine, int subTaskTimeEstimate, int subTaskActualTime, Status subTaskStatus, int taskId) {
+    // Fuld constructor – bruges typisk ved mapping fra database
+    public SubTask(int subTaskId,
+                   String subTaskName,
+                   String subTaskDetails,
+                   LocalDate subTaskStartDate,
+                   LocalDate subTaskDeadLine,
+                   int subTaskTimeEstimate,
+                   int subTaskActualTime,
+                   Status subTaskStatus,
+                   int taskId) {
+
         this.subTaskId = subTaskId;
         this.subTaskName = subTaskName;
         this.subTaskDetails = subTaskDetails;
@@ -29,9 +52,12 @@ public class SubTask {
         this.taskId = taskId;
     }
 
+    // Tom constructor
+    // Bruges af Spring, RowMappers og ved binding fra formularer (Thymeleaf)
     public SubTask() {
     }
 
+    // Getters og Setters
     public int getSubTaskId() {
         return subTaskId;
     }
@@ -112,13 +138,13 @@ public class SubTask {
         this.taskId = taskId;
     }
 
-    public Employee getResponsibleEmployee () {
+    // Returnerer ansvarlig medarbejder som objekt
+    public Employee getResponsibleEmployee() {
         return responsibleEmployee;
     }
 
-    public void setResponsibleEmployee (Employee responsibleEmployee) {
+    // Sætter ansvarlig medarbejder (bruges typisk kun til visning)
+    public void setResponsibleEmployee(Employee responsibleEmployee) {
         this.responsibleEmployee = responsibleEmployee;
     }
-
 }
-
