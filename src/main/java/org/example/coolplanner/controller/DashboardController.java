@@ -85,12 +85,15 @@ public class DashboardController {
     // 2) Side med delprojekter
     @GetMapping("/subprojects/{id}")
     public String showSubProjects(@PathVariable int id, HttpSession session, Model model) {
+        //henter employee session og tildeler dens id
         Employee employee = (Employee) session.getAttribute("employee");
+        //Redirect til login hvis sessionen er tom/udløbet
         if (employee == null) {
             return "redirect:/employee/login";
         }
-
+        //Henter delprojektet
         SubProject subProject = coolPlannerReadService.findSubProjectById(id);
+        //Henter liste af delprojektets tasks
         List<Task> tasks = coolPlannerReadService.getActiveTasks(id);
 
         int remainingEstimate = coolPlannerWriteService.
@@ -101,7 +104,6 @@ public class DashboardController {
         model.addAttribute("tasks", tasks);
         model.addAttribute("remainingEstimate", remainingEstimate);
 
-        // viser filen: src/main/resources/template/dashboardSubProjects.html
         return "DashboardSubProjects";
     }
 
@@ -113,13 +115,20 @@ public class DashboardController {
             return "redirect:/employee/login";
         }
 
+        //Henter Task
         Task task = coolPlannerReadService.getTaskById(id);
+        //Henter liste med Task/opgavens subprojects/delopgaver
         List<SubTask> subTasks = coolPlannerReadService.getActiveSubTasks(id);
 
+        //Her gennemløber vi listen af subtasks som hører til den valgte task.
         for (SubTask s : subTasks) {
+            /*Tjekker om denne SubTask har en medarbejder tildelt.
+            Altså "if employeeID ikke er lig med 0. Så er der en ansvarlig tildelt. */
             if (s.getEmployeeId() != 0) {
+                //Her henter vi så den ansvarlige medarbejders info fra databasen.
                 Employee responsibleEmployee =
                         coolPlannerReadService.findEmployeeById(s.getEmployeeId());
+                //Hvorefter vi indsætter det i SubTask objektet, så man nu kan se den ansvarlige.
                 s.setResponsibleEmployee(responsibleEmployee);
             }
         }
@@ -132,7 +141,6 @@ public class DashboardController {
         model.addAttribute("subTasks", subTasks);
         model.addAttribute("remainingEstimate", remainingEstimate);
 
-        // viser filen: src/main/resources/template/dashboardTasks.html
         return "DashboardTask";
     }
 

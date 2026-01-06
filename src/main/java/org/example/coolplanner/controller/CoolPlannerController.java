@@ -2,7 +2,6 @@ package org.example.coolplanner.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.model.*;
-import org.example.coolplanner.repository.Rowmapper.ProjectRowMapper;
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
 import org.example.coolplanner.model.SubTask;
@@ -24,6 +23,7 @@ public class CoolPlannerController {
         this.coolPlannerWriteService = coolPlannerWriteService; // dependencies injection
         this.coolPlannerReadService = coolPlannerReadService;
     }
+
     //ENDPOINT til createProject
     @GetMapping("/createProject")
     public String createProject(Model model, HttpSession session) {
@@ -37,6 +37,7 @@ public class CoolPlannerController {
         model.addAttribute("project", new Project());
         return "createProject";
     }
+
     //ENDPOINT til at gemme project i databasen
     @PostMapping("/saveProject")
     public String saveProject(@ModelAttribute Project project, HttpSession session) {
@@ -44,6 +45,7 @@ public class CoolPlannerController {
         coolPlannerWriteService.createProject(project, employee);
         return "redirect:/dashboard/show";
     }
+
     //ENDPOINT til createSubProject
     @GetMapping("/createSubProject/{id}") //{id bruges til at tildele projectId}
     public String createSubProject(@PathVariable int id, Model model, HttpSession session) {
@@ -58,6 +60,7 @@ public class CoolPlannerController {
         model.addAttribute("projectId", id);
         return "createSubProject";
     }
+
     //ENDPOINT til at gemme subProject i databasen
     @PostMapping("/saveSubProject/{id}")
     public String saveSubProject(@PathVariable int id, @ModelAttribute SubProject subProject) {
@@ -66,6 +69,7 @@ public class CoolPlannerController {
         coolPlannerWriteService.updateProjectTimeEstimateFromSubProjects(id);
         return "redirect:/dashboard/projects/" + project.getProjectId();
     }
+
     //ENDPOINT til createSubTask
     @GetMapping("/createSubTask/{id}")
     public String createSubTask(@PathVariable int id, Model model, HttpSession session) {
@@ -78,17 +82,20 @@ public class CoolPlannerController {
         }
         model.addAttribute("subTask", new SubTask());
         model.addAttribute("taskId", id);
+        model.addAttribute("employees",coolPlannerReadService.getAllEmployees());
         return "createSubTask";
     }
+
     //ENDPOINT til at gemme subTask i databasen
     @PostMapping("/saveSubTask/{id}")
     public String saveSubTask(@PathVariable int id, @ModelAttribute SubTask subTask, Model model) {
         //Find task metode i stedet for ny task her!!!!!!
-        Task task = coolPlannerService.getTaskById(id);
-        coolPlannerService.createSubTask(subTask, task);
-        coolPlannerService.updateTaskTimeEstimateFromSubTasks(id);
-        return "redirect:/dashboard";
+        Task task = coolPlannerReadService.getTaskById(id);
+        coolPlannerWriteService.createSubTask(subTask, task);
+        coolPlannerWriteService.updateTaskTimeEstimateFromSubTasks(id);
+        return "redirect:/dashboard/tasks/" + task.getTaskId();
     }
+
     //ENDPOINT til createTask
     @GetMapping("/createTask/{id}")
     public String createTask(@PathVariable int id, Model model, HttpSession session) {
@@ -103,6 +110,7 @@ public class CoolPlannerController {
         model.addAttribute("subProjectId", id);
         return "createTask";
     }
+
     //ENDPOINT til at gemme task i databasen
     @PostMapping("/saveTask/{id}")
     public String saveTask(@PathVariable int id, @ModelAttribute Task task) {
@@ -220,15 +228,34 @@ public class CoolPlannerController {
     }
 
     @PostMapping("/updateSubTask")
-    public String updateSubTask(@ModelAttribute("subTask") SubTask subTask, Model model) {
-        try {
-            coolPlannerService.updateSubTask(subTask);
-            return "redirect:/task/" + subTask.getTaskId();
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("subTask", subTask);
-            model.addAttribute("errorMessage", e.getMessage());
-            return "editSubTask";
+    public String updateSubTask(@ModelAttribute SubTask subTask) {
+        coolPlannerWriteService.updateSubTask(subTask);
+        return "redirect:/dashboard/subTasks/" + subTask.getSubTaskId();
+    }
+
+    @GetMapping("/subTask/{id}/complete")
+    public String showCompleteSubTaskFrom(@PathVariable int id, Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("employee");
+        if (employee == null) {
+            return "redirect:/employee/login";
         }
+        if (employee.role == EmployeeRole.Team_Member) {
+            return "redirect:/dashboard/show";
+        }
+        SubTask subTask = coolPlannerReadService.getSubTaskById(id);
+        if (subTask == null) {
+            return "redirect:/dashboard/show";
+        }
+        model.addAttribute("subTask", subTask);
+        return "completeSubTask";
+    }
+
+    @PostMapping("/subTask/{id}/complete")
+    public String completeSubTask(@PathVariable int id,
+                                  @RequestParam("actualTime")
+                                  int actualTime) {
+        coolPlannerWriteService.completeSubTask(id, actualTime);
+        SubTask subTask = coolPlannerReadService.getSubTaskById(id);
+        return "redirect:/dashboard/subTasks/" + id;
     }
 }
-

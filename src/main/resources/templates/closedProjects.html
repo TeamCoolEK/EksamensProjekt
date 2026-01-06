@@ -21,12 +21,14 @@
     </section>
 
     <!-- Liste over lukkede projekter -->
+    <!-- '#lists.size' er en del af Thymeleaf's egen værktøjskasse = Utility Objects
+                  Så den tager antallet af elementer i listen subTasks og returnerer  -->
     <section class="projects-section">
         <div class="section-heading">
             <h2>Arkiv</h2>
             <span class="count-pill"
-                  th:text="${#lists.size(closedProjects)} + ' lukket(e) projekt(er)'">
-                0 lukket(e) projekt(er)
+                  th:text="${#lists.size(closedProjects)} + ' lukkede projekter'">
+                0 lukkede projekter
             </span>
         </div>
 

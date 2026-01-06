@@ -55,7 +55,6 @@ public class CoolPlannerReadRepository {
         return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskID);
     }
 
-
     public Project findProjectById(int projectId) {
         String sql = "SELECT * FROM project WHERE projectId = ?";
         return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);

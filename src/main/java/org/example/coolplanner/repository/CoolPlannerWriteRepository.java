@@ -5,7 +5,6 @@ import org.example.coolplanner.model.Employee;
 import org.example.coolplanner.model.Project;
 import org.example.coolplanner.model.SubProject;
 import org.example.coolplanner.model.*;
-import org.example.coolplanner.repository.Rowmapper.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -222,6 +221,29 @@ public class CoolPlannerWriteRepository {
         jdbcTemplate.update(sql, project.getProjectActualTime(), project.getProjectId());
     }
 
+    public void updateSubTaskStatus(int subTaskId, Status status) {
+        String sql = "UPDATE subTask SET subTaskStatus = ? WHERE subTaskId = ?";
+        jdbcTemplate.update(sql, status.name(), subTaskId);
+    }
 
+    public void updateTaskStatus(int taskId, Status status){
+        String sql = "UPDATE task SET taskStatus = ? WHERE taskId = ?";
+        jdbcTemplate.update(sql, status.name(), taskId);
+    }
 
+    public void updateSubProjectStatus(int subProjectId, Status status){
+        String sql = "UPDATE subProject SET subProjectStatus = ? WHERE subProjectId = ?";
+        jdbcTemplate.update(sql, status.name(), subProjectId);
+    }
 
+    public void updateProjectStatus(int projectId, Status status){
+        String sql = "UPDATE project SET projectStatus = ? WHERE projectId = ?";
+        jdbcTemplate.update(sql, status.name(), projectId);
+    }
+
+//    public int countSubTasksByProjectId(int projectId){
+//        String sql = ""
+//    return jdbcTemplate.queryForObject(sql, Integer.class, projectId);
+//    }
+
+}

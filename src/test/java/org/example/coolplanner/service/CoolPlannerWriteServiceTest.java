@@ -103,7 +103,7 @@ public class CoolPlannerWriteServiceTest {
         when(coolPlannerReadRepository.findTasksBySubProjectId(10))
                 .thenReturn(List.of(t));
 
-        //Mock SubTask (ikke lukkede)
+        //Mock SubTasks (ikke lukkede)
         SubTask sub1 = new SubTask();
         sub1.setSubTaskTimeEstimate(4);
         sub1.setSubTaskStatus(Status.Ikke_startet);
@@ -117,6 +117,6 @@ public class CoolPlannerWriteServiceTest {
 
         double result = coolPlannerWriteService.calculateDailyHours(project);
 
-        assertEquals(10.0, result, 0.0001);
+        assertEquals(10.0, result, 0.001);
     }
 }

@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - coolplanner
+name: Build and deploy JAR app to Azure Web App - CoolPlanner
 
 on:
   push:
@@ -53,15 +53,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_134CEFE4A74C413F9125B54EF9F42573 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_44AD212BAD6D4A87ABF50E09523B7F95 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CA862295724C40A58CA58051B894D0EC }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_431916DA71164977B78F6BC1AC4F8512 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_87ED63510AE84C17997C1B5107434DE6 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_46B76CB953B4438AB5975653F5E6069A }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'coolplanner'
+          app-name: 'CoolPlanner'
           slot-name: 'Production'
           package: '*.jar'
           
