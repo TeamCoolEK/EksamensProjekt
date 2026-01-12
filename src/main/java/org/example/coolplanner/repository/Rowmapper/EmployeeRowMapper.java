@@ -7,8 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// RowMapper der mapper en række fra employee-tabellen
-// til et Employee-domæneobjekt.
+// RowMapper der mapper en række fra employee-tabellen til et Employee-domæneobjekt.
 public class EmployeeRowMapper implements RowMapper<Employee> {
 
     @Override

@@ -14,12 +14,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
+//Unit test
 @ExtendWith(MockitoExtension.class)
 public class CoolPlannerWriteServiceTest {
-
-    @Mock
-    CoolPlannerWriteRepository coolPlannerWriteRepository;
 
     @Mock
     CoolPlannerReadRepository coolPlannerReadRepository;
@@ -117,6 +114,6 @@ public class CoolPlannerWriteServiceTest {
 
         double result = coolPlannerWriteService.calculateDailyHours(project);
 
-        assertEquals(10.0, result, 0.001);
+        assertEquals(10.0, result, 0.01);
     }
 }

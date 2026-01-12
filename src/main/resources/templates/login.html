@@ -47,14 +47,6 @@
             <!-- Knap til at submitte og derved sende formularen. -->
             <button type="submit" class="btn-primary">Log ind</button>
 
-            <!-- Fejlbesked i rød tekst der kommer op hvis der ikke findes en medarbejder med indtastet
-                email og adgangskode i servicelageret. I dette tilfælde returnerer login-metoden null,
-                hvorefter EmployeeController tilføjer model-attributten 'wrongCredentials' med værdien true
-                 og viser fejlbesked. -->
-            <p th:if="${wrongCredentials}" class="error" style="margin-top: 10px; color: #fca5a5;">
-            <!-- Submit-knap -->
-            <button type="submit" class="btn-primary">Log ind</button>
-
             <!-- Fejlbesked der kun vises hvis login fejler -->
             <p th:if="${wrongCredentials}"
                class="error"
