@@ -2,10 +2,6 @@ package org.example.coolplanner.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.example.coolplanner.model.*;
-import org.example.coolplanner.model.Project;
-import org.example.coolplanner.model.SubProject;
-import org.example.coolplanner.model.SubTask;
-import org.example.coolplanner.model.Task;
 import org.example.coolplanner.service.CoolPlannerReadService;
 import org.example.coolplanner.service.CoolPlannerWriteService;
 import org.springframework.stereotype.Controller;
