@@ -45,9 +45,6 @@ public class CoolPlannerController {
         if (employee == null) {
             return "redirect:/employee/login";
         }
-        if (employee.role == EmployeeRole.Team_Member) {
-            return "redirect:/dashboard/show";
-        }
         coolPlannerWriteService.createProject(project, employee);
         return "redirect:/dashboard/show";
     }
@@ -208,11 +205,12 @@ public class CoolPlannerController {
         model.addAttribute("task", task);
         return "editTask";
     }
-
+    // Denne metode håndterer POST-request fra editTask.html //
+    // Formularen i editTask.html sender data til /updateTask via th:action //
     @PostMapping("/updateTask")
-    public String updateTask(@ModelAttribute Task task) {
-        coolPlannerWriteService.updateTask(task);
-        return "redirect:/dashboard/tasks/" + task.getTaskId();
+    public String updateTask(@ModelAttribute Task task) { //@ModelAttribute binder felterne fra editTask.html til et Task-objekt //
+        coolPlannerWriteService.updateTask(task); // Task-objektet sendes videre til service-laget, som håndterer opdateringen af task i databasen //
+        return "redirect:/dashboard/tasks/" + task.getTaskId(); //Efter opdatering redirectes bruger til tasks //
     }
 
     @GetMapping("/subTask/{id}/edit")
@@ -236,8 +234,13 @@ public class CoolPlannerController {
     @PostMapping("/updateSubTask")
     public String updateSubTask(@ModelAttribute SubTask subTask) {
         coolPlannerWriteService.updateSubTask(subTask);
+
+        SubTask updatedSubTask = coolPlannerReadService.getSubTaskById(subTask.getSubTaskId());
+        coolPlannerWriteService.updateTaskTimeEstimateFromSubTasks(updatedSubTask.getTaskId());
+
         return "redirect:/dashboard/subTasks/" + subTask.getSubTaskId();
     }
+
 
     @GetMapping("/subTask/{id}/complete")
     public String showCompleteSubTaskFrom(@PathVariable int id, Model model, HttpSession session) {
