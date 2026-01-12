@@ -1,9 +1,5 @@
 package org.example.coolplanner.repository;
 
-
-import org.example.coolplanner.model.Employee;
-import org.example.coolplanner.model.Project;
-import org.example.coolplanner.model.SubProject;
 import org.example.coolplanner.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
